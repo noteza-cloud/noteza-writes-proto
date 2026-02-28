@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package noteza.writes.v1;
+
+option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
+
+import "google/protobuf/timestamp.proto";
+
+message Series {
+  string id = 1;
+  string user_id = 2;
+  string name = 3;
+  string description = 4;
+  string tone = 5;
+  string target_audience = 6;
+  string language = 7;
+  string strategy_note = 8;
+  google.protobuf.Timestamp created_at = 9;
+}

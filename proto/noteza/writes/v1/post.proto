@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package noteza.writes.v1;
+
+option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
+
+import "google/protobuf/timestamp.proto";
+import "noteza/writes/v1/media.proto";
+
+enum PostStatus {
+  POST_STATUS_UNSPECIFIED = 0;
+  POST_STATUS_DRAFT = 1;
+  POST_STATUS_PUBLISHED = 2;
+  POST_STATUS_ARCHIVED = 3;
+}
+
+message Post {
+  string id = 1;
+  string user_id = 2;
+  string current_version_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+message PostVersion {
+  string id = 1;
+  string post_id = 2;
+  int32 version_number = 3;
+  string content_md = 4;
+  repeated ImageAsset images = 5;
+  PostStatus status = 6;
+  google.protobuf.Timestamp created_at = 7;
+  optional google.protobuf.Timestamp published_at = 8;
+}

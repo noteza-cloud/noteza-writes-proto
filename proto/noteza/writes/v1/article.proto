@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package noteza.writes.v1;
+
+option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
+
+import "google/protobuf/timestamp.proto";
+import "noteza/writes/v1/media.proto";
+
+enum ArticleStatus {
+  ARTICLE_STATUS_UNSPECIFIED = 0;
+  ARTICLE_STATUS_DRAFT = 1;
+  ARTICLE_STATUS_PUBLISHED = 2;
+  ARTICLE_STATUS_ARCHIVED = 3;
+}
+
+message Article {
+  string id = 1;
+  string series_id = 2;
+  string current_version_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+message ArticleVersion {
+  string id = 1;
+  string article_id = 2;
+  int32 version_number = 3;
+  string title = 4;
+  string content_md = 5;
+  optional string post_md = 6;
+  optional ImageAsset cover_image = 7;
+  repeated ImageAsset images = 8;
+  optional string summary = 9;
+  optional string canonical_topic = 10;
+  optional int32 series_part = 11;
+  ArticleStatus status = 12;
+  optional string embedding = 13;
+  optional string edited_by = 14;
+  optional string edit_reason = 15;
+  google.protobuf.Timestamp created_at = 16;
+  optional google.protobuf.Timestamp published_at = 17;
+}

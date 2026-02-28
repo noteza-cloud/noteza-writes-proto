@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package noteza.writes.v1;
+
+option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
+
+import "noteza/writes/v1/article.proto";
+import "noteza/writes/v1/series.proto";
+
+message WritingContext {
+  Series series = 1;
+  repeated ArticleVersion last_published_articles = 2;
+  repeated ArticleVersion related_articles = 3;
+  optional int32 next_series_part = 4;
+  optional bool topic_already_covered = 5;
+}

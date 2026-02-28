@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package noteza.writes.v1;
+
+option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
+
+import "google/protobuf/timestamp.proto";
+
+enum UserPlan {
+  USER_PLAN_UNSPECIFIED = 0;
+  USER_PLAN_FREE = 1;
+  USER_PLAN_PRO = 2;
+}
+
+message User {
+  string id = 1;
+  string email = 2;
+  UserPlan plan = 3;
+  google.protobuf.Timestamp created_at = 4;
+}

@@ -1,0 +1,2008 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "noteza/writes/v1/service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "NotezaAuthService"
+    },
+    {
+      "name": "NotezaApplicationService"
+    },
+    {
+      "name": "NotezaMediaService"
+    },
+    {
+      "name": "NotezaWritesService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/applications": {
+      "get": {
+        "summary": "ListApplications returns paginated applications owned by a user.",
+        "operationId": "NotezaApplicationService_ListApplications",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListApplicationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaApplicationService"
+        ]
+      },
+      "post": {
+        "summary": "CreateApplication creates an application and returns its initial token.",
+        "operationId": "NotezaApplicationService_CreateApplication",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateApplicationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateApplicationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaApplicationService"
+        ]
+      }
+    },
+    "/v1/applications/{applicationId}": {
+      "delete": {
+        "summary": "DeleteApplication permanently deletes an application and invalidates its token.",
+        "operationId": "NotezaApplicationService_DeleteApplication",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteApplicationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaApplicationService"
+        ]
+      }
+    },
+    "/v1/applications/{applicationId}/token": {
+      "post": {
+        "summary": "RegenerateApplicationToken rotates an application token and returns a new one.",
+        "operationId": "NotezaApplicationService_RegenerateApplicationToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RegenerateApplicationTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaApplicationService"
+        ]
+      }
+    },
+    "/v1/articles/{articleId}": {
+      "get": {
+        "summary": "GetArticle returns an article with its current version.",
+        "operationId": "NotezaWritesService_GetArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetArticleResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      },
+      "patch": {
+        "summary": "UpdateArticle creates a new article version with provided changes.",
+        "operationId": "NotezaWritesService_UpdateArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateArticleResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "contentMd": {
+                  "type": "string"
+                },
+                "postMd": {
+                  "type": "string"
+                },
+                "coverImageId": {
+                  "type": "string"
+                },
+                "addImageIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Image IDs to append to the article's image list.\nDuplicates within this list are silently deduplicated.\nIf an ID appears in both add_image_ids and remove_image_ids, removal takes precedence."
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "canonicalTopic": {
+                  "type": "string"
+                },
+                "seriesPart": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "status": {
+                  "$ref": "#/definitions/v1ArticleStatus"
+                },
+                "embedding": {
+                  "type": "string"
+                },
+                "editedBy": {
+                  "type": "string"
+                },
+                "editReason": {
+                  "type": "string"
+                },
+                "removeImageIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Image IDs to remove from the article's image list.\nIDs not currently attached to the article are ignored (no-op).\nDuplicates within this list are silently deduplicated.\nRemoval takes precedence over add_image_ids if the same ID appears in both."
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
+    "/v1/articles/{articleId}/versions": {
+      "get": {
+        "summary": "GetArticleVersions returns paginated version history for an article.",
+        "operationId": "NotezaWritesService_GetArticleVersions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetArticleVersionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "articleId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
+    "/v1/auth/login": {
+      "post": {
+        "summary": "Login authenticates an existing user and returns authentication tokens.",
+        "operationId": "NotezaAuthService_Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1LoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaAuthService"
+        ]
+      }
+    },
+    "/v1/auth/refresh": {
+      "post": {
+        "summary": "RefreshAccessToken exchanges a refresh token for a new access token.",
+        "operationId": "NotezaAuthService_RefreshAccessToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RefreshAccessTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1RefreshAccessTokenRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaAuthService"
+        ]
+      }
+    },
+    "/v1/auth/register": {
+      "post": {
+        "summary": "Register creates a new user account and returns authentication tokens.",
+        "operationId": "NotezaAuthService_Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RegisterResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1RegisterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaAuthService"
+        ]
+      }
+    },
+    "/v1/images": {
+      "get": {
+        "summary": "ListImages returns paginated images visible to the authenticated user.",
+        "operationId": "NotezaMediaService_ListImages",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListImagesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "IMAGE_STATUS_UNSPECIFIED",
+              "IMAGE_STATUS_PENDING",
+              "IMAGE_STATUS_READY",
+              "IMAGE_STATUS_FAILED",
+              "IMAGE_STATUS_DELETED"
+            ],
+            "default": "IMAGE_STATUS_UNSPECIFIED"
+          },
+          {
+            "name": "usage",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "IMAGE_USAGE_UNSPECIFIED",
+              "IMAGE_USAGE_ARTICLE_COVER",
+              "IMAGE_USAGE_ARTICLE_INLINE",
+              "IMAGE_USAGE_POST_IMAGE"
+            ],
+            "default": "IMAGE_USAGE_UNSPECIFIED"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaMediaService"
+        ]
+      },
+      "post": {
+        "summary": "CreateImageUpload creates an image asset and returns a pre-signed upload URL.",
+        "operationId": "NotezaMediaService_CreateImageUpload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateImageUploadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateImageUploadRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaMediaService"
+        ]
+      }
+    },
+    "/v1/images/{imageId}": {
+      "get": {
+        "summary": "GetImage returns a single image asset by its identifier.",
+        "operationId": "NotezaMediaService_GetImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetImageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaMediaService"
+        ]
+      },
+      "delete": {
+        "summary": "DeleteImage deletes an image asset and invalidates future usage.",
+        "operationId": "NotezaMediaService_DeleteImage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteImageResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaMediaService"
+        ]
+      }
+    },
+    "/v1/images/{imageId}/finalize": {
+      "post": {
+        "summary": "FinalizeImageUpload confirms upload completion and returns finalized metadata.",
+        "operationId": "NotezaMediaService_FinalizeImageUpload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1FinalizeImageUploadResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "uploadedSizeBytes": {
+                  "type": "string",
+                  "format": "int64"
+                },
+                "checksumSha256": {
+                  "type": "string"
+                },
+                "width": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "height": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "NotezaMediaService"
+        ]
+      }
+    },
+    "/v1/posts": {
+      "get": {
+        "summary": "ListPosts returns paginated posts owned by a user.",
+        "operationId": "NotezaWritesService_ListPosts",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListPostsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      },
+      "post": {
+        "summary": "CreatePost creates a post and its initial version.",
+        "operationId": "NotezaWritesService_CreatePost",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreatePostResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreatePostRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
+    "/v1/posts/{postId}": {
+      "get": {
+        "summary": "GetPost returns a post with its current version.",
+        "operationId": "NotezaWritesService_GetPost",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetPostResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      },
+      "patch": {
+        "summary": "UpdatePost creates a new post version with provided changes.",
+        "operationId": "NotezaWritesService_UpdatePost",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdatePostResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "contentMd": {
+                  "type": "string"
+                },
+                "addImageIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Image IDs to append to the post's image list.\nDuplicates within this list are silently deduplicated.\nIf an ID appears in both add_image_ids and remove_image_ids, removal takes precedence."
+                },
+                "status": {
+                  "$ref": "#/definitions/v1PostStatus"
+                },
+                "removeImageIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Image IDs to remove from the post's image list.\nIDs not currently attached to the post are ignored (no-op).\nDuplicates within this list are silently deduplicated.\nRemoval takes precedence over add_image_ids if the same ID appears in both."
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
+    "/v1/posts/{postId}/versions": {
+      "get": {
+        "summary": "GetPostVersions returns paginated version history for a post.",
+        "operationId": "NotezaWritesService_GetPostVersions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetPostVersionsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
+    "/v1/series": {
+      "get": {
+        "summary": "ListSeries returns paginated series owned by a user.",
+        "operationId": "NotezaWritesService_ListSeries",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListSeriesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      },
+      "post": {
+        "summary": "CreateSeries creates a new writing series for a user.",
+        "operationId": "NotezaWritesService_CreateSeries",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateSeriesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateSeriesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
+    "/v1/series/{id}": {
+      "get": {
+        "summary": "GetSeries returns a series by its unique identifier.",
+        "operationId": "NotezaWritesService_GetSeries",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetSeriesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      },
+      "patch": {
+        "summary": "UpdateSeries updates mutable metadata of an existing series.",
+        "operationId": "NotezaWritesService_UpdateSeries",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateSeriesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "tone": {
+                  "type": "string"
+                },
+                "targetAudience": {
+                  "type": "string"
+                },
+                "language": {
+                  "type": "string"
+                },
+                "strategyNote": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
+    "/v1/series/{seriesId}/articles": {
+      "get": {
+        "summary": "ListArticles returns paginated articles for a series.",
+        "operationId": "NotezaWritesService_ListArticles",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListArticlesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "seriesId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      },
+      "post": {
+        "summary": "CreateArticle creates an article and its initial version.",
+        "operationId": "NotezaWritesService_CreateArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateArticleResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "seriesId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "contentMd": {
+                  "type": "string"
+                },
+                "postMd": {
+                  "type": "string"
+                },
+                "coverImageId": {
+                  "type": "string"
+                },
+                "imageIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "canonicalTopic": {
+                  "type": "string"
+                },
+                "seriesPart": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "editedBy": {
+                  "type": "string"
+                },
+                "editReason": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
+    "/v1/series/{seriesId}/writing-context": {
+      "get": {
+        "summary": "GetWritingContext returns series context and related article history.",
+        "operationId": "NotezaWritesService_GetWritingContext",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetWritingContextResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "seriesId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "candidateTopic",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1Application": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tokenHint": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "tokenLastRotatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1Article": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "seriesId": {
+          "type": "string"
+        },
+        "currentVersionId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1ArticleListResponse": {
+      "type": "object",
+      "properties": {
+        "articles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ArticleResponse"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ArticleResponse": {
+      "type": "object",
+      "properties": {
+        "article": {
+          "$ref": "#/definitions/v1Article"
+        },
+        "currentVersion": {
+          "$ref": "#/definitions/v1ArticleVersion"
+        }
+      }
+    },
+    "v1ArticleStatus": {
+      "type": "string",
+      "enum": [
+        "ARTICLE_STATUS_UNSPECIFIED",
+        "ARTICLE_STATUS_DRAFT",
+        "ARTICLE_STATUS_PUBLISHED",
+        "ARTICLE_STATUS_ARCHIVED"
+      ],
+      "default": "ARTICLE_STATUS_UNSPECIFIED"
+    },
+    "v1ArticleVersion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "articleId": {
+          "type": "string"
+        },
+        "versionNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "contentMd": {
+          "type": "string"
+        },
+        "postMd": {
+          "type": "string"
+        },
+        "coverImage": {
+          "$ref": "#/definitions/v1ImageAsset"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ImageAsset"
+          }
+        },
+        "summary": {
+          "type": "string"
+        },
+        "canonicalTopic": {
+          "type": "string"
+        },
+        "seriesPart": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ArticleStatus"
+        },
+        "embedding": {
+          "type": "string"
+        },
+        "editedBy": {
+          "type": "string"
+        },
+        "editReason": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1ArticleVersionsResponse": {
+      "type": "object",
+      "properties": {
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ArticleVersion"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1AuthResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/v1User"
+        },
+        "accessToken": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1CreateApplicationRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreateApplicationResponse": {
+      "type": "object",
+      "properties": {
+        "application": {
+          "$ref": "#/definitions/v1Application"
+        },
+        "apiToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreateArticleResponse": {
+      "type": "object",
+      "properties": {
+        "article": {
+          "$ref": "#/definitions/v1ArticleResponse"
+        }
+      }
+    },
+    "v1CreateImageUploadRequest": {
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        },
+        "sizeBytes": {
+          "type": "string",
+          "format": "int64"
+        },
+        "usage": {
+          "$ref": "#/definitions/v1ImageUsage"
+        },
+        "altText": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "checksumSha256": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreateImageUploadResponse": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "$ref": "#/definitions/v1ImageAsset"
+        },
+        "uploadUrl": {
+          "type": "string"
+        },
+        "uploadUrlExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1CreatePostRequest": {
+      "type": "object",
+      "properties": {
+        "contentMd": {
+          "type": "string"
+        },
+        "imageIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1CreatePostResponse": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/v1PostResponse"
+        }
+      }
+    },
+    "v1CreateSeriesRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tone": {
+          "type": "string"
+        },
+        "targetAudience": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "strategyNote": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreateSeriesResponse": {
+      "type": "object",
+      "properties": {
+        "series": {
+          "$ref": "#/definitions/v1Series"
+        }
+      }
+    },
+    "v1DeleteApplicationResponse": {
+      "type": "object",
+      "properties": {
+        "deleted": {
+          "type": "boolean",
+          "description": "Always true on a successful response.\nIf the application does not exist, the server returns a NOT_FOUND error\n(gRPC status code 5) instead of a successful response with deleted=false."
+        }
+      }
+    },
+    "v1DeleteImageResponse": {
+      "type": "object",
+      "properties": {
+        "deleted": {
+          "type": "boolean",
+          "description": "Always true on a successful response.\nIf the image does not exist, the server returns a NOT_FOUND error\n(gRPC status code 5) instead of a successful response with deleted=false."
+        }
+      }
+    },
+    "v1FinalizeImageUploadResponse": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "$ref": "#/definitions/v1ImageAsset"
+        }
+      }
+    },
+    "v1GetArticleResponse": {
+      "type": "object",
+      "properties": {
+        "article": {
+          "$ref": "#/definitions/v1ArticleResponse"
+        }
+      }
+    },
+    "v1GetArticleVersionsResponse": {
+      "type": "object",
+      "properties": {
+        "versions": {
+          "$ref": "#/definitions/v1ArticleVersionsResponse"
+        }
+      }
+    },
+    "v1GetImageResponse": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "$ref": "#/definitions/v1ImageAsset"
+        }
+      }
+    },
+    "v1GetPostResponse": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/v1PostResponse"
+        }
+      }
+    },
+    "v1GetPostVersionsResponse": {
+      "type": "object",
+      "properties": {
+        "versions": {
+          "$ref": "#/definitions/v1PostVersionsResponse"
+        }
+      }
+    },
+    "v1GetSeriesResponse": {
+      "type": "object",
+      "properties": {
+        "series": {
+          "$ref": "#/definitions/v1Series"
+        }
+      }
+    },
+    "v1GetWritingContextResponse": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/v1WritingContext"
+        }
+      }
+    },
+    "v1ImageAsset": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        },
+        "sizeBytes": {
+          "type": "string",
+          "format": "int64"
+        },
+        "width": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ImageStatus"
+        },
+        "usage": {
+          "$ref": "#/definitions/v1ImageUsage"
+        },
+        "altText": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "checksumSha256": {
+          "type": "string"
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ImageVariant"
+          }
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1ImageStatus": {
+      "type": "string",
+      "enum": [
+        "IMAGE_STATUS_UNSPECIFIED",
+        "IMAGE_STATUS_PENDING",
+        "IMAGE_STATUS_READY",
+        "IMAGE_STATUS_FAILED",
+        "IMAGE_STATUS_DELETED"
+      ],
+      "default": "IMAGE_STATUS_UNSPECIFIED"
+    },
+    "v1ImageUsage": {
+      "type": "string",
+      "enum": [
+        "IMAGE_USAGE_UNSPECIFIED",
+        "IMAGE_USAGE_ARTICLE_COVER",
+        "IMAGE_USAGE_ARTICLE_INLINE",
+        "IMAGE_USAGE_POST_IMAGE"
+      ],
+      "default": "IMAGE_USAGE_UNSPECIFIED"
+    },
+    "v1ImageVariant": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1ListApplicationsResponse": {
+      "type": "object",
+      "properties": {
+        "applications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Application"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListArticlesResponse": {
+      "type": "object",
+      "properties": {
+        "articles": {
+          "$ref": "#/definitions/v1ArticleListResponse"
+        }
+      }
+    },
+    "v1ListImagesResponse": {
+      "type": "object",
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ImageAsset"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ListPostsResponse": {
+      "type": "object",
+      "properties": {
+        "posts": {
+          "$ref": "#/definitions/v1PostListResponse"
+        }
+      }
+    },
+    "v1ListSeriesResponse": {
+      "type": "object",
+      "properties": {
+        "series": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Series"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1LoginRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "v1LoginResponse": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "$ref": "#/definitions/v1AuthResponse"
+        }
+      }
+    },
+    "v1Post": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "currentVersionId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1PostListResponse": {
+      "type": "object",
+      "properties": {
+        "posts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1PostResponse"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1PostResponse": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/v1Post"
+        },
+        "currentVersion": {
+          "$ref": "#/definitions/v1PostVersion"
+        }
+      }
+    },
+    "v1PostStatus": {
+      "type": "string",
+      "enum": [
+        "POST_STATUS_UNSPECIFIED",
+        "POST_STATUS_DRAFT",
+        "POST_STATUS_PUBLISHED",
+        "POST_STATUS_ARCHIVED"
+      ],
+      "default": "POST_STATUS_UNSPECIFIED"
+    },
+    "v1PostVersion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "postId": {
+          "type": "string"
+        },
+        "versionNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "contentMd": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ImageAsset"
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/v1PostStatus"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1PostVersionsResponse": {
+      "type": "object",
+      "properties": {
+        "versions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1PostVersion"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1RefreshAccessTokenRequest": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1RefreshAccessTokenResponse": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "$ref": "#/definitions/v1AuthResponse"
+        }
+      }
+    },
+    "v1RegenerateApplicationTokenResponse": {
+      "type": "object",
+      "properties": {
+        "application": {
+          "$ref": "#/definitions/v1Application"
+        },
+        "apiToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1RegisterRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "v1RegisterResponse": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "$ref": "#/definitions/v1AuthResponse"
+        }
+      }
+    },
+    "v1Series": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tone": {
+          "type": "string"
+        },
+        "targetAudience": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "strategyNote": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1UpdateArticleResponse": {
+      "type": "object",
+      "properties": {
+        "article": {
+          "$ref": "#/definitions/v1ArticleResponse"
+        }
+      }
+    },
+    "v1UpdatePostResponse": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/v1PostResponse"
+        }
+      }
+    },
+    "v1UpdateSeriesResponse": {
+      "type": "object",
+      "properties": {
+        "series": {
+          "$ref": "#/definitions/v1Series"
+        }
+      }
+    },
+    "v1User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "plan": {
+          "$ref": "#/definitions/v1UserPlan"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1UserPlan": {
+      "type": "string",
+      "enum": [
+        "USER_PLAN_UNSPECIFIED",
+        "USER_PLAN_FREE",
+        "USER_PLAN_PRO"
+      ],
+      "default": "USER_PLAN_UNSPECIFIED"
+    },
+    "v1WritingContext": {
+      "type": "object",
+      "properties": {
+        "series": {
+          "$ref": "#/definitions/v1Series"
+        },
+        "lastPublishedArticles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ArticleVersion"
+          }
+        },
+        "relatedArticles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ArticleVersion"
+          }
+        },
+        "nextSeriesPart": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "topicAlreadyCovered": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

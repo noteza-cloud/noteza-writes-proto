@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package noteza.writes.v1;
+
+option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
+
+import "google/protobuf/timestamp.proto";
+
+enum ImageStatus {
+  IMAGE_STATUS_UNSPECIFIED = 0;
+  IMAGE_STATUS_PENDING = 1;
+  IMAGE_STATUS_READY = 2;
+  IMAGE_STATUS_FAILED = 3;
+  IMAGE_STATUS_DELETED = 4;
+}
+
+enum ImageUsage {
+  IMAGE_USAGE_UNSPECIFIED = 0;
+  IMAGE_USAGE_ARTICLE_COVER = 1;
+  IMAGE_USAGE_ARTICLE_INLINE = 2;
+  IMAGE_USAGE_POST_IMAGE = 3;
+}
+
+message ImageVariant {
+  string kind = 1;
+  string url = 2;
+  optional int32 width = 3;
+  optional int32 height = 4;
+}
+
+message ImageAsset {
+  string id = 1;
+  string user_id = 2;
+  string url = 3;
+  string mime_type = 4;
+  int64 size_bytes = 5;
+  optional int32 width = 6;
+  optional int32 height = 7;
+  google.protobuf.Timestamp created_at = 8;
+  ImageStatus status = 9;
+  ImageUsage usage = 10;
+  optional string alt_text = 11;
+  optional string source = 12;
+  optional string checksum_sha256 = 13;
+  repeated ImageVariant variants = 14;
+  optional google.protobuf.Timestamp deleted_at = 15;
+}

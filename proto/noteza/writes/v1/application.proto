@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package noteza.writes.v1;
+
+option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
+
+import "google/protobuf/timestamp.proto";
+
+message Application {
+  string id = 1;
+  string user_id = 2;
+  string name = 3;
+  string token_hint = 4;
+  google.protobuf.Timestamp created_at = 5;
+  optional google.protobuf.Timestamp token_last_rotated_at = 6;
+}

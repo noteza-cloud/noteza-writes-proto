@@ -1,0 +1,555 @@
+syntax = "proto3";
+
+package noteza.writes.v1;
+
+option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "noteza/writes/v1/application.proto";
+import "noteza/writes/v1/article.proto";
+import "noteza/writes/v1/context.proto";
+import "noteza/writes/v1/media.proto";
+import "noteza/writes/v1/post.proto";
+import "noteza/writes/v1/series.proto";
+import "noteza/writes/v1/user.proto";
+
+// NotezaAuthService defines authentication operations.
+service NotezaAuthService {
+  // Register creates a new user account and returns authentication tokens.
+  rpc Register(RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/register"
+      body: "*"
+    };
+  }
+  // Login authenticates an existing user and returns authentication tokens.
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/login"
+      body: "*"
+    };
+  }
+  // RefreshAccessToken exchanges a refresh token for a new access token.
+  rpc RefreshAccessToken(RefreshAccessTokenRequest) returns (RefreshAccessTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/refresh"
+      body: "*"
+    };
+  }
+}
+
+// NotezaApplicationService defines API token lifecycle operations
+// for user-owned applications (for example, MCP servers).
+service NotezaApplicationService {
+  // CreateApplication creates an application and returns its initial token.
+  rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {
+    option (google.api.http) = {
+      post: "/v1/applications"
+      body: "*"
+    };
+  }
+  // ListApplications returns paginated applications owned by a user.
+  rpc ListApplications(ListApplicationsRequest) returns (ListApplicationsResponse) {
+    option (google.api.http) = {
+      get: "/v1/applications"
+    };
+  }
+  // RegenerateApplicationToken rotates an application token and returns a new one.
+  rpc RegenerateApplicationToken(RegenerateApplicationTokenRequest) returns (RegenerateApplicationTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/applications/{application_id}/token"
+      body: "*"
+    };
+  }
+  // DeleteApplication permanently deletes an application and invalidates its token.
+  rpc DeleteApplication(DeleteApplicationRequest) returns (DeleteApplicationResponse) {
+    option (google.api.http) = {
+      delete: "/v1/applications/{application_id}"
+    };
+  }
+}
+
+// NotezaMediaService defines image upload and asset lifecycle operations.
+service NotezaMediaService {
+  // CreateImageUpload creates an image asset and returns a pre-signed upload URL.
+  rpc CreateImageUpload(CreateImageUploadRequest) returns (CreateImageUploadResponse) {
+    option (google.api.http) = {
+      post: "/v1/images"
+      body: "*"
+    };
+  }
+  // GetImage returns a single image asset by its identifier.
+  rpc GetImage(GetImageRequest) returns (GetImageResponse) {
+    option (google.api.http) = {
+      get: "/v1/images/{image_id}"
+    };
+  }
+  // ListImages returns paginated images visible to the authenticated user.
+  rpc ListImages(ListImagesRequest) returns (ListImagesResponse) {
+    option (google.api.http) = {
+      get: "/v1/images"
+    };
+  }
+  // FinalizeImageUpload confirms upload completion and returns finalized metadata.
+  rpc FinalizeImageUpload(FinalizeImageUploadRequest) returns (FinalizeImageUploadResponse) {
+    option (google.api.http) = {
+      post: "/v1/images/{image_id}/finalize"
+      body: "*"
+    };
+  }
+  // DeleteImage deletes an image asset and invalidates future usage.
+  rpc DeleteImage(DeleteImageRequest) returns (DeleteImageResponse) {
+    option (google.api.http) = {
+      delete: "/v1/images/{image_id}"
+    };
+  }
+}
+
+// NotezaWritesService defines the public API for content lifecycle
+// management and writing context retrieval.
+service NotezaWritesService {
+  // CreateSeries creates a new writing series for a user.
+  rpc CreateSeries(CreateSeriesRequest) returns (CreateSeriesResponse) {
+    option (google.api.http) = {
+      post: "/v1/series"
+      body: "*"
+    };
+  }
+  // UpdateSeries updates mutable metadata of an existing series.
+  rpc UpdateSeries(UpdateSeriesRequest) returns (UpdateSeriesResponse) {
+    option (google.api.http) = {
+      patch: "/v1/series/{id}"
+      body: "*"
+    };
+  }
+  // GetSeries returns a series by its unique identifier.
+  rpc GetSeries(GetSeriesRequest) returns (GetSeriesResponse) {
+    option (google.api.http) = {
+      get: "/v1/series/{id}"
+    };
+  }
+  // ListSeries returns paginated series owned by a user.
+  rpc ListSeries(ListSeriesRequest) returns (ListSeriesResponse) {
+    option (google.api.http) = {
+      get: "/v1/series"
+    };
+  }
+
+  // CreateArticle creates an article and its initial version.
+  rpc CreateArticle(CreateArticleRequest) returns (CreateArticleResponse) {
+    option (google.api.http) = {
+      post: "/v1/series/{series_id}/articles"
+      body: "*"
+    };
+  }
+  // UpdateArticle creates a new article version with provided changes.
+  rpc UpdateArticle(UpdateArticleRequest) returns (UpdateArticleResponse) {
+    option (google.api.http) = {
+      patch: "/v1/articles/{article_id}"
+      body: "*"
+    };
+  }
+  // GetArticle returns an article with its current version.
+  rpc GetArticle(GetArticleRequest) returns (GetArticleResponse) {
+    option (google.api.http) = {
+      get: "/v1/articles/{article_id}"
+    };
+  }
+  // ListArticles returns paginated articles for a series.
+  rpc ListArticles(ListArticlesRequest) returns (ListArticlesResponse) {
+    option (google.api.http) = {
+      get: "/v1/series/{series_id}/articles"
+    };
+  }
+  // GetArticleVersions returns paginated version history for an article.
+  rpc GetArticleVersions(GetArticleVersionsRequest) returns (GetArticleVersionsResponse) {
+    option (google.api.http) = {
+      get: "/v1/articles/{article_id}/versions"
+    };
+  }
+
+  // CreatePost creates a post and its initial version.
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse) {
+    option (google.api.http) = {
+      post: "/v1/posts"
+      body: "*"
+    };
+  }
+  // UpdatePost creates a new post version with provided changes.
+  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse) {
+    option (google.api.http) = {
+      patch: "/v1/posts/{post_id}"
+      body: "*"
+    };
+  }
+  // GetPost returns a post with its current version.
+  rpc GetPost(GetPostRequest) returns (GetPostResponse) {
+    option (google.api.http) = {
+      get: "/v1/posts/{post_id}"
+    };
+  }
+  // ListPosts returns paginated posts owned by a user.
+  rpc ListPosts(ListPostsRequest) returns (ListPostsResponse) {
+    option (google.api.http) = {
+      get: "/v1/posts"
+    };
+  }
+  // GetPostVersions returns paginated version history for a post.
+  rpc GetPostVersions(GetPostVersionsRequest) returns (GetPostVersionsResponse) {
+    option (google.api.http) = {
+      get: "/v1/posts/{post_id}/versions"
+    };
+  }
+
+  // GetWritingContext returns series context and related article history.
+  rpc GetWritingContext(GetWritingContextRequest) returns (GetWritingContextResponse) {
+    option (google.api.http) = {
+      get: "/v1/series/{series_id}/writing-context"
+    };
+  }
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  User user = 1;
+  string access_token = 2;
+  string refresh_token = 3;
+  google.protobuf.Timestamp expires_at = 4;
+}
+
+message RegisterResponse {
+  AuthResponse auth = 1;
+}
+
+message LoginResponse {
+  AuthResponse auth = 1;
+}
+
+message RefreshAccessTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshAccessTokenResponse {
+  AuthResponse auth = 1;
+}
+
+message CreateApplicationRequest {
+  string name = 1;
+}
+
+message CreateApplicationResponse {
+  Application application = 1;
+  string api_token = 2;
+}
+
+message ListApplicationsRequest {
+  optional int32 page_size = 1;
+  optional string page_token = 2;
+}
+
+message ListApplicationsResponse {
+  repeated Application applications = 1;
+  string next_page_token = 2;
+}
+
+message RegenerateApplicationTokenRequest {
+  string application_id = 1;
+}
+
+message RegenerateApplicationTokenResponse {
+  Application application = 1;
+  string api_token = 2;
+}
+
+message DeleteApplicationRequest {
+  string application_id = 1;
+}
+
+message DeleteApplicationResponse {
+  // Always true on a successful response.
+  // If the application does not exist, the server returns a NOT_FOUND error
+  // (gRPC status code 5) instead of a successful response with deleted=false.
+  bool deleted = 1;
+}
+
+message CreateImageUploadRequest {
+  string file_name = 1;
+  string mime_type = 2;
+  int64 size_bytes = 3;
+  ImageUsage usage = 4;
+  optional string alt_text = 5;
+  optional string source = 6;
+  optional string checksum_sha256 = 7;
+}
+
+message CreateImageUploadResponse {
+  ImageAsset image = 1;
+  string upload_url = 2;
+  optional google.protobuf.Timestamp upload_url_expires_at = 3;
+}
+
+message GetImageRequest {
+  string image_id = 1;
+}
+
+message GetImageResponse {
+  ImageAsset image = 1;
+}
+
+message ListImagesRequest {
+  optional ImageStatus status = 1;
+  optional ImageUsage usage = 2;
+  optional int32 page_size = 3;
+  optional string page_token = 4;
+}
+
+message ListImagesResponse {
+  repeated ImageAsset images = 1;
+  string next_page_token = 2;
+}
+
+message FinalizeImageUploadRequest {
+  string image_id = 1;
+  optional int64 uploaded_size_bytes = 2;
+  optional string checksum_sha256 = 3;
+  optional int32 width = 4;
+  optional int32 height = 5;
+}
+
+message FinalizeImageUploadResponse {
+  ImageAsset image = 1;
+}
+
+message DeleteImageRequest {
+  string image_id = 1;
+}
+
+message DeleteImageResponse {
+  // Always true on a successful response.
+  // If the image does not exist, the server returns a NOT_FOUND error
+  // (gRPC status code 5) instead of a successful response with deleted=false.
+  bool deleted = 1;
+}
+
+message CreateSeriesRequest {
+  string name = 1;
+  optional string description = 2;
+  optional string tone = 3;
+  optional string target_audience = 4;
+  optional string language = 5;
+  optional string strategy_note = 6;
+}
+
+message UpdateSeriesRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional string tone = 4;
+  optional string target_audience = 5;
+  optional string language = 6;
+  optional string strategy_note = 7;
+}
+
+message GetSeriesRequest {
+  string id = 1;
+}
+
+message ListSeriesRequest {
+  optional int32 page_size = 1;
+  optional string page_token = 2;
+}
+
+message ListSeriesResponse {
+  repeated Series series = 1;
+  string next_page_token = 2;
+}
+
+message CreateSeriesResponse {
+  Series series = 1;
+}
+
+message UpdateSeriesResponse {
+  Series series = 1;
+}
+
+message GetSeriesResponse {
+  Series series = 1;
+}
+
+message CreateArticleRequest {
+  string series_id = 1;
+  string title = 2;
+  string content_md = 3;
+  optional string post_md = 4;
+  optional string cover_image_id = 5;
+  repeated string image_ids = 6;
+  optional string summary = 7;
+  optional string canonical_topic = 8;
+  optional int32 series_part = 9;
+  optional string edited_by = 10;
+  optional string edit_reason = 11;
+}
+
+message UpdateArticleRequest {
+  string article_id = 1;
+  optional string title = 2;
+  optional string content_md = 3;
+  optional string post_md = 4;
+  optional string cover_image_id = 5;
+  // Image IDs to append to the article's image list.
+  // Duplicates within this list are silently deduplicated.
+  // If an ID appears in both add_image_ids and remove_image_ids, removal takes precedence.
+  repeated string add_image_ids = 6;
+  optional string summary = 7;
+  optional string canonical_topic = 8;
+  optional int32 series_part = 9;
+  optional ArticleStatus status = 10;
+  optional string embedding = 11;
+  optional string edited_by = 12;
+  optional string edit_reason = 13;
+  // Image IDs to remove from the article's image list.
+  // IDs not currently attached to the article are ignored (no-op).
+  // Duplicates within this list are silently deduplicated.
+  // Removal takes precedence over add_image_ids if the same ID appears in both.
+  repeated string remove_image_ids = 14;
+}
+
+message GetArticleRequest {
+  string article_id = 1;
+}
+
+message ListArticlesRequest {
+  string series_id = 1;
+  optional int32 page_size = 2;
+  optional string page_token = 3;
+}
+
+message GetArticleVersionsRequest {
+  string article_id = 1;
+  optional int32 page_size = 2;
+  optional string page_token = 3;
+}
+
+message ArticleResponse {
+  Article article = 1;
+  ArticleVersion current_version = 2;
+}
+
+message ArticleListResponse {
+  repeated ArticleResponse articles = 1;
+  string next_page_token = 2;
+}
+
+message ArticleVersionsResponse {
+  repeated ArticleVersion versions = 1;
+  string next_page_token = 2;
+}
+
+message CreateArticleResponse {
+  ArticleResponse article = 1;
+}
+
+message UpdateArticleResponse {
+  ArticleResponse article = 1;
+}
+
+message GetArticleResponse {
+  ArticleResponse article = 1;
+}
+
+message ListArticlesResponse {
+  ArticleListResponse articles = 1;
+}
+
+message GetArticleVersionsResponse {
+  ArticleVersionsResponse versions = 1;
+}
+
+message CreatePostRequest {
+  string content_md = 1;
+  repeated string image_ids = 2;
+}
+
+message UpdatePostRequest {
+  string post_id = 1;
+  optional string content_md = 2;
+  // Image IDs to append to the post's image list.
+  // Duplicates within this list are silently deduplicated.
+  // If an ID appears in both add_image_ids and remove_image_ids, removal takes precedence.
+  repeated string add_image_ids = 3;
+  optional PostStatus status = 4;
+  // Image IDs to remove from the post's image list.
+  // IDs not currently attached to the post are ignored (no-op).
+  // Duplicates within this list are silently deduplicated.
+  // Removal takes precedence over add_image_ids if the same ID appears in both.
+  repeated string remove_image_ids = 5;
+}
+
+message GetPostRequest {
+  string post_id = 1;
+}
+
+message ListPostsRequest {
+  optional int32 page_size = 1;
+  optional string page_token = 2;
+}
+
+message GetPostVersionsRequest {
+  string post_id = 1;
+  optional int32 page_size = 2;
+  optional string page_token = 3;
+}
+
+message PostResponse {
+  Post post = 1;
+  PostVersion current_version = 2;
+}
+
+message PostListResponse {
+  repeated PostResponse posts = 1;
+  string next_page_token = 2;
+}
+
+message PostVersionsResponse {
+  repeated PostVersion versions = 1;
+  string next_page_token = 2;
+}
+
+message CreatePostResponse {
+  PostResponse post = 1;
+}
+
+message UpdatePostResponse {
+  PostResponse post = 1;
+}
+
+message GetPostResponse {
+  PostResponse post = 1;
+}
+
+message ListPostsResponse {
+  PostListResponse posts = 1;
+}
+
+message GetPostVersionsResponse {
+  PostVersionsResponse versions = 1;
+}
+
+message GetWritingContextRequest {
+  string series_id = 1;
+  optional string candidate_topic = 2;
+}
+
+message GetWritingContextResponse {
+  WritingContext context = 1;
+}
