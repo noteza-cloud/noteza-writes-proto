@@ -14,7 +14,14 @@
 
 ## Article Model
 
-`Article` stores identity and current version reference.
+`Article` stores root metadata and current version reference:
+
+- `id`
+- `user_id` (owner)
+- `series_id` (parent series)
+- `current_version_id`
+- `created_at`
+
 `ArticleVersion` stores content snapshot fields including:
 
 - `title`
@@ -28,7 +35,14 @@
 
 ## Post Model
 
-`Post` stores identity and current version reference.
+`Post` stores root metadata and current version reference:
+
+- `id`
+- `user_id` (owner)
+- `series_id` (logical grouping)
+- `current_version_id`
+- `created_at`
+
 `PostVersion` stores snapshot fields including:
 
 - `content_md`

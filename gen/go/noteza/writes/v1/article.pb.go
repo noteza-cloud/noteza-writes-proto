@@ -77,9 +77,10 @@ func (ArticleStatus) EnumDescriptor() ([]byte, []int) {
 type Article struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	SeriesId         string                 `protobuf:"bytes,2,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
-	CurrentVersionId string                 `protobuf:"bytes,3,opt,name=current_version_id,json=currentVersionId,proto3" json:"current_version_id,omitempty"`
-	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UserId           string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	SeriesId         string                 `protobuf:"bytes,3,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	CurrentVersionId string                 `protobuf:"bytes,4,opt,name=current_version_id,json=currentVersionId,proto3" json:"current_version_id,omitempty"`
+	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -117,6 +118,13 @@ func (*Article) Descriptor() ([]byte, []int) {
 func (x *Article) GetId() string {
 	if x != nil {
 		return x.Id
+	}
+	return ""
+}
+
+func (x *Article) GetUserId() string {
+	if x != nil {
+		return x.UserId
 	}
 	return ""
 }
@@ -318,13 +326,14 @@ var File_noteza_writes_v1_article_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_article_proto_rawDesc = "" +
 	"\n" +
-	"\x1enoteza/writes/v1/article.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\x9f\x01\n" +
+	"\x1enoteza/writes/v1/article.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\xb8\x01\n" +
 	"\aArticle\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
-	"\tseries_id\x18\x02 \x01(\tR\bseriesId\x12,\n" +
-	"\x12current_version_id\x18\x03 \x01(\tR\x10currentVersionId\x129\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1b\n" +
+	"\tseries_id\x18\x03 \x01(\tR\bseriesId\x12,\n" +
+	"\x12current_version_id\x18\x04 \x01(\tR\x10currentVersionId\x129\n" +
 	"\n" +
-	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xd2\x06\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xd2\x06\n" +
 	"\x0eArticleVersion\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +

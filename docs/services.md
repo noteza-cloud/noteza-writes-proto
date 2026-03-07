@@ -80,6 +80,10 @@ Purpose: writing-domain operations.
 | ListArticles | `ListArticles(ListArticlesRequest) returns (ListArticlesResponse)` | `GET /v1/series/{series_id}/articles` |
 | GetArticleVersions | `GetArticleVersions(GetArticleVersionsRequest) returns (GetArticleVersionsResponse)` | `GET /v1/articles/{article_id}/versions` |
 
+Notes:
+
+- `Article` root now includes ownership and parent linkage fields: `user_id` and `series_id`.
+
 ### Posts
 
 | RPC | gRPC | HTTP |
@@ -89,6 +93,10 @@ Purpose: writing-domain operations.
 | GetPost | `GetPost(GetPostRequest) returns (GetPostResponse)` | `GET /v1/posts/{post_id}` |
 | ListPosts | `ListPosts(ListPostsRequest) returns (ListPostsResponse)` | `GET /v1/posts` |
 | GetPostVersions | `GetPostVersions(GetPostVersionsRequest) returns (GetPostVersionsResponse)` | `GET /v1/posts/{post_id}/versions` |
+
+Notes:
+
+- `Post` root includes `series_id` in addition to `user_id`, `id`, `current_version_id`, and `created_at`.
 
 ### Context
 

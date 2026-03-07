@@ -1226,6 +1226,9 @@
         "id": {
           "type": "string"
         },
+        "userId": {
+          "type": "string"
+        },
         "seriesId": {
           "type": "string"
         },
@@ -1766,6 +1769,9 @@
           "type": "string"
         },
         "userId": {
+          "type": "string"
+        },
+        "seriesId": {
           "type": "string"
         },
         "currentVersionId": {

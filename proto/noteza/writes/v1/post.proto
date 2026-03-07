@@ -17,8 +17,9 @@ enum PostStatus {
 message Post {
   string id = 1;
   string user_id = 2;
-  string current_version_id = 3;
-  google.protobuf.Timestamp created_at = 4;
+  string series_id = 3;
+  string current_version_id = 4;
+  google.protobuf.Timestamp created_at = 5;
 }
 
 message PostVersion {

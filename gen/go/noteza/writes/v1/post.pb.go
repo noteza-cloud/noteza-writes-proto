@@ -78,8 +78,9 @@ type Post struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserId           string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	CurrentVersionId string                 `protobuf:"bytes,3,opt,name=current_version_id,json=currentVersionId,proto3" json:"current_version_id,omitempty"`
-	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	SeriesId         string                 `protobuf:"bytes,3,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	CurrentVersionId string                 `protobuf:"bytes,4,opt,name=current_version_id,json=currentVersionId,proto3" json:"current_version_id,omitempty"`
+	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -124,6 +125,13 @@ func (x *Post) GetId() string {
 func (x *Post) GetUserId() string {
 	if x != nil {
 		return x.UserId
+	}
+	return ""
+}
+
+func (x *Post) GetSeriesId() string {
+	if x != nil {
+		return x.SeriesId
 	}
 	return ""
 }
@@ -246,13 +254,14 @@ var File_noteza_writes_v1_post_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_post_proto_rawDesc = "" +
 	"\n" +
-	"\x1bnoteza/writes/v1/post.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\x98\x01\n" +
+	"\x1bnoteza/writes/v1/post.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\xb5\x01\n" +
 	"\x04Post\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12,\n" +
-	"\x12current_version_id\x18\x03 \x01(\tR\x10currentVersionId\x129\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1b\n" +
+	"\tseries_id\x18\x03 \x01(\tR\bseriesId\x12,\n" +
+	"\x12current_version_id\x18\x04 \x01(\tR\x10currentVersionId\x129\n" +
 	"\n" +
-	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xf8\x02\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xf8\x02\n" +
 	"\vPostVersion\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\apost_id\x18\x02 \x01(\tR\x06postId\x12%\n" +

@@ -8,6 +8,7 @@ This repository contains versioned API definitions only. It has no business logi
 
 - Versioned API (`v1`)
 - Snapshot versioning for articles and posts
+- Explicit root ownership/linking fields on writing entities (`user_id`, `series_id`)
 - Separate services for auth, applications, media, and writing domain
 - Media asset model with status/usage/variants metadata
 - HTTP/REST bindings via gRPC-Gateway annotations
