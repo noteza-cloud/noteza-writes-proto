@@ -663,6 +663,12 @@
         },
         "parameters": [
           {
+            "name": "seriesId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "pageSize",
             "description": "Maximum number of items to return in a single page.",
             "in": "query",
@@ -1448,6 +1454,9 @@
     "v1CreatePostRequest": {
       "type": "object",
       "properties": {
+        "seriesId": {
+          "type": "string"
+        },
         "contentMd": {
           "type": "string"
         },

@@ -496,8 +496,9 @@ message GetArticleVersionsResponse {
 }
 
 message CreatePostRequest {
-  string content_md = 1;
-  repeated string image_ids = 2;
+  string series_id = 1;
+  string content_md = 2;
+  repeated string image_ids = 3;
 }
 
 message UpdatePostRequest {
@@ -520,11 +521,12 @@ message GetPostRequest {
 }
 
 message ListPostsRequest {
+  string series_id = 1;
   // Maximum number of items to return in a single page.
-  optional int32 page_size = 1;
+  optional int32 page_size = 2;
   // Opaque pagination cursor from a previous next_page_token.
   // Keep it as-is; do not parse or construct it on the client.
-  optional string page_token = 2;
+  optional string page_token = 3;
 }
 
 message GetPostVersionsRequest {

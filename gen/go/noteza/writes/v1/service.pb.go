@@ -2626,8 +2626,9 @@ func (x *GetArticleVersionsResponse) GetVersions() *ArticleVersionsResponse {
 
 type CreatePostRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ContentMd     string                 `protobuf:"bytes,1,opt,name=content_md,json=contentMd,proto3" json:"content_md,omitempty"`
-	ImageIds      []string               `protobuf:"bytes,2,rep,name=image_ids,json=imageIds,proto3" json:"image_ids,omitempty"`
+	SeriesId      string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	ContentMd     string                 `protobuf:"bytes,2,opt,name=content_md,json=contentMd,proto3" json:"content_md,omitempty"`
+	ImageIds      []string               `protobuf:"bytes,3,rep,name=image_ids,json=imageIds,proto3" json:"image_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2660,6 +2661,13 @@ func (x *CreatePostRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use CreatePostRequest.ProtoReflect.Descriptor instead.
 func (*CreatePostRequest) Descriptor() ([]byte, []int) {
 	return file_noteza_writes_v1_service_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *CreatePostRequest) GetSeriesId() string {
+	if x != nil {
+		return x.SeriesId
+	}
+	return ""
 }
 
 func (x *CreatePostRequest) GetContentMd() string {
@@ -2804,12 +2812,13 @@ func (x *GetPostRequest) GetPostId() string {
 }
 
 type ListPostsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	SeriesId string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
 	// Maximum number of items to return in a single page.
-	PageSize *int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	PageSize *int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
 	// Opaque pagination cursor from a previous next_page_token.
 	// Keep it as-is; do not parse or construct it on the client.
-	PageToken     *string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	PageToken     *string `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2842,6 +2851,13 @@ func (x *ListPostsRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListPostsRequest.ProtoReflect.Descriptor instead.
 func (*ListPostsRequest) Descriptor() ([]byte, []int) {
 	return file_noteza_writes_v1_service_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *ListPostsRequest) GetSeriesId() string {
+	if x != nil {
+		return x.SeriesId
+	}
+	return ""
 }
 
 func (x *ListPostsRequest) GetPageSize() int32 {
@@ -3640,11 +3656,12 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"\x14ListArticlesResponse\x12A\n" +
 	"\barticles\x18\x01 \x01(\v2%.noteza.writes.v1.ArticleListResponseR\barticles\"c\n" +
 	"\x1aGetArticleVersionsResponse\x12E\n" +
-	"\bversions\x18\x01 \x01(\v2).noteza.writes.v1.ArticleVersionsResponseR\bversions\"O\n" +
-	"\x11CreatePostRequest\x12\x1d\n" +
+	"\bversions\x18\x01 \x01(\v2).noteza.writes.v1.ArticleVersionsResponseR\bversions\"l\n" +
+	"\x11CreatePostRequest\x12\x1b\n" +
+	"\tseries_id\x18\x01 \x01(\tR\bseriesId\x12\x1d\n" +
 	"\n" +
-	"content_md\x18\x01 \x01(\tR\tcontentMd\x12\x1b\n" +
-	"\timage_ids\x18\x02 \x03(\tR\bimageIds\"\xf3\x01\n" +
+	"content_md\x18\x02 \x01(\tR\tcontentMd\x12\x1b\n" +
+	"\timage_ids\x18\x03 \x03(\tR\bimageIds\"\xf3\x01\n" +
 	"\x11UpdatePostRequest\x12\x17\n" +
 	"\apost_id\x18\x01 \x01(\tR\x06postId\x12\"\n" +
 	"\n" +
@@ -3655,11 +3672,12 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"\v_content_mdB\t\n" +
 	"\a_status\")\n" +
 	"\x0eGetPostRequest\x12\x17\n" +
-	"\apost_id\x18\x01 \x01(\tR\x06postId\"u\n" +
-	"\x10ListPostsRequest\x12 \n" +
-	"\tpage_size\x18\x01 \x01(\x05H\x00R\bpageSize\x88\x01\x01\x12\"\n" +
+	"\apost_id\x18\x01 \x01(\tR\x06postId\"\x92\x01\n" +
+	"\x10ListPostsRequest\x12\x1b\n" +
+	"\tseries_id\x18\x01 \x01(\tR\bseriesId\x12 \n" +
+	"\tpage_size\x18\x02 \x01(\x05H\x00R\bpageSize\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"page_token\x18\x02 \x01(\tH\x01R\tpageToken\x88\x01\x01B\f\n" +
+	"page_token\x18\x03 \x01(\tH\x01R\tpageToken\x88\x01\x01B\f\n" +
 	"\n" +
 	"_page_sizeB\r\n" +
 	"\v_page_token\"\x94\x01\n" +

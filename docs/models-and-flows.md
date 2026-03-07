@@ -68,6 +68,7 @@
 Update semantics for images:
 
 - `CreateArticleRequest.image_ids` and `CreatePostRequest.image_ids` set initial images.
+- `CreatePostRequest.series_id` links a new post to its parent series.
 - `UpdateArticleRequest` and `UpdatePostRequest` use append/remove operations:
   - `add_image_ids`: append these image references
   - `remove_image_ids`: remove these image references
@@ -89,7 +90,8 @@ Conflict resolution rules for `add_image_ids` / `remove_image_ids`:
 
 ## Post Lifecycle Flow
 
-1. `CreatePost` creates post root + initial version.
+1. `CreatePost` creates post root + initial version (`series_id` is required in request).
 2. `UpdatePost` creates next immutable version.
 3. `GetPost` returns root + current version.
-4. `GetPostVersions` returns paginated history.
+4. `ListPosts` returns paginated posts filtered by `series_id`.
+5. `GetPostVersions` returns paginated history.

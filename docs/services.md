@@ -97,6 +97,8 @@ Notes:
 Notes:
 
 - `Post` root includes `series_id` in addition to `user_id`, `id`, `current_version_id`, and `created_at`.
+- `CreatePostRequest` includes `series_id` to assign the new post to a series at creation time.
+- `ListPostsRequest` includes `series_id` to scope list results to a specific series.
 
 ### Context
 
