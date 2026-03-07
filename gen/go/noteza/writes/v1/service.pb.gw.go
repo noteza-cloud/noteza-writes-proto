@@ -597,21 +597,12 @@ func request_NotezaWritesService_CreateArticle_0(ctx context.Context, marshaler 
 	var (
 		protoReq CreateArticleRequest
 		metadata runtime.ServerMetadata
-		err      error
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	val, ok := pathParams["series_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_id")
-	}
-	protoReq.SeriesId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_id", err)
 	}
 	msg, err := client.CreateArticle(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -621,18 +612,9 @@ func local_request_NotezaWritesService_CreateArticle_0(ctx context.Context, mars
 	var (
 		protoReq CreateArticleRequest
 		metadata runtime.ServerMetadata
-		err      error
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	val, ok := pathParams["series_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_id")
-	}
-	protoReq.SeriesId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_id", err)
 	}
 	msg, err := server.CreateArticle(ctx, &protoReq)
 	return msg, metadata, err
@@ -722,24 +704,15 @@ func local_request_NotezaWritesService_GetArticle_0(ctx context.Context, marshal
 	return msg, metadata, err
 }
 
-var filter_NotezaWritesService_ListArticles_0 = &utilities.DoubleArray{Encoding: map[string]int{"series_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+var filter_NotezaWritesService_ListArticles_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_NotezaWritesService_ListArticles_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaWritesServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq ListArticlesRequest
 		metadata runtime.ServerMetadata
-		err      error
 	)
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	val, ok := pathParams["series_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_id")
-	}
-	protoReq.SeriesId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_id", err)
 	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -755,16 +728,7 @@ func local_request_NotezaWritesService_ListArticles_0(ctx context.Context, marsh
 	var (
 		protoReq ListArticlesRequest
 		metadata runtime.ServerMetadata
-		err      error
 	)
-	val, ok := pathParams["series_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_id")
-	}
-	protoReq.SeriesId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_id", err)
-	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -1027,24 +991,15 @@ func local_request_NotezaWritesService_GetPostVersions_0(ctx context.Context, ma
 	return msg, metadata, err
 }
 
-var filter_NotezaWritesService_GetWritingContext_0 = &utilities.DoubleArray{Encoding: map[string]int{"series_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+var filter_NotezaWritesService_GetWritingContext_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_NotezaWritesService_GetWritingContext_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaWritesServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq GetWritingContextRequest
 		metadata runtime.ServerMetadata
-		err      error
 	)
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	val, ok := pathParams["series_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_id")
-	}
-	protoReq.SeriesId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_id", err)
 	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -1060,16 +1015,7 @@ func local_request_NotezaWritesService_GetWritingContext_0(ctx context.Context, 
 	var (
 		protoReq GetWritingContextRequest
 		metadata runtime.ServerMetadata
-		err      error
 	)
-	val, ok := pathParams["series_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_id")
-	}
-	protoReq.SeriesId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_id", err)
-	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -1442,7 +1388,7 @@ func RegisterNotezaWritesServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/CreateArticle", runtime.WithHTTPPathPattern("/v1/series/{series_id}/articles"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/CreateArticle", runtime.WithHTTPPathPattern("/v1/articles"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1502,7 +1448,7 @@ func RegisterNotezaWritesServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/ListArticles", runtime.WithHTTPPathPattern("/v1/series/{series_id}/articles"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/ListArticles", runtime.WithHTTPPathPattern("/v1/articles"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1642,7 +1588,7 @@ func RegisterNotezaWritesServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetWritingContext", runtime.WithHTTPPathPattern("/v1/series/{series_id}/writing-context"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetWritingContext", runtime.WithHTTPPathPattern("/v1/writing-context"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2131,7 +2077,7 @@ func RegisterNotezaWritesServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/CreateArticle", runtime.WithHTTPPathPattern("/v1/series/{series_id}/articles"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/CreateArticle", runtime.WithHTTPPathPattern("/v1/articles"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2182,7 +2128,7 @@ func RegisterNotezaWritesServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/ListArticles", runtime.WithHTTPPathPattern("/v1/series/{series_id}/articles"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/ListArticles", runtime.WithHTTPPathPattern("/v1/articles"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2301,7 +2247,7 @@ func RegisterNotezaWritesServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetWritingContext", runtime.WithHTTPPathPattern("/v1/series/{series_id}/writing-context"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetWritingContext", runtime.WithHTTPPathPattern("/v1/writing-context"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2322,17 +2268,17 @@ var (
 	pattern_NotezaWritesService_UpdateSeries_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "series", "id"}, ""))
 	pattern_NotezaWritesService_GetSeries_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "series", "id"}, ""))
 	pattern_NotezaWritesService_ListSeries_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "series"}, ""))
-	pattern_NotezaWritesService_CreateArticle_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "series", "series_id", "articles"}, ""))
+	pattern_NotezaWritesService_CreateArticle_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "articles"}, ""))
 	pattern_NotezaWritesService_UpdateArticle_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "articles", "article_id"}, ""))
 	pattern_NotezaWritesService_GetArticle_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "articles", "article_id"}, ""))
-	pattern_NotezaWritesService_ListArticles_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "series", "series_id", "articles"}, ""))
+	pattern_NotezaWritesService_ListArticles_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "articles"}, ""))
 	pattern_NotezaWritesService_GetArticleVersions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "articles", "article_id", "versions"}, ""))
 	pattern_NotezaWritesService_CreatePost_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "posts"}, ""))
 	pattern_NotezaWritesService_UpdatePost_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "posts", "post_id"}, ""))
 	pattern_NotezaWritesService_GetPost_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "posts", "post_id"}, ""))
 	pattern_NotezaWritesService_ListPosts_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "posts"}, ""))
 	pattern_NotezaWritesService_GetPostVersions_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "posts", "post_id", "versions"}, ""))
-	pattern_NotezaWritesService_GetWritingContext_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "series", "series_id", "writing-context"}, ""))
+	pattern_NotezaWritesService_GetWritingContext_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "writing-context"}, ""))
 )
 
 var (

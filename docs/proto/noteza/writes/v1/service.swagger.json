@@ -166,6 +166,83 @@
         ]
       }
     },
+    "/v1/articles": {
+      "get": {
+        "summary": "ListArticles returns paginated articles visible to the authenticated user,\noptionally filtered by series_id.",
+        "operationId": "NotezaWritesService_ListArticles",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListArticlesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "seriesId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "description": "Maximum number of items to return in a single page.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageToken",
+            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      },
+      "post": {
+        "summary": "CreateArticle creates an article and its initial version.",
+        "operationId": "NotezaWritesService_CreateArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateArticleResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateArticleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotezaWritesService"
+        ]
+      }
+    },
     "/v1/articles/{articleId}": {
       "get": {
         "summary": "GetArticle returns an article with its current version.",
@@ -645,7 +722,7 @@
     },
     "/v1/posts": {
       "get": {
-        "summary": "ListPosts returns paginated posts owned by a user.",
+        "summary": "ListPosts returns paginated posts visible to the authenticated user,\noptionally filtered by series_id.",
         "operationId": "NotezaWritesService_ListPosts",
         "responses": {
           "200": {
@@ -1015,128 +1092,9 @@
         ]
       }
     },
-    "/v1/series/{seriesId}/articles": {
+    "/v1/writing-context": {
       "get": {
-        "summary": "ListArticles returns paginated articles for a series.",
-        "operationId": "NotezaWritesService_ListArticles",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListArticlesResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "seriesId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "pageSize",
-            "description": "Maximum number of items to return in a single page.",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageToken",
-            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "NotezaWritesService"
-        ]
-      },
-      "post": {
-        "summary": "CreateArticle creates an article and its initial version.",
-        "operationId": "NotezaWritesService_CreateArticle",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1CreateArticleResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "seriesId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string"
-                },
-                "contentMd": {
-                  "type": "string"
-                },
-                "postMd": {
-                  "type": "string"
-                },
-                "coverImageId": {
-                  "type": "string"
-                },
-                "imageIds": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
-                "summary": {
-                  "type": "string"
-                },
-                "canonicalTopic": {
-                  "type": "string"
-                },
-                "seriesPart": {
-                  "type": "integer",
-                  "format": "int32"
-                },
-                "editedBy": {
-                  "type": "string"
-                },
-                "editReason": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "NotezaWritesService"
-        ]
-      }
-    },
-    "/v1/series/{seriesId}/writing-context": {
-      "get": {
-        "summary": "GetWritingContext returns series context and related article history.",
+        "summary": "GetWritingContext returns optional series-scoped context and related article/post history.",
         "operationId": "NotezaWritesService_GetWritingContext",
         "responses": {
           "200": {
@@ -1155,8 +1113,8 @@
         "parameters": [
           {
             "name": "seriesId",
-            "in": "path",
-            "required": true,
+            "in": "query",
+            "required": false,
             "type": "string"
           },
           {
@@ -1397,6 +1355,48 @@
           "$ref": "#/definitions/v1Application"
         },
         "apiToken": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreateArticleRequest": {
+      "type": "object",
+      "properties": {
+        "seriesId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "contentMd": {
+          "type": "string"
+        },
+        "postMd": {
+          "type": "string"
+        },
+        "coverImageId": {
+          "type": "string"
+        },
+        "imageIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "summary": {
+          "type": "string"
+        },
+        "canonicalTopic": {
+          "type": "string"
+        },
+        "seriesPart": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "editedBy": {
+          "type": "string"
+        },
+        "editReason": {
           "type": "string"
         }
       }
@@ -2015,7 +2015,8 @@
       "type": "object",
       "properties": {
         "series": {
-          "$ref": "#/definitions/v1Series"
+          "$ref": "#/definitions/v1Series",
+          "description": "Present only when GetWritingContextRequest.series_id is provided."
         },
         "lastPublishedArticles": {
           "type": "array",
@@ -2037,6 +2038,20 @@
         },
         "topicAlreadyCovered": {
           "type": "boolean"
+        },
+        "lastPublishedPosts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1PostVersion"
+          }
+        },
+        "relatedPosts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1PostVersion"
+          }
         }
       }
     }

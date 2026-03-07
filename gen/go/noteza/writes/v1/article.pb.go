@@ -78,7 +78,7 @@ type Article struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserId           string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	SeriesId         string                 `protobuf:"bytes,3,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	SeriesId         *string                `protobuf:"bytes,3,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
 	CurrentVersionId string                 `protobuf:"bytes,4,opt,name=current_version_id,json=currentVersionId,proto3" json:"current_version_id,omitempty"`
 	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -130,8 +130,8 @@ func (x *Article) GetUserId() string {
 }
 
 func (x *Article) GetSeriesId() string {
-	if x != nil {
-		return x.SeriesId
+	if x != nil && x.SeriesId != nil {
+		return *x.SeriesId
 	}
 	return ""
 }
@@ -326,14 +326,16 @@ var File_noteza_writes_v1_article_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_article_proto_rawDesc = "" +
 	"\n" +
-	"\x1enoteza/writes/v1/article.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\xb8\x01\n" +
+	"\x1enoteza/writes/v1/article.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\xcb\x01\n" +
 	"\aArticle\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tseries_id\x18\x03 \x01(\tR\bseriesId\x12,\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12 \n" +
+	"\tseries_id\x18\x03 \x01(\tH\x00R\bseriesId\x88\x01\x01\x12,\n" +
 	"\x12current_version_id\x18\x04 \x01(\tR\x10currentVersionId\x129\n" +
 	"\n" +
-	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xd2\x06\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtB\f\n" +
+	"\n" +
+	"_series_id\"\xd2\x06\n" +
 	"\x0eArticleVersion\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n" +
 	"\n" +
@@ -419,6 +421,7 @@ func file_noteza_writes_v1_article_proto_init() {
 		return
 	}
 	file_noteza_writes_v1_media_proto_init()
+	file_noteza_writes_v1_article_proto_msgTypes[0].OneofWrappers = []any{}
 	file_noteza_writes_v1_article_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

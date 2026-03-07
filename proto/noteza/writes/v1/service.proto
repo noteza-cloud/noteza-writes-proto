@@ -139,7 +139,7 @@ service NotezaWritesService {
   // CreateArticle creates an article and its initial version.
   rpc CreateArticle(CreateArticleRequest) returns (CreateArticleResponse) {
     option (google.api.http) = {
-      post: "/v1/series/{series_id}/articles"
+      post: "/v1/articles"
       body: "*"
     };
   }
@@ -156,10 +156,11 @@ service NotezaWritesService {
       get: "/v1/articles/{article_id}"
     };
   }
-  // ListArticles returns paginated articles for a series.
+  // ListArticles returns paginated articles visible to the authenticated user,
+  // optionally filtered by series_id.
   rpc ListArticles(ListArticlesRequest) returns (ListArticlesResponse) {
     option (google.api.http) = {
-      get: "/v1/series/{series_id}/articles"
+      get: "/v1/articles"
     };
   }
   // GetArticleVersions returns paginated version history for an article.
@@ -189,7 +190,8 @@ service NotezaWritesService {
       get: "/v1/posts/{post_id}"
     };
   }
-  // ListPosts returns paginated posts owned by a user.
+  // ListPosts returns paginated posts visible to the authenticated user,
+  // optionally filtered by series_id.
   rpc ListPosts(ListPostsRequest) returns (ListPostsResponse) {
     option (google.api.http) = {
       get: "/v1/posts"
@@ -202,10 +204,10 @@ service NotezaWritesService {
     };
   }
 
-  // GetWritingContext returns series context and related article history.
+  // GetWritingContext returns optional series-scoped context and related article/post history.
   rpc GetWritingContext(GetWritingContextRequest) returns (GetWritingContextResponse) {
     option (google.api.http) = {
-      get: "/v1/series/{series_id}/writing-context"
+      get: "/v1/writing-context"
     };
   }
 }
@@ -399,7 +401,7 @@ message GetSeriesResponse {
 }
 
 message CreateArticleRequest {
-  string series_id = 1;
+  optional string series_id = 1;
   string title = 2;
   string content_md = 3;
   optional string post_md = 4;
@@ -441,7 +443,7 @@ message GetArticleRequest {
 }
 
 message ListArticlesRequest {
-  string series_id = 1;
+  optional string series_id = 1;
   // Maximum number of items to return in a single page.
   optional int32 page_size = 2;
   // Opaque pagination cursor from a previous next_page_token.
@@ -496,7 +498,7 @@ message GetArticleVersionsResponse {
 }
 
 message CreatePostRequest {
-  string series_id = 1;
+  optional string series_id = 1;
   string content_md = 2;
   repeated string image_ids = 3;
 }
@@ -521,7 +523,7 @@ message GetPostRequest {
 }
 
 message ListPostsRequest {
-  string series_id = 1;
+  optional string series_id = 1;
   // Maximum number of items to return in a single page.
   optional int32 page_size = 2;
   // Opaque pagination cursor from a previous next_page_token.
@@ -576,7 +578,7 @@ message GetPostVersionsResponse {
 }
 
 message GetWritingContextRequest {
-  string series_id = 1;
+  optional string series_id = 1;
   optional string candidate_topic = 2;
 }
 

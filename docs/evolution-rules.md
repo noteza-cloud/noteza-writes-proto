@@ -36,7 +36,8 @@ Breaking changes require a new API version package (for example `noteza.writes.v
 - Use a sub-path for non-CRUD operations: `POST /{resource}/{action}` (for example, `/token`, `/finalize`).
 - For `POST`/`PATCH` RPCs, set `body: "*"` so non-path fields are read from the request body.
 - For `GET`/`DELETE` RPCs, omit `body`; non-path fields become query parameters automatically.
-- Nest child resources under their parent: `/v1/series/{series_id}/articles`, not `/v1/articles?series_id=…`.
+- Use nested child-resource paths only when the parent is strictly required.
+- If parent scope is optional, use top-level collection endpoints with query filters (for example, `/v1/articles?series_id=…`).
 
 ## Delete Semantics
 

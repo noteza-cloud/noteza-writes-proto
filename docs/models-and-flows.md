@@ -18,7 +18,7 @@
 
 - `id`
 - `user_id` (owner)
-- `series_id` (parent series)
+- `series_id` (optional parent series link)
 - `current_version_id`
 - `created_at`
 
@@ -39,7 +39,7 @@
 
 - `id`
 - `user_id` (owner)
-- `series_id` (logical grouping)
+- `series_id` (optional logical grouping)
 - `current_version_id`
 - `created_at`
 
@@ -48,6 +48,16 @@
 - `content_md`
 - `images` (`repeated ImageAsset`)
 - `status`
+
+## Writing Context Model
+
+`WritingContext` aggregates reusable signals for writing flows:
+
+- `series` (optional scope anchor when `series_id` is provided)
+- `last_published_articles` and `related_articles`
+- `last_published_posts` and `related_posts`
+- `next_series_part`
+- `topic_already_covered`
 
 ## Media Flow
 
@@ -68,7 +78,8 @@
 Update semantics for images:
 
 - `CreateArticleRequest.image_ids` and `CreatePostRequest.image_ids` set initial images.
-- `CreatePostRequest.series_id` links a new post to its parent series.
+- `CreateArticleRequest.series_id` and `CreatePostRequest.series_id` optionally link new content to a series.
+- `ListArticlesRequest.series_id` and `ListPostsRequest.series_id` optionally scope list results to one series.
 - `UpdateArticleRequest` and `UpdatePostRequest` use append/remove operations:
   - `add_image_ids`: append these image references
   - `remove_image_ids`: remove these image references
@@ -83,15 +94,16 @@ Conflict resolution rules for `add_image_ids` / `remove_image_ids`:
 
 ## Article Lifecycle Flow
 
-1. `CreateArticle` creates article root + initial version.
+1. `CreateArticle` creates article root + initial version (optionally linked to `series_id`).
 2. `UpdateArticle` creates next immutable version.
 3. `GetArticle` returns root + current version.
-4. `GetArticleVersions` returns paginated history.
+4. `ListArticles` returns paginated articles and can be filtered by optional `series_id`.
+5. `GetArticleVersions` returns paginated history.
 
 ## Post Lifecycle Flow
 
-1. `CreatePost` creates post root + initial version (`series_id` is required in request).
+1. `CreatePost` creates post root + initial version (optionally linked to `series_id`).
 2. `UpdatePost` creates next immutable version.
 3. `GetPost` returns root + current version.
-4. `ListPosts` returns paginated posts filtered by `series_id`.
+4. `ListPosts` returns paginated posts and can be filtered by optional `series_id`.
 5. `GetPostVersions` returns paginated history.

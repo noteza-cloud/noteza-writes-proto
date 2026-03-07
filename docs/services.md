@@ -74,15 +74,16 @@ Purpose: writing-domain operations.
 
 | RPC | gRPC | HTTP |
 |-----|------|------|
-| CreateArticle | `CreateArticle(CreateArticleRequest) returns (CreateArticleResponse)` | `POST /v1/series/{series_id}/articles` |
+| CreateArticle | `CreateArticle(CreateArticleRequest) returns (CreateArticleResponse)` | `POST /v1/articles` |
 | UpdateArticle | `UpdateArticle(UpdateArticleRequest) returns (UpdateArticleResponse)` | `PATCH /v1/articles/{article_id}` |
 | GetArticle | `GetArticle(GetArticleRequest) returns (GetArticleResponse)` | `GET /v1/articles/{article_id}` |
-| ListArticles | `ListArticles(ListArticlesRequest) returns (ListArticlesResponse)` | `GET /v1/series/{series_id}/articles` |
+| ListArticles | `ListArticles(ListArticlesRequest) returns (ListArticlesResponse)` | `GET /v1/articles` |
 | GetArticleVersions | `GetArticleVersions(GetArticleVersionsRequest) returns (GetArticleVersionsResponse)` | `GET /v1/articles/{article_id}/versions` |
 
 Notes:
 
 - `Article` root now includes ownership and parent linkage fields: `user_id` and `series_id`.
+- `CreateArticleRequest` and `ListArticlesRequest` accept optional `series_id` for series-scoped behavior.
 
 ### Posts
 
@@ -104,4 +105,9 @@ Notes:
 
 | RPC | gRPC | HTTP |
 |-----|------|------|
-| GetWritingContext | `GetWritingContext(GetWritingContextRequest) returns (GetWritingContextResponse)` | `GET /v1/series/{series_id}/writing-context` |
+| GetWritingContext | `GetWritingContext(GetWritingContextRequest) returns (GetWritingContextResponse)` | `GET /v1/writing-context` |
+
+Notes:
+
+- `GetWritingContextRequest.series_id` is optional. When provided, context is series-scoped.
+- `WritingContext` includes both article and post signals (`last_published_*`, `related_*`) for generation workflows.

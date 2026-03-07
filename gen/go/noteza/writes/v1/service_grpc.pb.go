@@ -744,7 +744,8 @@ type NotezaWritesServiceClient interface {
 	UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*UpdateArticleResponse, error)
 	// GetArticle returns an article with its current version.
 	GetArticle(ctx context.Context, in *GetArticleRequest, opts ...grpc.CallOption) (*GetArticleResponse, error)
-	// ListArticles returns paginated articles for a series.
+	// ListArticles returns paginated articles visible to the authenticated user,
+	// optionally filtered by series_id.
 	ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesResponse, error)
 	// GetArticleVersions returns paginated version history for an article.
 	GetArticleVersions(ctx context.Context, in *GetArticleVersionsRequest, opts ...grpc.CallOption) (*GetArticleVersionsResponse, error)
@@ -754,11 +755,12 @@ type NotezaWritesServiceClient interface {
 	UpdatePost(ctx context.Context, in *UpdatePostRequest, opts ...grpc.CallOption) (*UpdatePostResponse, error)
 	// GetPost returns a post with its current version.
 	GetPost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error)
-	// ListPosts returns paginated posts owned by a user.
+	// ListPosts returns paginated posts visible to the authenticated user,
+	// optionally filtered by series_id.
 	ListPosts(ctx context.Context, in *ListPostsRequest, opts ...grpc.CallOption) (*ListPostsResponse, error)
 	// GetPostVersions returns paginated version history for a post.
 	GetPostVersions(ctx context.Context, in *GetPostVersionsRequest, opts ...grpc.CallOption) (*GetPostVersionsResponse, error)
-	// GetWritingContext returns series context and related article history.
+	// GetWritingContext returns optional series-scoped context and related article/post history.
 	GetWritingContext(ctx context.Context, in *GetWritingContextRequest, opts ...grpc.CallOption) (*GetWritingContextResponse, error)
 }
 
@@ -941,7 +943,8 @@ type NotezaWritesServiceServer interface {
 	UpdateArticle(context.Context, *UpdateArticleRequest) (*UpdateArticleResponse, error)
 	// GetArticle returns an article with its current version.
 	GetArticle(context.Context, *GetArticleRequest) (*GetArticleResponse, error)
-	// ListArticles returns paginated articles for a series.
+	// ListArticles returns paginated articles visible to the authenticated user,
+	// optionally filtered by series_id.
 	ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesResponse, error)
 	// GetArticleVersions returns paginated version history for an article.
 	GetArticleVersions(context.Context, *GetArticleVersionsRequest) (*GetArticleVersionsResponse, error)
@@ -951,11 +954,12 @@ type NotezaWritesServiceServer interface {
 	UpdatePost(context.Context, *UpdatePostRequest) (*UpdatePostResponse, error)
 	// GetPost returns a post with its current version.
 	GetPost(context.Context, *GetPostRequest) (*GetPostResponse, error)
-	// ListPosts returns paginated posts owned by a user.
+	// ListPosts returns paginated posts visible to the authenticated user,
+	// optionally filtered by series_id.
 	ListPosts(context.Context, *ListPostsRequest) (*ListPostsResponse, error)
 	// GetPostVersions returns paginated version history for a post.
 	GetPostVersions(context.Context, *GetPostVersionsRequest) (*GetPostVersionsResponse, error)
-	// GetWritingContext returns series context and related article history.
+	// GetWritingContext returns optional series-scoped context and related article/post history.
 	GetWritingContext(context.Context, *GetWritingContextRequest) (*GetWritingContextResponse, error)
 	mustEmbedUnimplementedNotezaWritesServiceServer()
 }

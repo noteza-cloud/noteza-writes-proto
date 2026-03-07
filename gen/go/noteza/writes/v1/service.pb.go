@@ -1799,7 +1799,7 @@ func (x *GetSeriesResponse) GetSeries() *Series {
 
 type CreateArticleRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	SeriesId       string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	SeriesId       *string                `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
 	Title          string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	ContentMd      string                 `protobuf:"bytes,3,opt,name=content_md,json=contentMd,proto3" json:"content_md,omitempty"`
 	PostMd         *string                `protobuf:"bytes,4,opt,name=post_md,json=postMd,proto3,oneof" json:"post_md,omitempty"`
@@ -1845,8 +1845,8 @@ func (*CreateArticleRequest) Descriptor() ([]byte, []int) {
 }
 
 func (x *CreateArticleRequest) GetSeriesId() string {
-	if x != nil {
-		return x.SeriesId
+	if x != nil && x.SeriesId != nil {
+		return *x.SeriesId
 	}
 	return ""
 }
@@ -2122,7 +2122,7 @@ func (x *GetArticleRequest) GetArticleId() string {
 
 type ListArticlesRequest struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
-	SeriesId string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	SeriesId *string                `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
 	// Maximum number of items to return in a single page.
 	PageSize *int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
 	// Opaque pagination cursor from a previous next_page_token.
@@ -2163,8 +2163,8 @@ func (*ListArticlesRequest) Descriptor() ([]byte, []int) {
 }
 
 func (x *ListArticlesRequest) GetSeriesId() string {
-	if x != nil {
-		return x.SeriesId
+	if x != nil && x.SeriesId != nil {
+		return *x.SeriesId
 	}
 	return ""
 }
@@ -2626,7 +2626,7 @@ func (x *GetArticleVersionsResponse) GetVersions() *ArticleVersionsResponse {
 
 type CreatePostRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SeriesId      string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	SeriesId      *string                `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
 	ContentMd     string                 `protobuf:"bytes,2,opt,name=content_md,json=contentMd,proto3" json:"content_md,omitempty"`
 	ImageIds      []string               `protobuf:"bytes,3,rep,name=image_ids,json=imageIds,proto3" json:"image_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -2664,8 +2664,8 @@ func (*CreatePostRequest) Descriptor() ([]byte, []int) {
 }
 
 func (x *CreatePostRequest) GetSeriesId() string {
-	if x != nil {
-		return x.SeriesId
+	if x != nil && x.SeriesId != nil {
+		return *x.SeriesId
 	}
 	return ""
 }
@@ -2813,7 +2813,7 @@ func (x *GetPostRequest) GetPostId() string {
 
 type ListPostsRequest struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
-	SeriesId string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	SeriesId *string                `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
 	// Maximum number of items to return in a single page.
 	PageSize *int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
 	// Opaque pagination cursor from a previous next_page_token.
@@ -2854,8 +2854,8 @@ func (*ListPostsRequest) Descriptor() ([]byte, []int) {
 }
 
 func (x *ListPostsRequest) GetSeriesId() string {
-	if x != nil {
-		return x.SeriesId
+	if x != nil && x.SeriesId != nil {
+		return *x.SeriesId
 	}
 	return ""
 }
@@ -3317,7 +3317,7 @@ func (x *GetPostVersionsResponse) GetVersions() *PostVersionsResponse {
 
 type GetWritingContextRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	SeriesId       string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	SeriesId       *string                `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
 	CandidateTopic *string                `protobuf:"bytes,2,opt,name=candidate_topic,json=candidateTopic,proto3,oneof" json:"candidate_topic,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -3354,8 +3354,8 @@ func (*GetWritingContextRequest) Descriptor() ([]byte, []int) {
 }
 
 func (x *GetWritingContextRequest) GetSeriesId() string {
-	if x != nil {
-		return x.SeriesId
+	if x != nil && x.SeriesId != nil {
+		return *x.SeriesId
 	}
 	return ""
 }
@@ -3555,23 +3555,25 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"\x14UpdateSeriesResponse\x120\n" +
 	"\x06series\x18\x01 \x01(\v2\x18.noteza.writes.v1.SeriesR\x06series\"E\n" +
 	"\x11GetSeriesResponse\x120\n" +
-	"\x06series\x18\x01 \x01(\v2\x18.noteza.writes.v1.SeriesR\x06series\"\xf6\x03\n" +
-	"\x14CreateArticleRequest\x12\x1b\n" +
-	"\tseries_id\x18\x01 \x01(\tR\bseriesId\x12\x14\n" +
+	"\x06series\x18\x01 \x01(\v2\x18.noteza.writes.v1.SeriesR\x06series\"\x89\x04\n" +
+	"\x14CreateArticleRequest\x12 \n" +
+	"\tseries_id\x18\x01 \x01(\tH\x00R\bseriesId\x88\x01\x01\x12\x14\n" +
 	"\x05title\x18\x02 \x01(\tR\x05title\x12\x1d\n" +
 	"\n" +
 	"content_md\x18\x03 \x01(\tR\tcontentMd\x12\x1c\n" +
-	"\apost_md\x18\x04 \x01(\tH\x00R\x06postMd\x88\x01\x01\x12)\n" +
-	"\x0ecover_image_id\x18\x05 \x01(\tH\x01R\fcoverImageId\x88\x01\x01\x12\x1b\n" +
+	"\apost_md\x18\x04 \x01(\tH\x01R\x06postMd\x88\x01\x01\x12)\n" +
+	"\x0ecover_image_id\x18\x05 \x01(\tH\x02R\fcoverImageId\x88\x01\x01\x12\x1b\n" +
 	"\timage_ids\x18\x06 \x03(\tR\bimageIds\x12\x1d\n" +
-	"\asummary\x18\a \x01(\tH\x02R\asummary\x88\x01\x01\x12,\n" +
-	"\x0fcanonical_topic\x18\b \x01(\tH\x03R\x0ecanonicalTopic\x88\x01\x01\x12$\n" +
-	"\vseries_part\x18\t \x01(\x05H\x04R\n" +
+	"\asummary\x18\a \x01(\tH\x03R\asummary\x88\x01\x01\x12,\n" +
+	"\x0fcanonical_topic\x18\b \x01(\tH\x04R\x0ecanonicalTopic\x88\x01\x01\x12$\n" +
+	"\vseries_part\x18\t \x01(\x05H\x05R\n" +
 	"seriesPart\x88\x01\x01\x12 \n" +
 	"\tedited_by\x18\n" +
-	" \x01(\tH\x05R\beditedBy\x88\x01\x01\x12$\n" +
-	"\vedit_reason\x18\v \x01(\tH\x06R\n" +
-	"editReason\x88\x01\x01B\n" +
+	" \x01(\tH\x06R\beditedBy\x88\x01\x01\x12$\n" +
+	"\vedit_reason\x18\v \x01(\tH\aR\n" +
+	"editReason\x88\x01\x01B\f\n" +
+	"\n" +
+	"_series_idB\n" +
 	"\n" +
 	"\b_post_mdB\x11\n" +
 	"\x0f_cover_image_idB\n" +
@@ -3620,12 +3622,14 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"\f_edit_reason\"2\n" +
 	"\x11GetArticleRequest\x12\x1d\n" +
 	"\n" +
-	"article_id\x18\x01 \x01(\tR\tarticleId\"\x95\x01\n" +
-	"\x13ListArticlesRequest\x12\x1b\n" +
-	"\tseries_id\x18\x01 \x01(\tR\bseriesId\x12 \n" +
-	"\tpage_size\x18\x02 \x01(\x05H\x00R\bpageSize\x88\x01\x01\x12\"\n" +
+	"article_id\x18\x01 \x01(\tR\tarticleId\"\xa8\x01\n" +
+	"\x13ListArticlesRequest\x12 \n" +
+	"\tseries_id\x18\x01 \x01(\tH\x00R\bseriesId\x88\x01\x01\x12 \n" +
+	"\tpage_size\x18\x02 \x01(\x05H\x01R\bpageSize\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tH\x01R\tpageToken\x88\x01\x01B\f\n" +
+	"page_token\x18\x03 \x01(\tH\x02R\tpageToken\x88\x01\x01B\f\n" +
+	"\n" +
+	"_series_idB\f\n" +
 	"\n" +
 	"_page_sizeB\r\n" +
 	"\v_page_token\"\x9d\x01\n" +
@@ -3656,12 +3660,14 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"\x14ListArticlesResponse\x12A\n" +
 	"\barticles\x18\x01 \x01(\v2%.noteza.writes.v1.ArticleListResponseR\barticles\"c\n" +
 	"\x1aGetArticleVersionsResponse\x12E\n" +
-	"\bversions\x18\x01 \x01(\v2).noteza.writes.v1.ArticleVersionsResponseR\bversions\"l\n" +
-	"\x11CreatePostRequest\x12\x1b\n" +
-	"\tseries_id\x18\x01 \x01(\tR\bseriesId\x12\x1d\n" +
+	"\bversions\x18\x01 \x01(\v2).noteza.writes.v1.ArticleVersionsResponseR\bversions\"\x7f\n" +
+	"\x11CreatePostRequest\x12 \n" +
+	"\tseries_id\x18\x01 \x01(\tH\x00R\bseriesId\x88\x01\x01\x12\x1d\n" +
 	"\n" +
 	"content_md\x18\x02 \x01(\tR\tcontentMd\x12\x1b\n" +
-	"\timage_ids\x18\x03 \x03(\tR\bimageIds\"\xf3\x01\n" +
+	"\timage_ids\x18\x03 \x03(\tR\bimageIdsB\f\n" +
+	"\n" +
+	"_series_id\"\xf3\x01\n" +
 	"\x11UpdatePostRequest\x12\x17\n" +
 	"\apost_id\x18\x01 \x01(\tR\x06postId\x12\"\n" +
 	"\n" +
@@ -3672,12 +3678,14 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"\v_content_mdB\t\n" +
 	"\a_status\")\n" +
 	"\x0eGetPostRequest\x12\x17\n" +
-	"\apost_id\x18\x01 \x01(\tR\x06postId\"\x92\x01\n" +
-	"\x10ListPostsRequest\x12\x1b\n" +
-	"\tseries_id\x18\x01 \x01(\tR\bseriesId\x12 \n" +
-	"\tpage_size\x18\x02 \x01(\x05H\x00R\bpageSize\x88\x01\x01\x12\"\n" +
+	"\apost_id\x18\x01 \x01(\tR\x06postId\"\xa5\x01\n" +
+	"\x10ListPostsRequest\x12 \n" +
+	"\tseries_id\x18\x01 \x01(\tH\x00R\bseriesId\x88\x01\x01\x12 \n" +
+	"\tpage_size\x18\x02 \x01(\x05H\x01R\bpageSize\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tH\x01R\tpageToken\x88\x01\x01B\f\n" +
+	"page_token\x18\x03 \x01(\tH\x02R\tpageToken\x88\x01\x01B\f\n" +
+	"\n" +
+	"_series_idB\f\n" +
 	"\n" +
 	"_page_sizeB\r\n" +
 	"\v_page_token\"\x94\x01\n" +
@@ -3707,10 +3715,12 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"\x11ListPostsResponse\x128\n" +
 	"\x05posts\x18\x01 \x01(\v2\".noteza.writes.v1.PostListResponseR\x05posts\"]\n" +
 	"\x17GetPostVersionsResponse\x12B\n" +
-	"\bversions\x18\x01 \x01(\v2&.noteza.writes.v1.PostVersionsResponseR\bversions\"y\n" +
-	"\x18GetWritingContextRequest\x12\x1b\n" +
-	"\tseries_id\x18\x01 \x01(\tR\bseriesId\x12,\n" +
-	"\x0fcandidate_topic\x18\x02 \x01(\tH\x00R\x0ecandidateTopic\x88\x01\x01B\x12\n" +
+	"\bversions\x18\x01 \x01(\v2&.noteza.writes.v1.PostVersionsResponseR\bversions\"\x8c\x01\n" +
+	"\x18GetWritingContextRequest\x12 \n" +
+	"\tseries_id\x18\x01 \x01(\tH\x00R\bseriesId\x88\x01\x01\x12,\n" +
+	"\x0fcandidate_topic\x18\x02 \x01(\tH\x01R\x0ecandidateTopic\x88\x01\x01B\f\n" +
+	"\n" +
+	"_series_idB\x12\n" +
 	"\x10_candidate_topic\"W\n" +
 	"\x19GetWritingContextResponse\x12:\n" +
 	"\acontext\x18\x01 \x01(\v2 .noteza.writes.v1.WritingContextR\acontext2\xf8\x02\n" +
@@ -3731,7 +3741,7 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"ListImages\x12#.noteza.writes.v1.ListImagesRequest\x1a$.noteza.writes.v1.ListImagesResponse\"\x12\x82\xd3\xe4\x93\x02\f\x12\n" +
 	"/v1/images\x12\x9d\x01\n" +
 	"\x13FinalizeImageUpload\x12,.noteza.writes.v1.FinalizeImageUploadRequest\x1a-.noteza.writes.v1.FinalizeImageUploadResponse\")\x82\xd3\xe4\x93\x02#:\x01*\"\x1e/v1/images/{image_id}/finalize\x12y\n" +
-	"\vDeleteImage\x12$.noteza.writes.v1.DeleteImageRequest\x1a%.noteza.writes.v1.DeleteImageResponse\"\x1d\x82\xd3\xe4\x93\x02\x17*\x15/v1/images/{image_id}2\x89\x0f\n" +
+	"\vDeleteImage\x12$.noteza.writes.v1.DeleteImageRequest\x1a%.noteza.writes.v1.DeleteImageResponse\"\x1d\x82\xd3\xe4\x93\x02\x17*\x15/v1/images/{image_id}2\xce\x0e\n" +
 	"\x13NotezaWritesService\x12t\n" +
 	"\fCreateSeries\x12%.noteza.writes.v1.CreateSeriesRequest\x1a&.noteza.writes.v1.CreateSeriesResponse\"\x15\x82\xd3\xe4\x93\x02\x0f:\x01*\"\n" +
 	"/v1/series\x12y\n" +
@@ -3739,12 +3749,12 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"\tGetSeries\x12\".noteza.writes.v1.GetSeriesRequest\x1a#.noteza.writes.v1.GetSeriesResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/v1/series/{id}\x12k\n" +
 	"\n" +
 	"ListSeries\x12#.noteza.writes.v1.ListSeriesRequest\x1a$.noteza.writes.v1.ListSeriesResponse\"\x12\x82\xd3\xe4\x93\x02\f\x12\n" +
-	"/v1/series\x12\x8c\x01\n" +
-	"\rCreateArticle\x12&.noteza.writes.v1.CreateArticleRequest\x1a'.noteza.writes.v1.CreateArticleResponse\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/v1/series/{series_id}/articles\x12\x86\x01\n" +
+	"/v1/series\x12y\n" +
+	"\rCreateArticle\x12&.noteza.writes.v1.CreateArticleRequest\x1a'.noteza.writes.v1.CreateArticleResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/articles\x12\x86\x01\n" +
 	"\rUpdateArticle\x12&.noteza.writes.v1.UpdateArticleRequest\x1a'.noteza.writes.v1.UpdateArticleResponse\"$\x82\xd3\xe4\x93\x02\x1e:\x01*2\x19/v1/articles/{article_id}\x12z\n" +
 	"\n" +
-	"GetArticle\x12#.noteza.writes.v1.GetArticleRequest\x1a$.noteza.writes.v1.GetArticleResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/v1/articles/{article_id}\x12\x86\x01\n" +
-	"\fListArticles\x12%.noteza.writes.v1.ListArticlesRequest\x1a&.noteza.writes.v1.ListArticlesResponse\"'\x82\xd3\xe4\x93\x02!\x12\x1f/v1/series/{series_id}/articles\x12\x9b\x01\n" +
+	"GetArticle\x12#.noteza.writes.v1.GetArticleRequest\x1a$.noteza.writes.v1.GetArticleResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/v1/articles/{article_id}\x12s\n" +
+	"\fListArticles\x12%.noteza.writes.v1.ListArticlesRequest\x1a&.noteza.writes.v1.ListArticlesResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/v1/articles\x12\x9b\x01\n" +
 	"\x12GetArticleVersions\x12+.noteza.writes.v1.GetArticleVersionsRequest\x1a,.noteza.writes.v1.GetArticleVersionsResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/v1/articles/{article_id}/versions\x12m\n" +
 	"\n" +
 	"CreatePost\x12#.noteza.writes.v1.CreatePostRequest\x1a$.noteza.writes.v1.CreatePostResponse\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/posts\x12w\n" +
@@ -3752,8 +3762,8 @@ const file_noteza_writes_v1_service_proto_rawDesc = "" +
 	"UpdatePost\x12#.noteza.writes.v1.UpdatePostRequest\x1a$.noteza.writes.v1.UpdatePostResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*2\x13/v1/posts/{post_id}\x12k\n" +
 	"\aGetPost\x12 .noteza.writes.v1.GetPostRequest\x1a!.noteza.writes.v1.GetPostResponse\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/posts/{post_id}\x12g\n" +
 	"\tListPosts\x12\".noteza.writes.v1.ListPostsRequest\x1a#.noteza.writes.v1.ListPostsResponse\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/v1/posts\x12\x8c\x01\n" +
-	"\x0fGetPostVersions\x12(.noteza.writes.v1.GetPostVersionsRequest\x1a).noteza.writes.v1.GetPostVersionsResponse\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/v1/posts/{post_id}/versions\x12\x9c\x01\n" +
-	"\x11GetWritingContext\x12*.noteza.writes.v1.GetWritingContextRequest\x1a+.noteza.writes.v1.GetWritingContextResponse\".\x82\xd3\xe4\x93\x02(\x12&/v1/series/{series_id}/writing-contextBNZLgithub.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1b\x06proto3"
+	"\x0fGetPostVersions\x12(.noteza.writes.v1.GetPostVersionsRequest\x1a).noteza.writes.v1.GetPostVersionsResponse\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/v1/posts/{post_id}/versions\x12\x89\x01\n" +
+	"\x11GetWritingContext\x12*.noteza.writes.v1.GetWritingContextRequest\x1a+.noteza.writes.v1.GetWritingContextResponse\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/v1/writing-contextBNZLgithub.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1b\x06proto3"
 
 var (
 	file_noteza_writes_v1_service_proto_rawDescOnce sync.Once
@@ -3972,6 +3982,7 @@ func file_noteza_writes_v1_service_proto_init() {
 	file_noteza_writes_v1_service_proto_msgTypes[34].OneofWrappers = []any{}
 	file_noteza_writes_v1_service_proto_msgTypes[36].OneofWrappers = []any{}
 	file_noteza_writes_v1_service_proto_msgTypes[37].OneofWrappers = []any{}
+	file_noteza_writes_v1_service_proto_msgTypes[46].OneofWrappers = []any{}
 	file_noteza_writes_v1_service_proto_msgTypes[47].OneofWrappers = []any{}
 	file_noteza_writes_v1_service_proto_msgTypes[49].OneofWrappers = []any{}
 	file_noteza_writes_v1_service_proto_msgTypes[50].OneofWrappers = []any{}

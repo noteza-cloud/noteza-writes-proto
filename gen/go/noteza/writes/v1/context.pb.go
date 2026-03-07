@@ -22,12 +22,15 @@ const (
 )
 
 type WritingContext struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	Series                *Series                `protobuf:"bytes,1,opt,name=series,proto3" json:"series,omitempty"`
-	LastPublishedArticles []*ArticleVersion      `protobuf:"bytes,2,rep,name=last_published_articles,json=lastPublishedArticles,proto3" json:"last_published_articles,omitempty"`
-	RelatedArticles       []*ArticleVersion      `protobuf:"bytes,3,rep,name=related_articles,json=relatedArticles,proto3" json:"related_articles,omitempty"`
-	NextSeriesPart        *int32                 `protobuf:"varint,4,opt,name=next_series_part,json=nextSeriesPart,proto3,oneof" json:"next_series_part,omitempty"`
-	TopicAlreadyCovered   *bool                  `protobuf:"varint,5,opt,name=topic_already_covered,json=topicAlreadyCovered,proto3,oneof" json:"topic_already_covered,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Present only when GetWritingContextRequest.series_id is provided.
+	Series                *Series           `protobuf:"bytes,1,opt,name=series,proto3" json:"series,omitempty"`
+	LastPublishedArticles []*ArticleVersion `protobuf:"bytes,2,rep,name=last_published_articles,json=lastPublishedArticles,proto3" json:"last_published_articles,omitempty"`
+	RelatedArticles       []*ArticleVersion `protobuf:"bytes,3,rep,name=related_articles,json=relatedArticles,proto3" json:"related_articles,omitempty"`
+	NextSeriesPart        *int32            `protobuf:"varint,4,opt,name=next_series_part,json=nextSeriesPart,proto3,oneof" json:"next_series_part,omitempty"`
+	TopicAlreadyCovered   *bool             `protobuf:"varint,5,opt,name=topic_already_covered,json=topicAlreadyCovered,proto3,oneof" json:"topic_already_covered,omitempty"`
+	LastPublishedPosts    []*PostVersion    `protobuf:"bytes,6,rep,name=last_published_posts,json=lastPublishedPosts,proto3" json:"last_published_posts,omitempty"`
+	RelatedPosts          []*PostVersion    `protobuf:"bytes,7,rep,name=related_posts,json=relatedPosts,proto3" json:"related_posts,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -97,17 +100,33 @@ func (x *WritingContext) GetTopicAlreadyCovered() bool {
 	return false
 }
 
+func (x *WritingContext) GetLastPublishedPosts() []*PostVersion {
+	if x != nil {
+		return x.LastPublishedPosts
+	}
+	return nil
+}
+
+func (x *WritingContext) GetRelatedPosts() []*PostVersion {
+	if x != nil {
+		return x.RelatedPosts
+	}
+	return nil
+}
+
 var File_noteza_writes_v1_context_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_context_proto_rawDesc = "" +
 	"\n" +
-	"\x1enoteza/writes/v1/context.proto\x12\x10noteza.writes.v1\x1a\x1enoteza/writes/v1/article.proto\x1a\x1dnoteza/writes/v1/series.proto\"\x80\x03\n" +
+	"\x1enoteza/writes/v1/context.proto\x12\x10noteza.writes.v1\x1a\x1enoteza/writes/v1/article.proto\x1a\x1bnoteza/writes/v1/post.proto\x1a\x1dnoteza/writes/v1/series.proto\"\x95\x04\n" +
 	"\x0eWritingContext\x120\n" +
 	"\x06series\x18\x01 \x01(\v2\x18.noteza.writes.v1.SeriesR\x06series\x12X\n" +
 	"\x17last_published_articles\x18\x02 \x03(\v2 .noteza.writes.v1.ArticleVersionR\x15lastPublishedArticles\x12K\n" +
 	"\x10related_articles\x18\x03 \x03(\v2 .noteza.writes.v1.ArticleVersionR\x0frelatedArticles\x12-\n" +
 	"\x10next_series_part\x18\x04 \x01(\x05H\x00R\x0enextSeriesPart\x88\x01\x01\x127\n" +
-	"\x15topic_already_covered\x18\x05 \x01(\bH\x01R\x13topicAlreadyCovered\x88\x01\x01B\x13\n" +
+	"\x15topic_already_covered\x18\x05 \x01(\bH\x01R\x13topicAlreadyCovered\x88\x01\x01\x12O\n" +
+	"\x14last_published_posts\x18\x06 \x03(\v2\x1d.noteza.writes.v1.PostVersionR\x12lastPublishedPosts\x12B\n" +
+	"\rrelated_posts\x18\a \x03(\v2\x1d.noteza.writes.v1.PostVersionR\frelatedPostsB\x13\n" +
 	"\x11_next_series_partB\x18\n" +
 	"\x16_topic_already_coveredBNZLgithub.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1b\x06proto3"
 
@@ -128,16 +147,19 @@ var file_noteza_writes_v1_context_proto_goTypes = []any{
 	(*WritingContext)(nil), // 0: noteza.writes.v1.WritingContext
 	(*Series)(nil),         // 1: noteza.writes.v1.Series
 	(*ArticleVersion)(nil), // 2: noteza.writes.v1.ArticleVersion
+	(*PostVersion)(nil),    // 3: noteza.writes.v1.PostVersion
 }
 var file_noteza_writes_v1_context_proto_depIdxs = []int32{
 	1, // 0: noteza.writes.v1.WritingContext.series:type_name -> noteza.writes.v1.Series
 	2, // 1: noteza.writes.v1.WritingContext.last_published_articles:type_name -> noteza.writes.v1.ArticleVersion
 	2, // 2: noteza.writes.v1.WritingContext.related_articles:type_name -> noteza.writes.v1.ArticleVersion
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	3, // 3: noteza.writes.v1.WritingContext.last_published_posts:type_name -> noteza.writes.v1.PostVersion
+	3, // 4: noteza.writes.v1.WritingContext.related_posts:type_name -> noteza.writes.v1.PostVersion
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_noteza_writes_v1_context_proto_init() }
@@ -146,6 +168,7 @@ func file_noteza_writes_v1_context_proto_init() {
 		return
 	}
 	file_noteza_writes_v1_article_proto_init()
+	file_noteza_writes_v1_post_proto_init()
 	file_noteza_writes_v1_series_proto_init()
 	file_noteza_writes_v1_context_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
