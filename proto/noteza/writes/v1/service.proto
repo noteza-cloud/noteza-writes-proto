@@ -253,12 +253,16 @@ message CreateApplicationResponse {
 }
 
 message ListApplicationsRequest {
+  // Maximum number of items to return in a single page.
   optional int32 page_size = 1;
+  // Opaque pagination cursor from a previous next_page_token.
+  // Keep it as-is; do not parse or construct it on the client.
   optional string page_token = 2;
 }
 
 message ListApplicationsResponse {
   repeated Application applications = 1;
+  // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
 
@@ -309,12 +313,16 @@ message GetImageResponse {
 message ListImagesRequest {
   optional ImageStatus status = 1;
   optional ImageUsage usage = 2;
+  // Maximum number of items to return in a single page.
   optional int32 page_size = 3;
+  // Opaque pagination cursor from a previous next_page_token.
+  // Keep it as-is; do not parse or construct it on the client.
   optional string page_token = 4;
 }
 
 message ListImagesResponse {
   repeated ImageAsset images = 1;
+  // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
 
@@ -365,12 +373,16 @@ message GetSeriesRequest {
 }
 
 message ListSeriesRequest {
+  // Maximum number of items to return in a single page.
   optional int32 page_size = 1;
+  // Opaque pagination cursor from a previous next_page_token.
+  // Keep it as-is; do not parse or construct it on the client.
   optional string page_token = 2;
 }
 
 message ListSeriesResponse {
   repeated Series series = 1;
+  // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
 
@@ -430,13 +442,19 @@ message GetArticleRequest {
 
 message ListArticlesRequest {
   string series_id = 1;
+  // Maximum number of items to return in a single page.
   optional int32 page_size = 2;
+  // Opaque pagination cursor from a previous next_page_token.
+  // Keep it as-is; do not parse or construct it on the client.
   optional string page_token = 3;
 }
 
 message GetArticleVersionsRequest {
   string article_id = 1;
+  // Maximum number of items to return in a single page.
   optional int32 page_size = 2;
+  // Opaque pagination cursor from a previous next_page_token.
+  // Keep it as-is; do not parse or construct it on the client.
   optional string page_token = 3;
 }
 
@@ -447,11 +465,13 @@ message ArticleResponse {
 
 message ArticleListResponse {
   repeated ArticleResponse articles = 1;
+  // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
 
 message ArticleVersionsResponse {
   repeated ArticleVersion versions = 1;
+  // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
 
@@ -500,13 +520,19 @@ message GetPostRequest {
 }
 
 message ListPostsRequest {
+  // Maximum number of items to return in a single page.
   optional int32 page_size = 1;
+  // Opaque pagination cursor from a previous next_page_token.
+  // Keep it as-is; do not parse or construct it on the client.
   optional string page_token = 2;
 }
 
 message GetPostVersionsRequest {
   string post_id = 1;
+  // Maximum number of items to return in a single page.
   optional int32 page_size = 2;
+  // Opaque pagination cursor from a previous next_page_token.
+  // Keep it as-is; do not parse or construct it on the client.
   optional string page_token = 3;
 }
 
@@ -517,11 +543,13 @@ message PostResponse {
 
 message PostListResponse {
   repeated PostResponse posts = 1;
+  // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
 
 message PostVersionsResponse {
   repeated PostVersion versions = 1;
+  // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
 

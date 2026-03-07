@@ -16,7 +16,7 @@ Breaking changes require a new API version package (for example `noteza.writes.v
 - IDs are UUID strings.
 - Time values use `google.protobuf.Timestamp`.
 - Status values use enums.
-- List endpoints use pagination (`page_size`, `page_token`, `next_page_token`).
+- List endpoints use pagination (`page_size`, `page_token`, `next_page_token`), where token fields are opaque cursors.
 - Use `optional` where partial update semantics are needed.
 
 ## Service Design Rules

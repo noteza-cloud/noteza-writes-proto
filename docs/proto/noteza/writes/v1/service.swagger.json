@@ -46,6 +46,7 @@
         "parameters": [
           {
             "name": "pageSize",
+            "description": "Maximum number of items to return in a single page.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -53,6 +54,7 @@
           },
           {
             "name": "pageToken",
+            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -309,6 +311,7 @@
           },
           {
             "name": "pageSize",
+            "description": "Maximum number of items to return in a single page.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -316,6 +319,7 @@
           },
           {
             "name": "pageToken",
+            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -473,6 +477,7 @@
           },
           {
             "name": "pageSize",
+            "description": "Maximum number of items to return in a single page.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -480,6 +485,7 @@
           },
           {
             "name": "pageToken",
+            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -658,6 +664,7 @@
         "parameters": [
           {
             "name": "pageSize",
+            "description": "Maximum number of items to return in a single page.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -665,6 +672,7 @@
           },
           {
             "name": "pageToken",
+            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -823,6 +831,7 @@
           },
           {
             "name": "pageSize",
+            "description": "Maximum number of items to return in a single page.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -830,6 +839,7 @@
           },
           {
             "name": "pageToken",
+            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -861,6 +871,7 @@
         "parameters": [
           {
             "name": "pageSize",
+            "description": "Maximum number of items to return in a single page.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -868,6 +879,7 @@
           },
           {
             "name": "pageToken",
+            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -1024,6 +1036,7 @@
           },
           {
             "name": "pageSize",
+            "description": "Maximum number of items to return in a single page.",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -1031,6 +1044,7 @@
           },
           {
             "name": "pageToken",
+            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -1235,7 +1249,8 @@
           }
         },
         "nextPageToken": {
-          "type": "string"
+          "type": "string",
+          "description": "Opaque cursor for the next page; empty when there are no more results."
         }
       }
     },
@@ -1335,7 +1350,8 @@
           }
         },
         "nextPageToken": {
-          "type": "string"
+          "type": "string",
+          "description": "Opaque cursor for the next page; empty when there are no more results."
         }
       }
     },
@@ -1671,7 +1687,8 @@
           }
         },
         "nextPageToken": {
-          "type": "string"
+          "type": "string",
+          "description": "Opaque cursor for the next page; empty when there are no more results."
         }
       }
     },
@@ -1694,7 +1711,8 @@
           }
         },
         "nextPageToken": {
-          "type": "string"
+          "type": "string",
+          "description": "Opaque cursor for the next page; empty when there are no more results."
         }
       }
     },
@@ -1717,7 +1735,8 @@
           }
         },
         "nextPageToken": {
-          "type": "string"
+          "type": "string",
+          "description": "Opaque cursor for the next page; empty when there are no more results."
         }
       }
     },
@@ -1769,7 +1788,8 @@
           }
         },
         "nextPageToken": {
-          "type": "string"
+          "type": "string",
+          "description": "Opaque cursor for the next page; empty when there are no more results."
         }
       }
     },
@@ -1841,7 +1861,8 @@
           }
         },
         "nextPageToken": {
-          "type": "string"
+          "type": "string",
+          "description": "Opaque cursor for the next page; empty when there are no more results."
         }
       }
     },

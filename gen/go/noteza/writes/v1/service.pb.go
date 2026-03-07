@@ -468,9 +468,12 @@ func (x *CreateApplicationResponse) GetApiToken() string {
 }
 
 type ListApplicationsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PageSize      *int32                 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Maximum number of items to return in a single page.
+	PageSize *int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// Opaque pagination cursor from a previous next_page_token.
+	// Keep it as-is; do not parse or construct it on the client.
+	PageToken     *string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -520,9 +523,10 @@ func (x *ListApplicationsRequest) GetPageToken() string {
 }
 
 type ListApplicationsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Applications  []*Application         `protobuf:"bytes,1,rep,name=applications,proto3" json:"applications,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Applications []*Application         `protobuf:"bytes,1,rep,name=applications,proto3" json:"applications,omitempty"`
+	// Opaque cursor for the next page; empty when there are no more results.
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -999,11 +1003,14 @@ func (x *GetImageResponse) GetImage() *ImageAsset {
 }
 
 type ListImagesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Status        *ImageStatus           `protobuf:"varint,1,opt,name=status,proto3,enum=noteza.writes.v1.ImageStatus,oneof" json:"status,omitempty"`
-	Usage         *ImageUsage            `protobuf:"varint,2,opt,name=usage,proto3,enum=noteza.writes.v1.ImageUsage,oneof" json:"usage,omitempty"`
-	PageSize      *int32                 `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,4,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Status *ImageStatus           `protobuf:"varint,1,opt,name=status,proto3,enum=noteza.writes.v1.ImageStatus,oneof" json:"status,omitempty"`
+	Usage  *ImageUsage            `protobuf:"varint,2,opt,name=usage,proto3,enum=noteza.writes.v1.ImageUsage,oneof" json:"usage,omitempty"`
+	// Maximum number of items to return in a single page.
+	PageSize *int32 `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// Opaque pagination cursor from a previous next_page_token.
+	// Keep it as-is; do not parse or construct it on the client.
+	PageToken     *string `protobuf:"bytes,4,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1067,9 +1074,10 @@ func (x *ListImagesRequest) GetPageToken() string {
 }
 
 type ListImagesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Images        []*ImageAsset          `protobuf:"bytes,1,rep,name=images,proto3" json:"images,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Images []*ImageAsset          `protobuf:"bytes,1,rep,name=images,proto3" json:"images,omitempty"`
+	// Opaque cursor for the next page; empty when there are no more results.
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1550,9 +1558,12 @@ func (x *GetSeriesRequest) GetId() string {
 }
 
 type ListSeriesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PageSize      *int32                 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Maximum number of items to return in a single page.
+	PageSize *int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// Opaque pagination cursor from a previous next_page_token.
+	// Keep it as-is; do not parse or construct it on the client.
+	PageToken     *string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1602,9 +1613,10 @@ func (x *ListSeriesRequest) GetPageToken() string {
 }
 
 type ListSeriesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Series        []*Series              `protobuf:"bytes,1,rep,name=series,proto3" json:"series,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Series []*Series              `protobuf:"bytes,1,rep,name=series,proto3" json:"series,omitempty"`
+	// Opaque cursor for the next page; empty when there are no more results.
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2109,10 +2121,13 @@ func (x *GetArticleRequest) GetArticleId() string {
 }
 
 type ListArticlesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SeriesId      string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
-	PageSize      *int32                 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	SeriesId string                 `protobuf:"bytes,1,opt,name=series_id,json=seriesId,proto3" json:"series_id,omitempty"`
+	// Maximum number of items to return in a single page.
+	PageSize *int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// Opaque pagination cursor from a previous next_page_token.
+	// Keep it as-is; do not parse or construct it on the client.
+	PageToken     *string `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2169,10 +2184,13 @@ func (x *ListArticlesRequest) GetPageToken() string {
 }
 
 type GetArticleVersionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ArticleId     string                 `protobuf:"bytes,1,opt,name=article_id,json=articleId,proto3" json:"article_id,omitempty"`
-	PageSize      *int32                 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	ArticleId string                 `protobuf:"bytes,1,opt,name=article_id,json=articleId,proto3" json:"article_id,omitempty"`
+	// Maximum number of items to return in a single page.
+	PageSize *int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// Opaque pagination cursor from a previous next_page_token.
+	// Keep it as-is; do not parse or construct it on the client.
+	PageToken     *string `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2281,9 +2299,10 @@ func (x *ArticleResponse) GetCurrentVersion() *ArticleVersion {
 }
 
 type ArticleListResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Articles      []*ArticleResponse     `protobuf:"bytes,1,rep,name=articles,proto3" json:"articles,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	Articles []*ArticleResponse     `protobuf:"bytes,1,rep,name=articles,proto3" json:"articles,omitempty"`
+	// Opaque cursor for the next page; empty when there are no more results.
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2333,9 +2352,10 @@ func (x *ArticleListResponse) GetNextPageToken() string {
 }
 
 type ArticleVersionsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Versions      []*ArticleVersion      `protobuf:"bytes,1,rep,name=versions,proto3" json:"versions,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	Versions []*ArticleVersion      `protobuf:"bytes,1,rep,name=versions,proto3" json:"versions,omitempty"`
+	// Opaque cursor for the next page; empty when there are no more results.
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2784,9 +2804,12 @@ func (x *GetPostRequest) GetPostId() string {
 }
 
 type ListPostsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PageSize      *int32                 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Maximum number of items to return in a single page.
+	PageSize *int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// Opaque pagination cursor from a previous next_page_token.
+	// Keep it as-is; do not parse or construct it on the client.
+	PageToken     *string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2836,10 +2859,13 @@ func (x *ListPostsRequest) GetPageToken() string {
 }
 
 type GetPostVersionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PostId        string                 `protobuf:"bytes,1,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
-	PageSize      *int32                 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	PostId string                 `protobuf:"bytes,1,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
+	// Maximum number of items to return in a single page.
+	PageSize *int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// Opaque pagination cursor from a previous next_page_token.
+	// Keep it as-is; do not parse or construct it on the client.
+	PageToken     *string `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2948,9 +2974,10 @@ func (x *PostResponse) GetCurrentVersion() *PostVersion {
 }
 
 type PostListResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Posts         []*PostResponse        `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Posts []*PostResponse        `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
+	// Opaque cursor for the next page; empty when there are no more results.
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3000,9 +3027,10 @@ func (x *PostListResponse) GetNextPageToken() string {
 }
 
 type PostVersionsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Versions      []*PostVersion         `protobuf:"bytes,1,rep,name=versions,proto3" json:"versions,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	Versions []*PostVersion         `protobuf:"bytes,1,rep,name=versions,proto3" json:"versions,omitempty"`
+	// Opaque cursor for the next page; empty when there are no more results.
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
