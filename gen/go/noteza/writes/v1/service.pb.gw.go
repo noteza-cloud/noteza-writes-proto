@@ -665,6 +665,8 @@ func local_request_NotezaWritesService_UpdateArticle_0(ctx context.Context, mars
 	return msg, metadata, err
 }
 
+var filter_NotezaWritesService_GetArticle_0 = &utilities.DoubleArray{Encoding: map[string]int{"article_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+
 func request_NotezaWritesService_GetArticle_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaWritesServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq GetArticleRequest
@@ -681,6 +683,12 @@ func request_NotezaWritesService_GetArticle_0(ctx context.Context, marshaler run
 	protoReq.ArticleId, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "article_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetArticle_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.GetArticle(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -699,6 +707,12 @@ func local_request_NotezaWritesService_GetArticle_0(ctx context.Context, marshal
 	protoReq.ArticleId, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "article_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetArticle_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetArticle(ctx, &protoReq)
 	return msg, metadata, err
@@ -736,59 +750,6 @@ func local_request_NotezaWritesService_ListArticles_0(ctx context.Context, marsh
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.ListArticles(ctx, &protoReq)
-	return msg, metadata, err
-}
-
-var filter_NotezaWritesService_GetArticleVersions_0 = &utilities.DoubleArray{Encoding: map[string]int{"article_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
-
-func request_NotezaWritesService_GetArticleVersions_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaWritesServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq GetArticleVersionsRequest
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	if req.Body != nil {
-		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	val, ok := pathParams["article_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "article_id")
-	}
-	protoReq.ArticleId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "article_id", err)
-	}
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetArticleVersions_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	msg, err := client.GetArticleVersions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-}
-
-func local_request_NotezaWritesService_GetArticleVersions_0(ctx context.Context, marshaler runtime.Marshaler, server NotezaWritesServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq GetArticleVersionsRequest
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	val, ok := pathParams["article_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "article_id")
-	}
-	protoReq.ArticleId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "article_id", err)
-	}
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetArticleVersions_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	msg, err := server.GetArticleVersions(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -864,6 +825,8 @@ func local_request_NotezaWritesService_UpdatePost_0(ctx context.Context, marshal
 	return msg, metadata, err
 }
 
+var filter_NotezaWritesService_GetPost_0 = &utilities.DoubleArray{Encoding: map[string]int{"post_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+
 func request_NotezaWritesService_GetPost_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaWritesServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq GetPostRequest
@@ -880,6 +843,12 @@ func request_NotezaWritesService_GetPost_0(ctx context.Context, marshaler runtim
 	protoReq.PostId, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "post_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetPost_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.GetPost(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -898,6 +867,12 @@ func local_request_NotezaWritesService_GetPost_0(ctx context.Context, marshaler 
 	protoReq.PostId, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "post_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetPost_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetPost(ctx, &protoReq)
 	return msg, metadata, err
@@ -935,94 +910,6 @@ func local_request_NotezaWritesService_ListPosts_0(ctx context.Context, marshale
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.ListPosts(ctx, &protoReq)
-	return msg, metadata, err
-}
-
-var filter_NotezaWritesService_GetPostVersions_0 = &utilities.DoubleArray{Encoding: map[string]int{"post_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
-
-func request_NotezaWritesService_GetPostVersions_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaWritesServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq GetPostVersionsRequest
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	if req.Body != nil {
-		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	val, ok := pathParams["post_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "post_id")
-	}
-	protoReq.PostId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "post_id", err)
-	}
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetPostVersions_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	msg, err := client.GetPostVersions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-}
-
-func local_request_NotezaWritesService_GetPostVersions_0(ctx context.Context, marshaler runtime.Marshaler, server NotezaWritesServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq GetPostVersionsRequest
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	val, ok := pathParams["post_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "post_id")
-	}
-	protoReq.PostId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "post_id", err)
-	}
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetPostVersions_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	msg, err := server.GetPostVersions(ctx, &protoReq)
-	return msg, metadata, err
-}
-
-var filter_NotezaWritesService_GetWritingContext_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-
-func request_NotezaWritesService_GetWritingContext_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaWritesServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq GetWritingContextRequest
-		metadata runtime.ServerMetadata
-	)
-	if req.Body != nil {
-		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetWritingContext_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	msg, err := client.GetWritingContext(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-}
-
-func local_request_NotezaWritesService_GetWritingContext_0(ctx context.Context, marshaler runtime.Marshaler, server NotezaWritesServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq GetWritingContextRequest
-		metadata runtime.ServerMetadata
-	)
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_NotezaWritesService_GetWritingContext_0); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	msg, err := server.GetWritingContext(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -1462,26 +1349,6 @@ func RegisterNotezaWritesServiceHandlerServer(ctx context.Context, mux *runtime.
 		}
 		forward_NotezaWritesService_ListArticles_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_NotezaWritesService_GetArticleVersions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetArticleVersions", runtime.WithHTTPPathPattern("/v1/articles/{article_id}/versions"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_NotezaWritesService_GetArticleVersions_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_NotezaWritesService_GetArticleVersions_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
 	mux.Handle(http.MethodPost, pattern_NotezaWritesService_CreatePost_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -1561,46 +1428,6 @@ func RegisterNotezaWritesServiceHandlerServer(ctx context.Context, mux *runtime.
 			return
 		}
 		forward_NotezaWritesService_ListPosts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodGet, pattern_NotezaWritesService_GetPostVersions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetPostVersions", runtime.WithHTTPPathPattern("/v1/posts/{post_id}/versions"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_NotezaWritesService_GetPostVersions_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_NotezaWritesService_GetPostVersions_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodGet, pattern_NotezaWritesService_GetWritingContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetWritingContext", runtime.WithHTTPPathPattern("/v1/writing-context"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_NotezaWritesService_GetWritingContext_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_NotezaWritesService_GetWritingContext_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -2141,23 +1968,6 @@ func RegisterNotezaWritesServiceHandlerClient(ctx context.Context, mux *runtime.
 		}
 		forward_NotezaWritesService_ListArticles_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_NotezaWritesService_GetArticleVersions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetArticleVersions", runtime.WithHTTPPathPattern("/v1/articles/{article_id}/versions"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_NotezaWritesService_GetArticleVersions_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_NotezaWritesService_GetArticleVersions_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
 	mux.Handle(http.MethodPost, pattern_NotezaWritesService_CreatePost_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -2226,75 +2036,35 @@ func RegisterNotezaWritesServiceHandlerClient(ctx context.Context, mux *runtime.
 		}
 		forward_NotezaWritesService_ListPosts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_NotezaWritesService_GetPostVersions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetPostVersions", runtime.WithHTTPPathPattern("/v1/posts/{post_id}/versions"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_NotezaWritesService_GetPostVersions_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_NotezaWritesService_GetPostVersions_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodGet, pattern_NotezaWritesService_GetWritingContext_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaWritesService/GetWritingContext", runtime.WithHTTPPathPattern("/v1/writing-context"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_NotezaWritesService_GetWritingContext_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_NotezaWritesService_GetWritingContext_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
 	return nil
 }
 
 var (
-	pattern_NotezaWritesService_CreateSeries_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "series"}, ""))
-	pattern_NotezaWritesService_UpdateSeries_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "series", "id"}, ""))
-	pattern_NotezaWritesService_GetSeries_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "series", "id"}, ""))
-	pattern_NotezaWritesService_ListSeries_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "series"}, ""))
-	pattern_NotezaWritesService_CreateArticle_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "articles"}, ""))
-	pattern_NotezaWritesService_UpdateArticle_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "articles", "article_id"}, ""))
-	pattern_NotezaWritesService_GetArticle_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "articles", "article_id"}, ""))
-	pattern_NotezaWritesService_ListArticles_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "articles"}, ""))
-	pattern_NotezaWritesService_GetArticleVersions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "articles", "article_id", "versions"}, ""))
-	pattern_NotezaWritesService_CreatePost_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "posts"}, ""))
-	pattern_NotezaWritesService_UpdatePost_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "posts", "post_id"}, ""))
-	pattern_NotezaWritesService_GetPost_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "posts", "post_id"}, ""))
-	pattern_NotezaWritesService_ListPosts_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "posts"}, ""))
-	pattern_NotezaWritesService_GetPostVersions_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "posts", "post_id", "versions"}, ""))
-	pattern_NotezaWritesService_GetWritingContext_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "writing-context"}, ""))
+	pattern_NotezaWritesService_CreateSeries_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "series"}, ""))
+	pattern_NotezaWritesService_UpdateSeries_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "series", "id"}, ""))
+	pattern_NotezaWritesService_GetSeries_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "series", "id"}, ""))
+	pattern_NotezaWritesService_ListSeries_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "series"}, ""))
+	pattern_NotezaWritesService_CreateArticle_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "articles"}, ""))
+	pattern_NotezaWritesService_UpdateArticle_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "articles", "article_id"}, ""))
+	pattern_NotezaWritesService_GetArticle_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "articles", "article_id"}, ""))
+	pattern_NotezaWritesService_ListArticles_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "articles"}, ""))
+	pattern_NotezaWritesService_CreatePost_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "posts"}, ""))
+	pattern_NotezaWritesService_UpdatePost_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "posts", "post_id"}, ""))
+	pattern_NotezaWritesService_GetPost_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "posts", "post_id"}, ""))
+	pattern_NotezaWritesService_ListPosts_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "posts"}, ""))
 )
 
 var (
-	forward_NotezaWritesService_CreateSeries_0       = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_UpdateSeries_0       = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_GetSeries_0          = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_ListSeries_0         = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_CreateArticle_0      = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_UpdateArticle_0      = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_GetArticle_0         = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_ListArticles_0       = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_GetArticleVersions_0 = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_CreatePost_0         = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_UpdatePost_0         = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_GetPost_0            = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_ListPosts_0          = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_GetPostVersions_0    = runtime.ForwardResponseMessage
-	forward_NotezaWritesService_GetWritingContext_0  = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_CreateSeries_0  = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_UpdateSeries_0  = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_GetSeries_0     = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_ListSeries_0    = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_CreateArticle_0 = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_UpdateArticle_0 = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_GetArticle_0    = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_ListArticles_0  = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_CreatePost_0    = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_UpdatePost_0    = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_GetPost_0       = runtime.ForwardResponseMessage
+	forward_NotezaWritesService_ListPosts_0     = runtime.ForwardResponseMessage
 )

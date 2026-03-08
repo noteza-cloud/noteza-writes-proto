@@ -54,8 +54,8 @@ Notes:
 
 - Upload flow is designed for pre-signed URL usage.
 - Binary image bytes are uploaded directly to object storage, not embedded in API messages.
+- `ListImages` returns lightweight `ImagePreview` items; use `GetImage` for full `ImageAsset` metadata.
 - `ImageAsset` supports lifecycle states (`PENDING`, `READY`, `FAILED`, `DELETED`).
-- `ImageUsage` helps constrain how assets are attached (`ARTICLE_COVER`, `ARTICLE_INLINE`, `POST_IMAGE`).
 
 ## NotezaWritesService
 
@@ -78,12 +78,14 @@ Purpose: writing-domain operations.
 | UpdateArticle | `UpdateArticle(UpdateArticleRequest) returns (UpdateArticleResponse)` | `PATCH /v1/articles/{article_id}` |
 | GetArticle | `GetArticle(GetArticleRequest) returns (GetArticleResponse)` | `GET /v1/articles/{article_id}` |
 | ListArticles | `ListArticles(ListArticlesRequest) returns (ListArticlesResponse)` | `GET /v1/articles` |
-| GetArticleVersions | `GetArticleVersions(GetArticleVersionsRequest) returns (GetArticleVersionsResponse)` | `GET /v1/articles/{article_id}/versions` |
 
 Notes:
 
-- `Article` root now includes ownership and parent linkage fields: `user_id` and `series_id`.
+- `Article` stores all content inline with a `version` counter; there is no separate version snapshot type.
+- `Article` includes ownership and parent linkage fields: `user_id` and `series_id`.
 - `CreateArticleRequest` and `ListArticlesRequest` accept optional `series_id` for series-scoped behavior.
+- `GetArticleRequest.version` is optional. When provided, the server returns the article at that specific version.
+- `ListArticles` returns `ArticlePreview` items, not full `Article` objects.
 
 ### Posts
 
@@ -93,21 +95,17 @@ Notes:
 | UpdatePost | `UpdatePost(UpdatePostRequest) returns (UpdatePostResponse)` | `PATCH /v1/posts/{post_id}` |
 | GetPost | `GetPost(GetPostRequest) returns (GetPostResponse)` | `GET /v1/posts/{post_id}` |
 | ListPosts | `ListPosts(ListPostsRequest) returns (ListPostsResponse)` | `GET /v1/posts` |
-| GetPostVersions | `GetPostVersions(GetPostVersionsRequest) returns (GetPostVersionsResponse)` | `GET /v1/posts/{post_id}/versions` |
 
 Notes:
 
-- `Post` root includes `series_id` in addition to `user_id`, `id`, `current_version_id`, and `created_at`.
-- `CreatePostRequest` includes `series_id` to assign the new post to a series at creation time.
-- `ListPostsRequest` includes `series_id` to scope list results to a specific series.
-
-### Context
-
-| RPC | gRPC | HTTP |
-|-----|------|------|
-| GetWritingContext | `GetWritingContext(GetWritingContextRequest) returns (GetWritingContextResponse)` | `GET /v1/writing-context` |
-
-Notes:
-
-- `GetWritingContextRequest.series_id` is optional. When provided, context is series-scoped.
-- `WritingContext` includes both article and post signals (`last_published_*`, `related_*`) for generation workflows.
+- `Post` stores all content inline with a `version` counter; there is no separate version snapshot type.
+- `Post` includes `user_id`, `series_id`, and a `body` oneof (`ArticlePreview` or `ImageGallery`).
+- `CreatePostRequest` includes optional `series_id` to assign the new post to a series at creation time.
+- `CreatePostRequest` uses `body` oneof:
+  - `article.article_id` links the post to an existing article.
+  - `images.image_ids` creates an image-based post body.
+- `UpdatePostRequest` uses `body` oneof:
+  - `article.article_id` switches/replaces post body with an article link.
+  - `images.add_image_ids` and `images.remove_image_ids` update an image-based post body.
+- `ListPostsRequest` includes optional `series_id` to scope list results to a specific series.
+- `GetPostRequest.version` is optional. When provided, the server returns the post at that specific version.

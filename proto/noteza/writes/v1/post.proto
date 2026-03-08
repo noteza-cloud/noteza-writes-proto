@@ -6,6 +6,7 @@ option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/w
 
 import "google/protobuf/timestamp.proto";
 import "noteza/writes/v1/media.proto";
+import "noteza/writes/v1/article.proto";
 
 enum PostStatus {
   POST_STATUS_UNSPECIFIED = 0;
@@ -18,17 +19,14 @@ message Post {
   string id = 1;
   string user_id = 2;
   optional string series_id = 3;
-  string current_version_id = 4;
-  google.protobuf.Timestamp created_at = 5;
-}
-
-message PostVersion {
-  string id = 1;
-  string post_id = 2;
-  int32 version_number = 3;
-  string content_md = 4;
-  repeated ImageAsset images = 5;
+  int32 version = 4;
+  string content = 5;
   PostStatus status = 6;
   google.protobuf.Timestamp created_at = 7;
-  optional google.protobuf.Timestamp published_at = 8;
+  google.protobuf.Timestamp updated_at = 8;
+  optional google.protobuf.Timestamp published_at = 9;
+  oneof body {
+    ArticlePreview article = 10;
+    ImageGallery images = 11;
+  }
 }

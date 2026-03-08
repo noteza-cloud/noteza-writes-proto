@@ -267,6 +267,14 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "version",
+            "description": "Optional version number to retrieve a specific historical version.\nIf omitted, the current version is returned.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "tags": [
@@ -310,9 +318,6 @@
                 "contentMd": {
                   "type": "string"
                 },
-                "postMd": {
-                  "type": "string"
-                },
                 "coverImageId": {
                   "type": "string"
                 },
@@ -323,27 +328,8 @@
                   },
                   "description": "Image IDs to append to the article's image list.\nDuplicates within this list are silently deduplicated.\nIf an ID appears in both add_image_ids and remove_image_ids, removal takes precedence."
                 },
-                "summary": {
-                  "type": "string"
-                },
-                "canonicalTopic": {
-                  "type": "string"
-                },
-                "seriesPart": {
-                  "type": "integer",
-                  "format": "int32"
-                },
                 "status": {
                   "$ref": "#/definitions/v1ArticleStatus"
-                },
-                "embedding": {
-                  "type": "string"
-                },
-                "editedBy": {
-                  "type": "string"
-                },
-                "editReason": {
-                  "type": "string"
                 },
                 "removeImageIds": {
                   "type": "array",
@@ -354,52 +340,6 @@
                 }
               }
             }
-          }
-        ],
-        "tags": [
-          "NotezaWritesService"
-        ]
-      }
-    },
-    "/v1/articles/{articleId}/versions": {
-      "get": {
-        "summary": "GetArticleVersions returns paginated version history for an article.",
-        "operationId": "NotezaWritesService_GetArticleVersions",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1GetArticleVersionsResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "articleId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "pageSize",
-            "description": "Maximum number of items to return in a single page.",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageToken",
-            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
-            "in": "query",
-            "required": false,
-            "type": "string"
           }
         ],
         "tags": [
@@ -538,19 +478,6 @@
               "IMAGE_STATUS_DELETED"
             ],
             "default": "IMAGE_STATUS_UNSPECIFIED"
-          },
-          {
-            "name": "usage",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "IMAGE_USAGE_UNSPECIFIED",
-              "IMAGE_USAGE_ARTICLE_COVER",
-              "IMAGE_USAGE_ARTICLE_INLINE",
-              "IMAGE_USAGE_POST_IMAGE"
-            ],
-            "default": "IMAGE_USAGE_UNSPECIFIED"
           },
           {
             "name": "pageSize",
@@ -821,6 +748,14 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "version",
+            "description": "Optional version number to retrieve a specific historical version.\nIf omitted, the current version is returned.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "tags": [
@@ -858,74 +793,22 @@
             "schema": {
               "type": "object",
               "properties": {
-                "contentMd": {
+                "content": {
                   "type": "string"
-                },
-                "addImageIds": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": "Image IDs to append to the post's image list.\nDuplicates within this list are silently deduplicated.\nIf an ID appears in both add_image_ids and remove_image_ids, removal takes precedence."
                 },
                 "status": {
                   "$ref": "#/definitions/v1PostStatus"
                 },
-                "removeImageIds": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": "Image IDs to remove from the post's image list.\nIDs not currently attached to the post are ignored (no-op).\nDuplicates within this list are silently deduplicated.\nRemoval takes precedence over add_image_ids if the same ID appears in both."
+                "article": {
+                  "$ref": "#/definitions/v1UpdatePostArticleBody",
+                  "description": "Replaces post body with an article link."
+                },
+                "images": {
+                  "$ref": "#/definitions/v1UpdatePostImageBody",
+                  "description": "Updates image-based post body using append/remove semantics."
                 }
               }
             }
-          }
-        ],
-        "tags": [
-          "NotezaWritesService"
-        ]
-      }
-    },
-    "/v1/posts/{postId}/versions": {
-      "get": {
-        "summary": "GetPostVersions returns paginated version history for a post.",
-        "operationId": "NotezaWritesService_GetPostVersions",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1GetPostVersionsResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "postId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "pageSize",
-            "description": "Maximum number of items to return in a single page.",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pageToken",
-            "description": "Opaque pagination cursor from a previous next_page_token.\nKeep it as-is; do not parse or construct it on the client.",
-            "in": "query",
-            "required": false,
-            "type": "string"
           }
         ],
         "tags": [
@@ -1091,43 +974,6 @@
           "NotezaWritesService"
         ]
       }
-    },
-    "/v1/writing-context": {
-      "get": {
-        "summary": "GetWritingContext returns optional series-scoped context and related article/post history.",
-        "operationId": "NotezaWritesService_GetWritingContext",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1GetWritingContextResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "seriesId",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "candidateTopic",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "NotezaWritesService"
-        ]
-      }
     }
   },
   "definitions": {
@@ -1196,10 +1042,38 @@
         "seriesId": {
           "type": "string"
         },
-        "currentVersionId": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "coverImage": {
+          "$ref": "#/definitions/v1ImagePreview"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ImagePreview"
+          }
+        },
+        "title": {
           "type": "string"
         },
+        "contentMd": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ArticleStatus"
+        },
         "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "publishedAt": {
           "type": "string",
           "format": "date-time"
         }
@@ -1212,7 +1086,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1ArticleResponse"
+            "$ref": "#/definitions/v1ArticlePreview"
           }
         },
         "nextPageToken": {
@@ -1221,14 +1095,20 @@
         }
       }
     },
-    "v1ArticleResponse": {
+    "v1ArticlePreview": {
       "type": "object",
       "properties": {
-        "article": {
-          "$ref": "#/definitions/v1Article"
+        "id": {
+          "type": "string"
         },
-        "currentVersion": {
-          "$ref": "#/definitions/v1ArticleVersion"
+        "coverImage": {
+          "$ref": "#/definitions/v1ImagePreview"
+        },
+        "title": {
+          "type": "string"
+        },
+        "contentPreview": {
+          "type": "string"
         }
       }
     },
@@ -1241,86 +1121,6 @@
         "ARTICLE_STATUS_ARCHIVED"
       ],
       "default": "ARTICLE_STATUS_UNSPECIFIED"
-    },
-    "v1ArticleVersion": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "articleId": {
-          "type": "string"
-        },
-        "versionNumber": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "title": {
-          "type": "string"
-        },
-        "contentMd": {
-          "type": "string"
-        },
-        "postMd": {
-          "type": "string"
-        },
-        "coverImage": {
-          "$ref": "#/definitions/v1ImageAsset"
-        },
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1ImageAsset"
-          }
-        },
-        "summary": {
-          "type": "string"
-        },
-        "canonicalTopic": {
-          "type": "string"
-        },
-        "seriesPart": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "status": {
-          "$ref": "#/definitions/v1ArticleStatus"
-        },
-        "embedding": {
-          "type": "string"
-        },
-        "editedBy": {
-          "type": "string"
-        },
-        "editReason": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "publishedAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "v1ArticleVersionsResponse": {
-      "type": "object",
-      "properties": {
-        "versions": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1ArticleVersion"
-          }
-        },
-        "nextPageToken": {
-          "type": "string",
-          "description": "Opaque cursor for the next page; empty when there are no more results."
-        }
-      }
     },
     "v1AuthResponse": {
       "type": "object",
@@ -1371,9 +1171,6 @@
         "contentMd": {
           "type": "string"
         },
-        "postMd": {
-          "type": "string"
-        },
         "coverImageId": {
           "type": "string"
         },
@@ -1382,22 +1179,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "summary": {
-          "type": "string"
-        },
-        "canonicalTopic": {
-          "type": "string"
-        },
-        "seriesPart": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "editedBy": {
-          "type": "string"
-        },
-        "editReason": {
-          "type": "string"
         }
       }
     },
@@ -1405,7 +1186,7 @@
       "type": "object",
       "properties": {
         "article": {
-          "$ref": "#/definitions/v1ArticleResponse"
+          "$ref": "#/definitions/v1Article"
         }
       }
     },
@@ -1422,16 +1203,7 @@
           "type": "string",
           "format": "int64"
         },
-        "usage": {
-          "$ref": "#/definitions/v1ImageUsage"
-        },
         "altText": {
-          "type": "string"
-        },
-        "source": {
-          "type": "string"
-        },
-        "checksumSha256": {
           "type": "string"
         }
       }
@@ -1451,15 +1223,17 @@
         }
       }
     },
-    "v1CreatePostRequest": {
+    "v1CreatePostArticleBody": {
       "type": "object",
       "properties": {
-        "seriesId": {
+        "articleId": {
           "type": "string"
-        },
-        "contentMd": {
-          "type": "string"
-        },
+        }
+      }
+    },
+    "v1CreatePostImageBody": {
+      "type": "object",
+      "properties": {
         "imageIds": {
           "type": "array",
           "items": {
@@ -1468,11 +1242,30 @@
         }
       }
     },
+    "v1CreatePostRequest": {
+      "type": "object",
+      "properties": {
+        "seriesId": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "article": {
+          "$ref": "#/definitions/v1CreatePostArticleBody",
+          "description": "Use this variant to link post body to an existing article."
+        },
+        "images": {
+          "$ref": "#/definitions/v1CreatePostImageBody",
+          "description": "Use this variant to create an image-based post body."
+        }
+      }
+    },
     "v1CreatePostResponse": {
       "type": "object",
       "properties": {
         "post": {
-          "$ref": "#/definitions/v1PostResponse"
+          "$ref": "#/definitions/v1Post"
         }
       }
     },
@@ -1537,15 +1330,7 @@
       "type": "object",
       "properties": {
         "article": {
-          "$ref": "#/definitions/v1ArticleResponse"
-        }
-      }
-    },
-    "v1GetArticleVersionsResponse": {
-      "type": "object",
-      "properties": {
-        "versions": {
-          "$ref": "#/definitions/v1ArticleVersionsResponse"
+          "$ref": "#/definitions/v1Article"
         }
       }
     },
@@ -1561,15 +1346,7 @@
       "type": "object",
       "properties": {
         "post": {
-          "$ref": "#/definitions/v1PostResponse"
-        }
-      }
-    },
-    "v1GetPostVersionsResponse": {
-      "type": "object",
-      "properties": {
-        "versions": {
-          "$ref": "#/definitions/v1PostVersionsResponse"
+          "$ref": "#/definitions/v1Post"
         }
       }
     },
@@ -1578,14 +1355,6 @@
       "properties": {
         "series": {
           "$ref": "#/definitions/v1Series"
-        }
-      }
-    },
-    "v1GetWritingContextResponse": {
-      "type": "object",
-      "properties": {
-        "context": {
-          "$ref": "#/definitions/v1WritingContext"
         }
       }
     },
@@ -1616,35 +1385,41 @@
           "type": "integer",
           "format": "int32"
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
         "status": {
           "$ref": "#/definitions/v1ImageStatus"
-        },
-        "usage": {
-          "$ref": "#/definitions/v1ImageUsage"
         },
         "altText": {
           "type": "string"
         },
-        "source": {
-          "type": "string"
-        },
-        "checksumSha256": {
-          "type": "string"
-        },
-        "variants": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1ImageGallery": {
+      "type": "object",
+      "properties": {
+        "images": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1ImageVariant"
+            "$ref": "#/definitions/v1ImagePreview"
           }
+        }
+      }
+    },
+    "v1ImagePreview": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         },
-        "deletedAt": {
-          "type": "string",
-          "format": "date-time"
+        "url": {
+          "type": "string"
+        },
+        "altText": {
+          "type": "string"
         }
       }
     },
@@ -1658,35 +1433,6 @@
         "IMAGE_STATUS_DELETED"
       ],
       "default": "IMAGE_STATUS_UNSPECIFIED"
-    },
-    "v1ImageUsage": {
-      "type": "string",
-      "enum": [
-        "IMAGE_USAGE_UNSPECIFIED",
-        "IMAGE_USAGE_ARTICLE_COVER",
-        "IMAGE_USAGE_ARTICLE_INLINE",
-        "IMAGE_USAGE_POST_IMAGE"
-      ],
-      "default": "IMAGE_USAGE_UNSPECIFIED"
-    },
-    "v1ImageVariant": {
-      "type": "object",
-      "properties": {
-        "kind": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        },
-        "width": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "height": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
     },
     "v1ListApplicationsResponse": {
       "type": "object",
@@ -1719,7 +1465,7 @@
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1ImageAsset"
+            "$ref": "#/definitions/v1ImagePreview"
           }
         },
         "nextPageToken": {
@@ -1732,7 +1478,15 @@
       "type": "object",
       "properties": {
         "posts": {
-          "$ref": "#/definitions/v1PostListResponse"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Post"
+          }
+        },
+        "nextPageToken": {
+          "type": "string",
+          "description": "Opaque cursor for the next page; empty when there are no more results."
         }
       }
     },
@@ -1783,39 +1537,33 @@
         "seriesId": {
           "type": "string"
         },
-        "currentVersionId": {
+        "version": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "content": {
           "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/v1PostStatus"
         },
         "createdAt": {
           "type": "string",
           "format": "date-time"
-        }
-      }
-    },
-    "v1PostListResponse": {
-      "type": "object",
-      "properties": {
-        "posts": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1PostResponse"
-          }
         },
-        "nextPageToken": {
+        "updatedAt": {
           "type": "string",
-          "description": "Opaque cursor for the next page; empty when there are no more results."
-        }
-      }
-    },
-    "v1PostResponse": {
-      "type": "object",
-      "properties": {
-        "post": {
-          "$ref": "#/definitions/v1Post"
+          "format": "date-time"
         },
-        "currentVersion": {
-          "$ref": "#/definitions/v1PostVersion"
+        "publishedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "article": {
+          "$ref": "#/definitions/v1ArticlePreview"
+        },
+        "images": {
+          "$ref": "#/definitions/v1ImageGallery"
         }
       }
     },
@@ -1828,58 +1576,6 @@
         "POST_STATUS_ARCHIVED"
       ],
       "default": "POST_STATUS_UNSPECIFIED"
-    },
-    "v1PostVersion": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "postId": {
-          "type": "string"
-        },
-        "versionNumber": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "contentMd": {
-          "type": "string"
-        },
-        "images": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1ImageAsset"
-          }
-        },
-        "status": {
-          "$ref": "#/definitions/v1PostStatus"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "publishedAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "v1PostVersionsResponse": {
-      "type": "object",
-      "properties": {
-        "versions": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1PostVersion"
-          }
-        },
-        "nextPageToken": {
-          "type": "string",
-          "description": "Opaque cursor for the next page; empty when there are no more results."
-        }
-      }
     },
     "v1RefreshAccessTokenRequest": {
       "type": "object",
@@ -1964,7 +1660,34 @@
       "type": "object",
       "properties": {
         "article": {
-          "$ref": "#/definitions/v1ArticleResponse"
+          "$ref": "#/definitions/v1Article"
+        }
+      }
+    },
+    "v1UpdatePostArticleBody": {
+      "type": "object",
+      "properties": {
+        "articleId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1UpdatePostImageBody": {
+      "type": "object",
+      "properties": {
+        "addImageIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Image IDs to append to the post's image list.\nDuplicates within this list are silently deduplicated.\nIf an ID appears in both add_image_ids and remove_image_ids, removal takes precedence."
+        },
+        "removeImageIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Image IDs to remove from the post's image list.\nIDs not currently attached to the post are ignored (no-op).\nDuplicates within this list are silently deduplicated.\nRemoval takes precedence over add_image_ids if the same ID appears in both."
         }
       }
     },
@@ -1972,7 +1695,7 @@
       "type": "object",
       "properties": {
         "post": {
-          "$ref": "#/definitions/v1PostResponse"
+          "$ref": "#/definitions/v1Post"
         }
       }
     },
@@ -2010,50 +1733,6 @@
         "USER_PLAN_PRO"
       ],
       "default": "USER_PLAN_UNSPECIFIED"
-    },
-    "v1WritingContext": {
-      "type": "object",
-      "properties": {
-        "series": {
-          "$ref": "#/definitions/v1Series",
-          "description": "Present only when GetWritingContextRequest.series_id is provided."
-        },
-        "lastPublishedArticles": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1ArticleVersion"
-          }
-        },
-        "relatedArticles": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1ArticleVersion"
-          }
-        },
-        "nextSeriesPart": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "topicAlreadyCovered": {
-          "type": "boolean"
-        },
-        "lastPublishedPosts": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1PostVersion"
-          }
-        },
-        "relatedPosts": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1PostVersion"
-          }
-        }
-      }
     }
   }
 }

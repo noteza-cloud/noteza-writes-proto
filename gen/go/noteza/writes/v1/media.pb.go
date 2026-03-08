@@ -77,82 +77,27 @@ func (ImageStatus) EnumDescriptor() ([]byte, []int) {
 	return file_noteza_writes_v1_media_proto_rawDescGZIP(), []int{0}
 }
 
-type ImageUsage int32
-
-const (
-	ImageUsage_IMAGE_USAGE_UNSPECIFIED    ImageUsage = 0
-	ImageUsage_IMAGE_USAGE_ARTICLE_COVER  ImageUsage = 1
-	ImageUsage_IMAGE_USAGE_ARTICLE_INLINE ImageUsage = 2
-	ImageUsage_IMAGE_USAGE_POST_IMAGE     ImageUsage = 3
-)
-
-// Enum value maps for ImageUsage.
-var (
-	ImageUsage_name = map[int32]string{
-		0: "IMAGE_USAGE_UNSPECIFIED",
-		1: "IMAGE_USAGE_ARTICLE_COVER",
-		2: "IMAGE_USAGE_ARTICLE_INLINE",
-		3: "IMAGE_USAGE_POST_IMAGE",
-	}
-	ImageUsage_value = map[string]int32{
-		"IMAGE_USAGE_UNSPECIFIED":    0,
-		"IMAGE_USAGE_ARTICLE_COVER":  1,
-		"IMAGE_USAGE_ARTICLE_INLINE": 2,
-		"IMAGE_USAGE_POST_IMAGE":     3,
-	}
-)
-
-func (x ImageUsage) Enum() *ImageUsage {
-	p := new(ImageUsage)
-	*p = x
-	return p
-}
-
-func (x ImageUsage) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (ImageUsage) Descriptor() protoreflect.EnumDescriptor {
-	return file_noteza_writes_v1_media_proto_enumTypes[1].Descriptor()
-}
-
-func (ImageUsage) Type() protoreflect.EnumType {
-	return &file_noteza_writes_v1_media_proto_enumTypes[1]
-}
-
-func (x ImageUsage) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ImageUsage.Descriptor instead.
-func (ImageUsage) EnumDescriptor() ([]byte, []int) {
-	return file_noteza_writes_v1_media_proto_rawDescGZIP(), []int{1}
-}
-
-type ImageVariant struct {
+type ImageGallery struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Kind          string                 `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
-	Url           string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
-	Width         *int32                 `protobuf:"varint,3,opt,name=width,proto3,oneof" json:"width,omitempty"`
-	Height        *int32                 `protobuf:"varint,4,opt,name=height,proto3,oneof" json:"height,omitempty"`
+	Images        []*ImagePreview        `protobuf:"bytes,1,rep,name=images,proto3" json:"images,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ImageVariant) Reset() {
-	*x = ImageVariant{}
+func (x *ImageGallery) Reset() {
+	*x = ImageGallery{}
 	mi := &file_noteza_writes_v1_media_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ImageVariant) String() string {
+func (x *ImageGallery) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ImageVariant) ProtoMessage() {}
+func (*ImageGallery) ProtoMessage() {}
 
-func (x *ImageVariant) ProtoReflect() protoreflect.Message {
+func (x *ImageGallery) ProtoReflect() protoreflect.Message {
 	mi := &file_noteza_writes_v1_media_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -164,63 +109,97 @@ func (x *ImageVariant) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ImageVariant.ProtoReflect.Descriptor instead.
-func (*ImageVariant) Descriptor() ([]byte, []int) {
+// Deprecated: Use ImageGallery.ProtoReflect.Descriptor instead.
+func (*ImageGallery) Descriptor() ([]byte, []int) {
 	return file_noteza_writes_v1_media_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ImageVariant) GetKind() string {
+func (x *ImageGallery) GetImages() []*ImagePreview {
 	if x != nil {
-		return x.Kind
+		return x.Images
+	}
+	return nil
+}
+
+type ImagePreview struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Url           string                 `protobuf:"bytes,2,opt,name=url,proto3" json:"url,omitempty"`
+	AltText       *string                `protobuf:"bytes,3,opt,name=alt_text,json=altText,proto3,oneof" json:"alt_text,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImagePreview) Reset() {
+	*x = ImagePreview{}
+	mi := &file_noteza_writes_v1_media_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImagePreview) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImagePreview) ProtoMessage() {}
+
+func (x *ImagePreview) ProtoReflect() protoreflect.Message {
+	mi := &file_noteza_writes_v1_media_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImagePreview.ProtoReflect.Descriptor instead.
+func (*ImagePreview) Descriptor() ([]byte, []int) {
+	return file_noteza_writes_v1_media_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *ImagePreview) GetId() string {
+	if x != nil {
+		return x.Id
 	}
 	return ""
 }
 
-func (x *ImageVariant) GetUrl() string {
+func (x *ImagePreview) GetUrl() string {
 	if x != nil {
 		return x.Url
 	}
 	return ""
 }
 
-func (x *ImageVariant) GetWidth() int32 {
-	if x != nil && x.Width != nil {
-		return *x.Width
+func (x *ImagePreview) GetAltText() string {
+	if x != nil && x.AltText != nil {
+		return *x.AltText
 	}
-	return 0
-}
-
-func (x *ImageVariant) GetHeight() int32 {
-	if x != nil && x.Height != nil {
-		return *x.Height
-	}
-	return 0
+	return ""
 }
 
 type ImageAsset struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Url            string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
-	MimeType       string                 `protobuf:"bytes,4,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
-	SizeBytes      int64                  `protobuf:"varint,5,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
-	Width          *int32                 `protobuf:"varint,6,opt,name=width,proto3,oneof" json:"width,omitempty"`
-	Height         *int32                 `protobuf:"varint,7,opt,name=height,proto3,oneof" json:"height,omitempty"`
-	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	Status         ImageStatus            `protobuf:"varint,9,opt,name=status,proto3,enum=noteza.writes.v1.ImageStatus" json:"status,omitempty"`
-	Usage          ImageUsage             `protobuf:"varint,10,opt,name=usage,proto3,enum=noteza.writes.v1.ImageUsage" json:"usage,omitempty"`
-	AltText        *string                `protobuf:"bytes,11,opt,name=alt_text,json=altText,proto3,oneof" json:"alt_text,omitempty"`
-	Source         *string                `protobuf:"bytes,12,opt,name=source,proto3,oneof" json:"source,omitempty"`
-	ChecksumSha256 *string                `protobuf:"bytes,13,opt,name=checksum_sha256,json=checksumSha256,proto3,oneof" json:"checksum_sha256,omitempty"`
-	Variants       []*ImageVariant        `protobuf:"bytes,14,rep,name=variants,proto3" json:"variants,omitempty"`
-	DeletedAt      *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Url           string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
+	MimeType      string                 `protobuf:"bytes,4,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
+	SizeBytes     int64                  `protobuf:"varint,5,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
+	Width         int32                  `protobuf:"varint,6,opt,name=width,proto3" json:"width,omitempty"`
+	Height        int32                  `protobuf:"varint,7,opt,name=height,proto3" json:"height,omitempty"`
+	Status        ImageStatus            `protobuf:"varint,8,opt,name=status,proto3,enum=noteza.writes.v1.ImageStatus" json:"status,omitempty"`
+	AltText       *string                `protobuf:"bytes,9,opt,name=alt_text,json=altText,proto3,oneof" json:"alt_text,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ImageAsset) Reset() {
 	*x = ImageAsset{}
-	mi := &file_noteza_writes_v1_media_proto_msgTypes[1]
+	mi := &file_noteza_writes_v1_media_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -232,7 +211,7 @@ func (x *ImageAsset) String() string {
 func (*ImageAsset) ProtoMessage() {}
 
 func (x *ImageAsset) ProtoReflect() protoreflect.Message {
-	mi := &file_noteza_writes_v1_media_proto_msgTypes[1]
+	mi := &file_noteza_writes_v1_media_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -245,7 +224,7 @@ func (x *ImageAsset) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImageAsset.ProtoReflect.Descriptor instead.
 func (*ImageAsset) Descriptor() ([]byte, []int) {
-	return file_noteza_writes_v1_media_proto_rawDescGZIP(), []int{1}
+	return file_noteza_writes_v1_media_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ImageAsset) GetId() string {
@@ -284,24 +263,17 @@ func (x *ImageAsset) GetSizeBytes() int64 {
 }
 
 func (x *ImageAsset) GetWidth() int32 {
-	if x != nil && x.Width != nil {
-		return *x.Width
+	if x != nil {
+		return x.Width
 	}
 	return 0
 }
 
 func (x *ImageAsset) GetHeight() int32 {
-	if x != nil && x.Height != nil {
-		return *x.Height
+	if x != nil {
+		return x.Height
 	}
 	return 0
-}
-
-func (x *ImageAsset) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
 }
 
 func (x *ImageAsset) GetStatus() ImageStatus {
@@ -311,13 +283,6 @@ func (x *ImageAsset) GetStatus() ImageStatus {
 	return ImageStatus_IMAGE_STATUS_UNSPECIFIED
 }
 
-func (x *ImageAsset) GetUsage() ImageUsage {
-	if x != nil {
-		return x.Usage
-	}
-	return ImageUsage_IMAGE_USAGE_UNSPECIFIED
-}
-
 func (x *ImageAsset) GetAltText() string {
 	if x != nil && x.AltText != nil {
 		return *x.AltText
@@ -325,30 +290,9 @@ func (x *ImageAsset) GetAltText() string {
 	return ""
 }
 
-func (x *ImageAsset) GetSource() string {
-	if x != nil && x.Source != nil {
-		return *x.Source
-	}
-	return ""
-}
-
-func (x *ImageAsset) GetChecksumSha256() string {
-	if x != nil && x.ChecksumSha256 != nil {
-		return *x.ChecksumSha256
-	}
-	return ""
-}
-
-func (x *ImageAsset) GetVariants() []*ImageVariant {
+func (x *ImageAsset) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.Variants
-	}
-	return nil
-}
-
-func (x *ImageAsset) GetDeletedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.DeletedAt
+		return x.CreatedAt
 	}
 	return nil
 }
@@ -357,14 +301,14 @@ var File_noteza_writes_v1_media_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_media_proto_rawDesc = "" +
 	"\n" +
-	"\x1cnoteza/writes/v1/media.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\x81\x01\n" +
-	"\fImageVariant\x12\x12\n" +
-	"\x04kind\x18\x01 \x01(\tR\x04kind\x12\x10\n" +
-	"\x03url\x18\x02 \x01(\tR\x03url\x12\x19\n" +
-	"\x05width\x18\x03 \x01(\x05H\x00R\x05width\x88\x01\x01\x12\x1b\n" +
-	"\x06height\x18\x04 \x01(\x05H\x01R\x06height\x88\x01\x01B\b\n" +
-	"\x06_widthB\t\n" +
-	"\a_height\"\x98\x05\n" +
+	"\x1cnoteza/writes/v1/media.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"F\n" +
+	"\fImageGallery\x126\n" +
+	"\x06images\x18\x01 \x03(\v2\x1e.noteza.writes.v1.ImagePreviewR\x06images\"]\n" +
+	"\fImagePreview\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
+	"\x03url\x18\x02 \x01(\tR\x03url\x12\x1e\n" +
+	"\balt_text\x18\x03 \x01(\tH\x00R\aaltText\x88\x01\x01B\v\n" +
+	"\t_alt_text\"\xd0\x02\n" +
 	"\n" +
 	"ImageAsset\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
@@ -372,38 +316,21 @@ const file_noteza_writes_v1_media_proto_rawDesc = "" +
 	"\x03url\x18\x03 \x01(\tR\x03url\x12\x1b\n" +
 	"\tmime_type\x18\x04 \x01(\tR\bmimeType\x12\x1d\n" +
 	"\n" +
-	"size_bytes\x18\x05 \x01(\x03R\tsizeBytes\x12\x19\n" +
-	"\x05width\x18\x06 \x01(\x05H\x00R\x05width\x88\x01\x01\x12\x1b\n" +
-	"\x06height\x18\a \x01(\x05H\x01R\x06height\x88\x01\x01\x129\n" +
+	"size_bytes\x18\x05 \x01(\x03R\tsizeBytes\x12\x14\n" +
+	"\x05width\x18\x06 \x01(\x05R\x05width\x12\x16\n" +
+	"\x06height\x18\a \x01(\x05R\x06height\x125\n" +
+	"\x06status\x18\b \x01(\x0e2\x1d.noteza.writes.v1.ImageStatusR\x06status\x12\x1e\n" +
+	"\balt_text\x18\t \x01(\tH\x00R\aaltText\x88\x01\x01\x129\n" +
 	"\n" +
-	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x125\n" +
-	"\x06status\x18\t \x01(\x0e2\x1d.noteza.writes.v1.ImageStatusR\x06status\x122\n" +
-	"\x05usage\x18\n" +
-	" \x01(\x0e2\x1c.noteza.writes.v1.ImageUsageR\x05usage\x12\x1e\n" +
-	"\balt_text\x18\v \x01(\tH\x02R\aaltText\x88\x01\x01\x12\x1b\n" +
-	"\x06source\x18\f \x01(\tH\x03R\x06source\x88\x01\x01\x12,\n" +
-	"\x0fchecksum_sha256\x18\r \x01(\tH\x04R\x0echecksumSha256\x88\x01\x01\x12:\n" +
-	"\bvariants\x18\x0e \x03(\v2\x1e.noteza.writes.v1.ImageVariantR\bvariants\x12>\n" +
-	"\n" +
-	"deleted_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampH\x05R\tdeletedAt\x88\x01\x01B\b\n" +
-	"\x06_widthB\t\n" +
-	"\a_heightB\v\n" +
-	"\t_alt_textB\t\n" +
-	"\a_sourceB\x12\n" +
-	"\x10_checksum_sha256B\r\n" +
-	"\v_deleted_at*\x90\x01\n" +
+	"created_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtB\v\n" +
+	"\t_alt_text*\x90\x01\n" +
 	"\vImageStatus\x12\x1c\n" +
 	"\x18IMAGE_STATUS_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14IMAGE_STATUS_PENDING\x10\x01\x12\x16\n" +
 	"\x12IMAGE_STATUS_READY\x10\x02\x12\x17\n" +
 	"\x13IMAGE_STATUS_FAILED\x10\x03\x12\x18\n" +
-	"\x14IMAGE_STATUS_DELETED\x10\x04*\x84\x01\n" +
-	"\n" +
-	"ImageUsage\x12\x1b\n" +
-	"\x17IMAGE_USAGE_UNSPECIFIED\x10\x00\x12\x1d\n" +
-	"\x19IMAGE_USAGE_ARTICLE_COVER\x10\x01\x12\x1e\n" +
-	"\x1aIMAGE_USAGE_ARTICLE_INLINE\x10\x02\x12\x1a\n" +
-	"\x16IMAGE_USAGE_POST_IMAGE\x10\x03BNZLgithub.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1b\x06proto3"
+	"\x14IMAGE_STATUS_DELETED\x10\x04BNZLgithub.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1b\x06proto3"
 
 var (
 	file_noteza_writes_v1_media_proto_rawDescOnce sync.Once
@@ -417,26 +344,24 @@ func file_noteza_writes_v1_media_proto_rawDescGZIP() []byte {
 	return file_noteza_writes_v1_media_proto_rawDescData
 }
 
-var file_noteza_writes_v1_media_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_noteza_writes_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_noteza_writes_v1_media_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_noteza_writes_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_noteza_writes_v1_media_proto_goTypes = []any{
 	(ImageStatus)(0),              // 0: noteza.writes.v1.ImageStatus
-	(ImageUsage)(0),               // 1: noteza.writes.v1.ImageUsage
-	(*ImageVariant)(nil),          // 2: noteza.writes.v1.ImageVariant
+	(*ImageGallery)(nil),          // 1: noteza.writes.v1.ImageGallery
+	(*ImagePreview)(nil),          // 2: noteza.writes.v1.ImagePreview
 	(*ImageAsset)(nil),            // 3: noteza.writes.v1.ImageAsset
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_noteza_writes_v1_media_proto_depIdxs = []int32{
-	4, // 0: noteza.writes.v1.ImageAsset.created_at:type_name -> google.protobuf.Timestamp
+	2, // 0: noteza.writes.v1.ImageGallery.images:type_name -> noteza.writes.v1.ImagePreview
 	0, // 1: noteza.writes.v1.ImageAsset.status:type_name -> noteza.writes.v1.ImageStatus
-	1, // 2: noteza.writes.v1.ImageAsset.usage:type_name -> noteza.writes.v1.ImageUsage
-	2, // 3: noteza.writes.v1.ImageAsset.variants:type_name -> noteza.writes.v1.ImageVariant
-	4, // 4: noteza.writes.v1.ImageAsset.deleted_at:type_name -> google.protobuf.Timestamp
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	4, // 2: noteza.writes.v1.ImageAsset.created_at:type_name -> google.protobuf.Timestamp
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_noteza_writes_v1_media_proto_init() }
@@ -444,15 +369,15 @@ func file_noteza_writes_v1_media_proto_init() {
 	if File_noteza_writes_v1_media_proto != nil {
 		return
 	}
-	file_noteza_writes_v1_media_proto_msgTypes[0].OneofWrappers = []any{}
 	file_noteza_writes_v1_media_proto_msgTypes[1].OneofWrappers = []any{}
+	file_noteza_writes_v1_media_proto_msgTypes[2].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_noteza_writes_v1_media_proto_rawDesc), len(file_noteza_writes_v1_media_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   2,
+			NumEnums:      1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

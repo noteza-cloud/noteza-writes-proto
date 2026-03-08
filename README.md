@@ -1,16 +1,16 @@
 # Noteza Writes Proto
 
-Protocol Buffers contract for **Noteza Writes** — a SaaS writing memory platform designed to help users create, version, and manage structured long-form content and short posts. This contract defines the complete API surface for user management, series organization, full snapshot versioning of articles and posts, and contextual retrieval used by AI agents and client applications. It serves as the canonical schema for service communication, ensuring consistency, backward compatibility, and long-term evolvability of the system.
+Protocol Buffers contract for **Noteza Writes** — a SaaS writing memory platform designed to help users create, version, and manage structured long-form content and short posts. This contract defines the complete API surface for user management, series organization, media upload lifecycle, and inline versioned articles/posts used by backend services and client applications. It serves as the canonical schema for service communication, ensuring consistency, backward compatibility, and long-term evolvability of the system.
 
 This repository contains versioned API definitions only. It has no business logic.
 
 ## Features
 
 - Versioned API (`v1`)
-- Snapshot versioning for articles and posts
-- Explicit root ownership/linking fields on writing entities (`user_id`, `series_id`)
+- Inline versioning for articles and posts (version counter on entity)
+- Explicit ownership/linking fields on writing entities (`user_id`, `series_id`)
 - Separate services for auth, applications, media, and writing domain
-- Media asset model with status/usage/variants metadata
+- Media asset model with status and lifecycle metadata
 - HTTP/REST bindings via gRPC-Gateway annotations
 - Buf linting and breaking-change checks
 
@@ -28,7 +28,7 @@ This repository contains versioned API definitions only. It has no business logi
 - `NotezaAuthService`: registration and login
 - `NotezaApplicationService`: app credentials for machine clients (MCP, integrations)
 - `NotezaMediaService`: image upload lifecycle via pre-signed URLs
-- `NotezaWritesService`: series, articles, posts, and writing context
+- `NotezaWritesService`: series, articles, and posts
 
 ## Docs
 

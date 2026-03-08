@@ -75,14 +75,23 @@ func (PostStatus) EnumDescriptor() ([]byte, []int) {
 }
 
 type Post struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId           string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	SeriesId         *string                `protobuf:"bytes,3,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
-	CurrentVersionId string                 `protobuf:"bytes,4,opt,name=current_version_id,json=currentVersionId,proto3" json:"current_version_id,omitempty"`
-	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId      string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	SeriesId    *string                `protobuf:"bytes,3,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
+	Version     int32                  `protobuf:"varint,4,opt,name=version,proto3" json:"version,omitempty"`
+	Content     string                 `protobuf:"bytes,5,opt,name=content,proto3" json:"content,omitempty"`
+	Status      PostStatus             `protobuf:"varint,6,opt,name=status,proto3,enum=noteza.writes.v1.PostStatus" json:"status,omitempty"`
+	CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	PublishedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=published_at,json=publishedAt,proto3,oneof" json:"published_at,omitempty"`
+	// Types that are valid to be assigned to Body:
+	//
+	//	*Post_Article
+	//	*Post_Images
+	Body          isPost_Body `protobuf_oneof:"body"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Post) Reset() {
@@ -136,11 +145,25 @@ func (x *Post) GetSeriesId() string {
 	return ""
 }
 
-func (x *Post) GetCurrentVersionId() string {
+func (x *Post) GetVersion() int32 {
 	if x != nil {
-		return x.CurrentVersionId
+		return x.Version
+	}
+	return 0
+}
+
+func (x *Post) GetContent() string {
+	if x != nil {
+		return x.Content
 	}
 	return ""
+}
+
+func (x *Post) GetStatus() PostStatus {
+	if x != nil {
+		return x.Status
+	}
+	return PostStatus_POST_STATUS_UNSPECIFIED
 }
 
 func (x *Post) GetCreatedAt() *timestamppb.Timestamp {
@@ -150,131 +173,84 @@ func (x *Post) GetCreatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-type PostVersion struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	PostId        string                 `protobuf:"bytes,2,opt,name=post_id,json=postId,proto3" json:"post_id,omitempty"`
-	VersionNumber int32                  `protobuf:"varint,3,opt,name=version_number,json=versionNumber,proto3" json:"version_number,omitempty"`
-	ContentMd     string                 `protobuf:"bytes,4,opt,name=content_md,json=contentMd,proto3" json:"content_md,omitempty"`
-	Images        []*ImageAsset          `protobuf:"bytes,5,rep,name=images,proto3" json:"images,omitempty"`
-	Status        PostStatus             `protobuf:"varint,6,opt,name=status,proto3,enum=noteza.writes.v1.PostStatus" json:"status,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	PublishedAt   *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=published_at,json=publishedAt,proto3,oneof" json:"published_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *PostVersion) Reset() {
-	*x = PostVersion{}
-	mi := &file_noteza_writes_v1_post_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *PostVersion) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*PostVersion) ProtoMessage() {}
-
-func (x *PostVersion) ProtoReflect() protoreflect.Message {
-	mi := &file_noteza_writes_v1_post_proto_msgTypes[1]
+func (x *Post) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PostVersion.ProtoReflect.Descriptor instead.
-func (*PostVersion) Descriptor() ([]byte, []int) {
-	return file_noteza_writes_v1_post_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *PostVersion) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *PostVersion) GetPostId() string {
-	if x != nil {
-		return x.PostId
-	}
-	return ""
-}
-
-func (x *PostVersion) GetVersionNumber() int32 {
-	if x != nil {
-		return x.VersionNumber
-	}
-	return 0
-}
-
-func (x *PostVersion) GetContentMd() string {
-	if x != nil {
-		return x.ContentMd
-	}
-	return ""
-}
-
-func (x *PostVersion) GetImages() []*ImageAsset {
-	if x != nil {
-		return x.Images
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *PostVersion) GetStatus() PostStatus {
-	if x != nil {
-		return x.Status
-	}
-	return PostStatus_POST_STATUS_UNSPECIFIED
-}
-
-func (x *PostVersion) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *PostVersion) GetPublishedAt() *timestamppb.Timestamp {
+func (x *Post) GetPublishedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.PublishedAt
 	}
 	return nil
 }
 
+func (x *Post) GetBody() isPost_Body {
+	if x != nil {
+		return x.Body
+	}
+	return nil
+}
+
+func (x *Post) GetArticle() *ArticlePreview {
+	if x != nil {
+		if x, ok := x.Body.(*Post_Article); ok {
+			return x.Article
+		}
+	}
+	return nil
+}
+
+func (x *Post) GetImages() *ImageGallery {
+	if x != nil {
+		if x, ok := x.Body.(*Post_Images); ok {
+			return x.Images
+		}
+	}
+	return nil
+}
+
+type isPost_Body interface {
+	isPost_Body()
+}
+
+type Post_Article struct {
+	Article *ArticlePreview `protobuf:"bytes,10,opt,name=article,proto3,oneof"`
+}
+
+type Post_Images struct {
+	Images *ImageGallery `protobuf:"bytes,11,opt,name=images,proto3,oneof"`
+}
+
+func (*Post_Article) isPost_Body() {}
+
+func (*Post_Images) isPost_Body() {}
+
 var File_noteza_writes_v1_post_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_post_proto_rawDesc = "" +
 	"\n" +
-	"\x1bnoteza/writes/v1/post.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\xc8\x01\n" +
+	"\x1bnoteza/writes/v1/post.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\x1a\x1enoteza/writes/v1/article.proto\"\x94\x04\n" +
 	"\x04Post\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12 \n" +
-	"\tseries_id\x18\x03 \x01(\tH\x00R\bseriesId\x88\x01\x01\x12,\n" +
-	"\x12current_version_id\x18\x04 \x01(\tR\x10currentVersionId\x129\n" +
-	"\n" +
-	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtB\f\n" +
-	"\n" +
-	"_series_id\"\xf8\x02\n" +
-	"\vPostVersion\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
-	"\apost_id\x18\x02 \x01(\tR\x06postId\x12%\n" +
-	"\x0eversion_number\x18\x03 \x01(\x05R\rversionNumber\x12\x1d\n" +
-	"\n" +
-	"content_md\x18\x04 \x01(\tR\tcontentMd\x124\n" +
-	"\x06images\x18\x05 \x03(\v2\x1c.noteza.writes.v1.ImageAssetR\x06images\x124\n" +
+	"\tseries_id\x18\x03 \x01(\tH\x01R\bseriesId\x88\x01\x01\x12\x18\n" +
+	"\aversion\x18\x04 \x01(\x05R\aversion\x12\x18\n" +
+	"\acontent\x18\x05 \x01(\tR\acontent\x124\n" +
 	"\x06status\x18\x06 \x01(\x0e2\x1c.noteza.writes.v1.PostStatusR\x06status\x129\n" +
 	"\n" +
-	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12B\n" +
-	"\fpublished_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampH\x00R\vpublishedAt\x88\x01\x01B\x0f\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12B\n" +
+	"\fpublished_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampH\x02R\vpublishedAt\x88\x01\x01\x12<\n" +
+	"\aarticle\x18\n" +
+	" \x01(\v2 .noteza.writes.v1.ArticlePreviewH\x00R\aarticle\x128\n" +
+	"\x06images\x18\v \x01(\v2\x1e.noteza.writes.v1.ImageGalleryH\x00R\x06imagesB\x06\n" +
+	"\x04bodyB\f\n" +
+	"\n" +
+	"_series_idB\x0f\n" +
 	"\r_published_at*u\n" +
 	"\n" +
 	"PostStatus\x12\x1b\n" +
@@ -296,25 +272,26 @@ func file_noteza_writes_v1_post_proto_rawDescGZIP() []byte {
 }
 
 var file_noteza_writes_v1_post_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_noteza_writes_v1_post_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_noteza_writes_v1_post_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_noteza_writes_v1_post_proto_goTypes = []any{
 	(PostStatus)(0),               // 0: noteza.writes.v1.PostStatus
 	(*Post)(nil),                  // 1: noteza.writes.v1.Post
-	(*PostVersion)(nil),           // 2: noteza.writes.v1.PostVersion
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
-	(*ImageAsset)(nil),            // 4: noteza.writes.v1.ImageAsset
+	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
+	(*ArticlePreview)(nil),        // 3: noteza.writes.v1.ArticlePreview
+	(*ImageGallery)(nil),          // 4: noteza.writes.v1.ImageGallery
 }
 var file_noteza_writes_v1_post_proto_depIdxs = []int32{
-	3, // 0: noteza.writes.v1.Post.created_at:type_name -> google.protobuf.Timestamp
-	4, // 1: noteza.writes.v1.PostVersion.images:type_name -> noteza.writes.v1.ImageAsset
-	0, // 2: noteza.writes.v1.PostVersion.status:type_name -> noteza.writes.v1.PostStatus
-	3, // 3: noteza.writes.v1.PostVersion.created_at:type_name -> google.protobuf.Timestamp
-	3, // 4: noteza.writes.v1.PostVersion.published_at:type_name -> google.protobuf.Timestamp
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	0, // 0: noteza.writes.v1.Post.status:type_name -> noteza.writes.v1.PostStatus
+	2, // 1: noteza.writes.v1.Post.created_at:type_name -> google.protobuf.Timestamp
+	2, // 2: noteza.writes.v1.Post.updated_at:type_name -> google.protobuf.Timestamp
+	2, // 3: noteza.writes.v1.Post.published_at:type_name -> google.protobuf.Timestamp
+	3, // 4: noteza.writes.v1.Post.article:type_name -> noteza.writes.v1.ArticlePreview
+	4, // 5: noteza.writes.v1.Post.images:type_name -> noteza.writes.v1.ImageGallery
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_noteza_writes_v1_post_proto_init() }
@@ -323,15 +300,18 @@ func file_noteza_writes_v1_post_proto_init() {
 		return
 	}
 	file_noteza_writes_v1_media_proto_init()
-	file_noteza_writes_v1_post_proto_msgTypes[0].OneofWrappers = []any{}
-	file_noteza_writes_v1_post_proto_msgTypes[1].OneofWrappers = []any{}
+	file_noteza_writes_v1_article_proto_init()
+	file_noteza_writes_v1_post_proto_msgTypes[0].OneofWrappers = []any{
+		(*Post_Article)(nil),
+		(*Post_Images)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_noteza_writes_v1_post_proto_rawDesc), len(file_noteza_writes_v1_post_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   2,
+			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

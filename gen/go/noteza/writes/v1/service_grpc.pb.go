@@ -706,29 +706,25 @@ var NotezaMediaService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	NotezaWritesService_CreateSeries_FullMethodName       = "/noteza.writes.v1.NotezaWritesService/CreateSeries"
-	NotezaWritesService_UpdateSeries_FullMethodName       = "/noteza.writes.v1.NotezaWritesService/UpdateSeries"
-	NotezaWritesService_GetSeries_FullMethodName          = "/noteza.writes.v1.NotezaWritesService/GetSeries"
-	NotezaWritesService_ListSeries_FullMethodName         = "/noteza.writes.v1.NotezaWritesService/ListSeries"
-	NotezaWritesService_CreateArticle_FullMethodName      = "/noteza.writes.v1.NotezaWritesService/CreateArticle"
-	NotezaWritesService_UpdateArticle_FullMethodName      = "/noteza.writes.v1.NotezaWritesService/UpdateArticle"
-	NotezaWritesService_GetArticle_FullMethodName         = "/noteza.writes.v1.NotezaWritesService/GetArticle"
-	NotezaWritesService_ListArticles_FullMethodName       = "/noteza.writes.v1.NotezaWritesService/ListArticles"
-	NotezaWritesService_GetArticleVersions_FullMethodName = "/noteza.writes.v1.NotezaWritesService/GetArticleVersions"
-	NotezaWritesService_CreatePost_FullMethodName         = "/noteza.writes.v1.NotezaWritesService/CreatePost"
-	NotezaWritesService_UpdatePost_FullMethodName         = "/noteza.writes.v1.NotezaWritesService/UpdatePost"
-	NotezaWritesService_GetPost_FullMethodName            = "/noteza.writes.v1.NotezaWritesService/GetPost"
-	NotezaWritesService_ListPosts_FullMethodName          = "/noteza.writes.v1.NotezaWritesService/ListPosts"
-	NotezaWritesService_GetPostVersions_FullMethodName    = "/noteza.writes.v1.NotezaWritesService/GetPostVersions"
-	NotezaWritesService_GetWritingContext_FullMethodName  = "/noteza.writes.v1.NotezaWritesService/GetWritingContext"
+	NotezaWritesService_CreateSeries_FullMethodName  = "/noteza.writes.v1.NotezaWritesService/CreateSeries"
+	NotezaWritesService_UpdateSeries_FullMethodName  = "/noteza.writes.v1.NotezaWritesService/UpdateSeries"
+	NotezaWritesService_GetSeries_FullMethodName     = "/noteza.writes.v1.NotezaWritesService/GetSeries"
+	NotezaWritesService_ListSeries_FullMethodName    = "/noteza.writes.v1.NotezaWritesService/ListSeries"
+	NotezaWritesService_CreateArticle_FullMethodName = "/noteza.writes.v1.NotezaWritesService/CreateArticle"
+	NotezaWritesService_UpdateArticle_FullMethodName = "/noteza.writes.v1.NotezaWritesService/UpdateArticle"
+	NotezaWritesService_GetArticle_FullMethodName    = "/noteza.writes.v1.NotezaWritesService/GetArticle"
+	NotezaWritesService_ListArticles_FullMethodName  = "/noteza.writes.v1.NotezaWritesService/ListArticles"
+	NotezaWritesService_CreatePost_FullMethodName    = "/noteza.writes.v1.NotezaWritesService/CreatePost"
+	NotezaWritesService_UpdatePost_FullMethodName    = "/noteza.writes.v1.NotezaWritesService/UpdatePost"
+	NotezaWritesService_GetPost_FullMethodName       = "/noteza.writes.v1.NotezaWritesService/GetPost"
+	NotezaWritesService_ListPosts_FullMethodName     = "/noteza.writes.v1.NotezaWritesService/ListPosts"
 )
 
 // NotezaWritesServiceClient is the client API for NotezaWritesService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// NotezaWritesService defines the public API for content lifecycle
-// management and writing context retrieval.
+// NotezaWritesService defines the public API for content lifecycle management.
 type NotezaWritesServiceClient interface {
 	// CreateSeries creates a new writing series for a user.
 	CreateSeries(ctx context.Context, in *CreateSeriesRequest, opts ...grpc.CallOption) (*CreateSeriesResponse, error)
@@ -747,8 +743,6 @@ type NotezaWritesServiceClient interface {
 	// ListArticles returns paginated articles visible to the authenticated user,
 	// optionally filtered by series_id.
 	ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesResponse, error)
-	// GetArticleVersions returns paginated version history for an article.
-	GetArticleVersions(ctx context.Context, in *GetArticleVersionsRequest, opts ...grpc.CallOption) (*GetArticleVersionsResponse, error)
 	// CreatePost creates a post and its initial version.
 	CreatePost(ctx context.Context, in *CreatePostRequest, opts ...grpc.CallOption) (*CreatePostResponse, error)
 	// UpdatePost creates a new post version with provided changes.
@@ -758,10 +752,6 @@ type NotezaWritesServiceClient interface {
 	// ListPosts returns paginated posts visible to the authenticated user,
 	// optionally filtered by series_id.
 	ListPosts(ctx context.Context, in *ListPostsRequest, opts ...grpc.CallOption) (*ListPostsResponse, error)
-	// GetPostVersions returns paginated version history for a post.
-	GetPostVersions(ctx context.Context, in *GetPostVersionsRequest, opts ...grpc.CallOption) (*GetPostVersionsResponse, error)
-	// GetWritingContext returns optional series-scoped context and related article/post history.
-	GetWritingContext(ctx context.Context, in *GetWritingContextRequest, opts ...grpc.CallOption) (*GetWritingContextResponse, error)
 }
 
 type notezaWritesServiceClient struct {
@@ -852,16 +842,6 @@ func (c *notezaWritesServiceClient) ListArticles(ctx context.Context, in *ListAr
 	return out, nil
 }
 
-func (c *notezaWritesServiceClient) GetArticleVersions(ctx context.Context, in *GetArticleVersionsRequest, opts ...grpc.CallOption) (*GetArticleVersionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetArticleVersionsResponse)
-	err := c.cc.Invoke(ctx, NotezaWritesService_GetArticleVersions_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *notezaWritesServiceClient) CreatePost(ctx context.Context, in *CreatePostRequest, opts ...grpc.CallOption) (*CreatePostResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreatePostResponse)
@@ -902,32 +882,11 @@ func (c *notezaWritesServiceClient) ListPosts(ctx context.Context, in *ListPosts
 	return out, nil
 }
 
-func (c *notezaWritesServiceClient) GetPostVersions(ctx context.Context, in *GetPostVersionsRequest, opts ...grpc.CallOption) (*GetPostVersionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetPostVersionsResponse)
-	err := c.cc.Invoke(ctx, NotezaWritesService_GetPostVersions_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *notezaWritesServiceClient) GetWritingContext(ctx context.Context, in *GetWritingContextRequest, opts ...grpc.CallOption) (*GetWritingContextResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetWritingContextResponse)
-	err := c.cc.Invoke(ctx, NotezaWritesService_GetWritingContext_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // NotezaWritesServiceServer is the server API for NotezaWritesService service.
 // All implementations must embed UnimplementedNotezaWritesServiceServer
 // for forward compatibility.
 //
-// NotezaWritesService defines the public API for content lifecycle
-// management and writing context retrieval.
+// NotezaWritesService defines the public API for content lifecycle management.
 type NotezaWritesServiceServer interface {
 	// CreateSeries creates a new writing series for a user.
 	CreateSeries(context.Context, *CreateSeriesRequest) (*CreateSeriesResponse, error)
@@ -946,8 +905,6 @@ type NotezaWritesServiceServer interface {
 	// ListArticles returns paginated articles visible to the authenticated user,
 	// optionally filtered by series_id.
 	ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesResponse, error)
-	// GetArticleVersions returns paginated version history for an article.
-	GetArticleVersions(context.Context, *GetArticleVersionsRequest) (*GetArticleVersionsResponse, error)
 	// CreatePost creates a post and its initial version.
 	CreatePost(context.Context, *CreatePostRequest) (*CreatePostResponse, error)
 	// UpdatePost creates a new post version with provided changes.
@@ -957,10 +914,6 @@ type NotezaWritesServiceServer interface {
 	// ListPosts returns paginated posts visible to the authenticated user,
 	// optionally filtered by series_id.
 	ListPosts(context.Context, *ListPostsRequest) (*ListPostsResponse, error)
-	// GetPostVersions returns paginated version history for a post.
-	GetPostVersions(context.Context, *GetPostVersionsRequest) (*GetPostVersionsResponse, error)
-	// GetWritingContext returns optional series-scoped context and related article/post history.
-	GetWritingContext(context.Context, *GetWritingContextRequest) (*GetWritingContextResponse, error)
 	mustEmbedUnimplementedNotezaWritesServiceServer()
 }
 
@@ -995,9 +948,6 @@ func (UnimplementedNotezaWritesServiceServer) GetArticle(context.Context, *GetAr
 func (UnimplementedNotezaWritesServiceServer) ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListArticles not implemented")
 }
-func (UnimplementedNotezaWritesServiceServer) GetArticleVersions(context.Context, *GetArticleVersionsRequest) (*GetArticleVersionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetArticleVersions not implemented")
-}
 func (UnimplementedNotezaWritesServiceServer) CreatePost(context.Context, *CreatePostRequest) (*CreatePostResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreatePost not implemented")
 }
@@ -1009,12 +959,6 @@ func (UnimplementedNotezaWritesServiceServer) GetPost(context.Context, *GetPostR
 }
 func (UnimplementedNotezaWritesServiceServer) ListPosts(context.Context, *ListPostsRequest) (*ListPostsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListPosts not implemented")
-}
-func (UnimplementedNotezaWritesServiceServer) GetPostVersions(context.Context, *GetPostVersionsRequest) (*GetPostVersionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetPostVersions not implemented")
-}
-func (UnimplementedNotezaWritesServiceServer) GetWritingContext(context.Context, *GetWritingContextRequest) (*GetWritingContextResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetWritingContext not implemented")
 }
 func (UnimplementedNotezaWritesServiceServer) mustEmbedUnimplementedNotezaWritesServiceServer() {}
 func (UnimplementedNotezaWritesServiceServer) testEmbeddedByValue()                             {}
@@ -1181,24 +1125,6 @@ func _NotezaWritesService_ListArticles_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotezaWritesService_GetArticleVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetArticleVersionsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NotezaWritesServiceServer).GetArticleVersions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NotezaWritesService_GetArticleVersions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotezaWritesServiceServer).GetArticleVersions(ctx, req.(*GetArticleVersionsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _NotezaWritesService_CreatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreatePostRequest)
 	if err := dec(in); err != nil {
@@ -1271,42 +1197,6 @@ func _NotezaWritesService_ListPosts_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotezaWritesService_GetPostVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostVersionsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NotezaWritesServiceServer).GetPostVersions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NotezaWritesService_GetPostVersions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotezaWritesServiceServer).GetPostVersions(ctx, req.(*GetPostVersionsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NotezaWritesService_GetWritingContext_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWritingContextRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NotezaWritesServiceServer).GetWritingContext(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NotezaWritesService_GetWritingContext_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotezaWritesServiceServer).GetWritingContext(ctx, req.(*GetWritingContextRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // NotezaWritesService_ServiceDesc is the grpc.ServiceDesc for NotezaWritesService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1347,10 +1237,6 @@ var NotezaWritesService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NotezaWritesService_ListArticles_Handler,
 		},
 		{
-			MethodName: "GetArticleVersions",
-			Handler:    _NotezaWritesService_GetArticleVersions_Handler,
-		},
-		{
 			MethodName: "CreatePost",
 			Handler:    _NotezaWritesService_CreatePost_Handler,
 		},
@@ -1365,14 +1251,6 @@ var NotezaWritesService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListPosts",
 			Handler:    _NotezaWritesService_ListPosts_Handler,
-		},
-		{
-			MethodName: "GetPostVersions",
-			Handler:    _NotezaWritesService_GetPostVersions_Handler,
-		},
-		{
-			MethodName: "GetWritingContext",
-			Handler:    _NotezaWritesService_GetWritingContext_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

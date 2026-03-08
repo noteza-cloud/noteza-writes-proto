@@ -8,7 +8,6 @@ import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "noteza/writes/v1/application.proto";
 import "noteza/writes/v1/article.proto";
-import "noteza/writes/v1/context.proto";
 import "noteza/writes/v1/media.proto";
 import "noteza/writes/v1/post.proto";
 import "noteza/writes/v1/series.proto";
@@ -106,8 +105,7 @@ service NotezaMediaService {
   }
 }
 
-// NotezaWritesService defines the public API for content lifecycle
-// management and writing context retrieval.
+// NotezaWritesService defines the public API for content lifecycle management.
 service NotezaWritesService {
   // CreateSeries creates a new writing series for a user.
   rpc CreateSeries(CreateSeriesRequest) returns (CreateSeriesResponse) {
@@ -163,13 +161,6 @@ service NotezaWritesService {
       get: "/v1/articles"
     };
   }
-  // GetArticleVersions returns paginated version history for an article.
-  rpc GetArticleVersions(GetArticleVersionsRequest) returns (GetArticleVersionsResponse) {
-    option (google.api.http) = {
-      get: "/v1/articles/{article_id}/versions"
-    };
-  }
-
   // CreatePost creates a post and its initial version.
   rpc CreatePost(CreatePostRequest) returns (CreatePostResponse) {
     option (google.api.http) = {
@@ -195,19 +186,6 @@ service NotezaWritesService {
   rpc ListPosts(ListPostsRequest) returns (ListPostsResponse) {
     option (google.api.http) = {
       get: "/v1/posts"
-    };
-  }
-  // GetPostVersions returns paginated version history for a post.
-  rpc GetPostVersions(GetPostVersionsRequest) returns (GetPostVersionsResponse) {
-    option (google.api.http) = {
-      get: "/v1/posts/{post_id}/versions"
-    };
-  }
-
-  // GetWritingContext returns optional series-scoped context and related article/post history.
-  rpc GetWritingContext(GetWritingContextRequest) returns (GetWritingContextResponse) {
-    option (google.api.http) = {
-      get: "/v1/writing-context"
     };
   }
 }
@@ -292,10 +270,7 @@ message CreateImageUploadRequest {
   string file_name = 1;
   string mime_type = 2;
   int64 size_bytes = 3;
-  ImageUsage usage = 4;
-  optional string alt_text = 5;
-  optional string source = 6;
-  optional string checksum_sha256 = 7;
+  optional string alt_text = 4;
 }
 
 message CreateImageUploadResponse {
@@ -314,7 +289,6 @@ message GetImageResponse {
 
 message ListImagesRequest {
   optional ImageStatus status = 1;
-  optional ImageUsage usage = 2;
   // Maximum number of items to return in a single page.
   optional int32 page_size = 3;
   // Opaque pagination cursor from a previous next_page_token.
@@ -323,7 +297,7 @@ message ListImagesRequest {
 }
 
 message ListImagesResponse {
-  repeated ImageAsset images = 1;
+  repeated ImagePreview images = 1;
   // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
@@ -404,33 +378,20 @@ message CreateArticleRequest {
   optional string series_id = 1;
   string title = 2;
   string content_md = 3;
-  optional string post_md = 4;
   optional string cover_image_id = 5;
   repeated string image_ids = 6;
-  optional string summary = 7;
-  optional string canonical_topic = 8;
-  optional int32 series_part = 9;
-  optional string edited_by = 10;
-  optional string edit_reason = 11;
 }
 
 message UpdateArticleRequest {
   string article_id = 1;
   optional string title = 2;
   optional string content_md = 3;
-  optional string post_md = 4;
   optional string cover_image_id = 5;
   // Image IDs to append to the article's image list.
   // Duplicates within this list are silently deduplicated.
   // If an ID appears in both add_image_ids and remove_image_ids, removal takes precedence.
   repeated string add_image_ids = 6;
-  optional string summary = 7;
-  optional string canonical_topic = 8;
-  optional int32 series_part = 9;
   optional ArticleStatus status = 10;
-  optional string embedding = 11;
-  optional string edited_by = 12;
-  optional string edit_reason = 13;
   // Image IDs to remove from the article's image list.
   // IDs not currently attached to the article are ignored (no-op).
   // Duplicates within this list are silently deduplicated.
@@ -440,6 +401,9 @@ message UpdateArticleRequest {
 
 message GetArticleRequest {
   string article_id = 1;
+  // Optional version number to retrieve a specific historical version.
+  // If omitted, the current version is returned.
+  optional int32 version = 2;
 }
 
 message ListArticlesRequest {
@@ -451,75 +415,80 @@ message ListArticlesRequest {
   optional string page_token = 3;
 }
 
-message GetArticleVersionsRequest {
-  string article_id = 1;
-  // Maximum number of items to return in a single page.
-  optional int32 page_size = 2;
-  // Opaque pagination cursor from a previous next_page_token.
-  // Keep it as-is; do not parse or construct it on the client.
-  optional string page_token = 3;
-}
-
-message ArticleResponse {
-  Article article = 1;
-  ArticleVersion current_version = 2;
-}
-
 message ArticleListResponse {
-  repeated ArticleResponse articles = 1;
-  // Opaque cursor for the next page; empty when there are no more results.
-  string next_page_token = 2;
-}
-
-message ArticleVersionsResponse {
-  repeated ArticleVersion versions = 1;
+  repeated ArticlePreview articles = 1;
   // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
 }
 
 message CreateArticleResponse {
-  ArticleResponse article = 1;
+  Article article = 1;
 }
 
 message UpdateArticleResponse {
-  ArticleResponse article = 1;
+  Article article = 1;
 }
 
 message GetArticleResponse {
-  ArticleResponse article = 1;
+  Article article = 1;
 }
 
 message ListArticlesResponse {
   ArticleListResponse articles = 1;
 }
 
-message GetArticleVersionsResponse {
-  ArticleVersionsResponse versions = 1;
-}
-
 message CreatePostRequest {
   optional string series_id = 1;
-  string content_md = 2;
-  repeated string image_ids = 3;
+  string content = 2;
+  oneof body {
+    // Use this variant to link post body to an existing article.
+    CreatePostArticleBody article = 3;
+    // Use this variant to create an image-based post body.
+    CreatePostImageBody images = 4;
+  }
 }
 
 message UpdatePostRequest {
   string post_id = 1;
-  optional string content_md = 2;
+  optional string content = 2;
+  optional PostStatus status = 4;
+  oneof body {
+    // Replaces post body with an article link.
+    UpdatePostArticleBody article = 5;
+    // Updates image-based post body using append/remove semantics.
+    UpdatePostImageBody images = 6;
+  }
+}
+
+message CreatePostArticleBody {
+  string article_id = 1;
+}
+
+message CreatePostImageBody {
+  repeated string image_ids = 1;
+}
+
+message UpdatePostArticleBody {
+  string article_id = 1;
+}
+
+message UpdatePostImageBody {
   // Image IDs to append to the post's image list.
   // Duplicates within this list are silently deduplicated.
   // If an ID appears in both add_image_ids and remove_image_ids, removal takes precedence.
-  repeated string add_image_ids = 3;
-  optional PostStatus status = 4;
+  repeated string add_image_ids = 1;
   // Image IDs to remove from the post's image list.
   // IDs not currently attached to the post are ignored (no-op).
   // Duplicates within this list are silently deduplicated.
   // Removal takes precedence over add_image_ids if the same ID appears in both.
-  repeated string remove_image_ids = 5;
+  repeated string remove_image_ids = 2;
 }
 
 message GetPostRequest {
   string post_id = 1;
+  // Optional version number to retrieve a specific historical version.
+  // If omitted, the current version is returned.
+  optional int32 version = 2;
 }
 
 message ListPostsRequest {
@@ -531,57 +500,20 @@ message ListPostsRequest {
   optional string page_token = 3;
 }
 
-message GetPostVersionsRequest {
-  string post_id = 1;
-  // Maximum number of items to return in a single page.
-  optional int32 page_size = 2;
-  // Opaque pagination cursor from a previous next_page_token.
-  // Keep it as-is; do not parse or construct it on the client.
-  optional string page_token = 3;
-}
-
-message PostResponse {
-  Post post = 1;
-  PostVersion current_version = 2;
-}
-
-message PostListResponse {
-  repeated PostResponse posts = 1;
-  // Opaque cursor for the next page; empty when there are no more results.
-  string next_page_token = 2;
-}
-
-message PostVersionsResponse {
-  repeated PostVersion versions = 1;
-  // Opaque cursor for the next page; empty when there are no more results.
-  string next_page_token = 2;
-}
-
 message CreatePostResponse {
-  PostResponse post = 1;
+  Post post = 1;
 }
 
 message UpdatePostResponse {
-  PostResponse post = 1;
+  Post post = 1;
 }
 
 message GetPostResponse {
-  PostResponse post = 1;
+  Post post = 1;
 }
 
 message ListPostsResponse {
-  PostListResponse posts = 1;
-}
-
-message GetPostVersionsResponse {
-  PostVersionsResponse versions = 1;
-}
-
-message GetWritingContextRequest {
-  optional string series_id = 1;
-  optional string candidate_topic = 2;
-}
-
-message GetWritingContextResponse {
-  WritingContext context = 1;
+  repeated Post posts = 1;
+  // Opaque cursor for the next page; empty when there are no more results.
+  string next_page_token = 2;
 }

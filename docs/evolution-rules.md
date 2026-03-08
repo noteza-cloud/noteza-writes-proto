@@ -24,7 +24,7 @@ Breaking changes require a new API version package (for example `noteza.writes.v
 - Keep authentication, application credentials, media uploads, and writing domain separated by service.
 - Keep message names explicit and operation-scoped (`CreateXRequest`, `CreateXResponse`).
 - Keep entities in domain files and transport request/response in `service.proto`.
-- For repeated images in update requests, use append/remove semantics (`add_*`, `remove_*`) instead of full replacement.
+- For repeated images in update requests, use append/remove semantics (`add_*`, `remove_*`) instead of full replacement (for posts, inside `UpdatePostRequest.body.images`).
 - For authenticated ownership checks, derive user identity from auth context, not request `user_id` fields.
 - For media uploads, keep binary transport outside protobuf payloads (pre-signed upload flow only).
 

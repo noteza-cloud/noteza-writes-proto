@@ -14,18 +14,14 @@ enum ImageStatus {
   IMAGE_STATUS_DELETED = 4;
 }
 
-enum ImageUsage {
-  IMAGE_USAGE_UNSPECIFIED = 0;
-  IMAGE_USAGE_ARTICLE_COVER = 1;
-  IMAGE_USAGE_ARTICLE_INLINE = 2;
-  IMAGE_USAGE_POST_IMAGE = 3;
+message ImageGallery {
+  repeated ImagePreview images = 1;
 }
 
-message ImageVariant {
-  string kind = 1;
+message ImagePreview {
+  string id = 1;
   string url = 2;
-  optional int32 width = 3;
-  optional int32 height = 4;
+  optional string alt_text = 3;
 }
 
 message ImageAsset {
@@ -34,14 +30,9 @@ message ImageAsset {
   string url = 3;
   string mime_type = 4;
   int64 size_bytes = 5;
-  optional int32 width = 6;
-  optional int32 height = 7;
-  google.protobuf.Timestamp created_at = 8;
-  ImageStatus status = 9;
-  ImageUsage usage = 10;
-  optional string alt_text = 11;
-  optional string source = 12;
-  optional string checksum_sha256 = 13;
-  repeated ImageVariant variants = 14;
-  optional google.protobuf.Timestamp deleted_at = 15;
+  int32 width = 6;
+  int32 height = 7;
+  ImageStatus status = 8;
+  optional string alt_text = 9;
+  google.protobuf.Timestamp created_at = 10;
 }

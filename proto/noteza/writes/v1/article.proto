@@ -14,30 +14,24 @@ enum ArticleStatus {
   ARTICLE_STATUS_ARCHIVED = 3;
 }
 
+message ArticlePreview {
+  string id = 1;
+  optional ImagePreview cover_image = 2;
+  string title = 3;
+  string content_preview = 4;
+}
+
 message Article {
   string id = 1;
   string user_id = 2;
   optional string series_id = 3;
-  string current_version_id = 4;
-  google.protobuf.Timestamp created_at = 5;
-}
-
-message ArticleVersion {
-  string id = 1;
-  string article_id = 2;
-  int32 version_number = 3;
-  string title = 4;
-  string content_md = 5;
-  optional string post_md = 6;
-  optional ImageAsset cover_image = 7;
-  repeated ImageAsset images = 8;
-  optional string summary = 9;
-  optional string canonical_topic = 10;
-  optional int32 series_part = 11;
-  ArticleStatus status = 12;
-  optional string embedding = 13;
-  optional string edited_by = 14;
-  optional string edit_reason = 15;
-  google.protobuf.Timestamp created_at = 16;
-  optional google.protobuf.Timestamp published_at = 17;
+  int32 version = 4;
+  optional ImagePreview cover_image = 5;
+  repeated ImagePreview images = 6;
+  string title = 7;
+  string content_md = 8;
+  ArticleStatus status = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+  optional google.protobuf.Timestamp published_at = 12;
 }
