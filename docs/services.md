@@ -99,13 +99,13 @@ Notes:
 Notes:
 
 - `Post` stores all content inline with a `version` counter; there is no separate version snapshot type.
-- `Post` includes `user_id`, `series_id`, and a `body` oneof (`ArticlePreview` or `ImageGallery`).
+- `Post` includes `user_id`, `series_id`, and a `body` oneof (`note`, `ArticlePreview`, or `ImageGallery`).
 - `CreatePostRequest` includes optional `series_id` to assign the new post to a series at creation time.
 - `CreatePostRequest` uses `body` oneof:
+  - `note` creates a text-only post body.
   - `article.article_id` links the post to an existing article.
   - `images.image_ids` creates an image-based post body.
-- `UpdatePostRequest` uses `body` oneof:
-  - `article.article_id` switches/replaces post body with an article link.
-  - `images.add_image_ids` and `images.remove_image_ids` update an image-based post body.
+- `UpdatePostRequest.images.add_image_ids` and `UpdatePostRequest.images.remove_image_ids` update an image-based post body.
+- Image updates are valid only for posts whose current `Post.body` is `images` (`ImageGallery`); otherwise server should return `FAILED_PRECONDITION`.
 - `ListPostsRequest` includes optional `series_id` to scope list results to a specific series.
 - `GetPostRequest.version` is optional. When provided, the server returns the post at that specific version.

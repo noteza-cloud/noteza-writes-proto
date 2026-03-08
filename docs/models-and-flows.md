@@ -43,6 +43,7 @@
 - `status` (`PostStatus`)
 - `created_at`, `updated_at`, `published_at`
 - `body` oneof:
+  - `note` (`google.protobuf.Empty`) — text-only post body
   - `article` (`ArticlePreview`) — post linked to an article
   - `images` (`ImageGallery`) — standalone image post
 
@@ -53,7 +54,7 @@
 3. Client uploads binary directly to storage URL.
 4. Client calls `FinalizeImageUpload` with optional verification metadata (`uploaded_size_bytes`, `checksum_sha256`, `width`, `height`).
 5. API marks asset as `READY` (or `FAILED` on validation failure).
-6. Client references `image_id` in `Create/UpdateArticleRequest` or in `Create/UpdatePostRequest.body.images` / `UpdatePostRequest.body.images`.
+6. Client references `image_id` in `Create/UpdateArticleRequest` or in `CreatePostRequest.body.images` / `UpdatePostRequest.images`.
 
 `ImageAsset` includes:
 
@@ -70,10 +71,12 @@ Update semantics for images:
 - `CreateArticleRequest.image_ids` and `CreatePostRequest.body.images.image_ids` set initial images.
 - `CreateArticleRequest.series_id` and `CreatePostRequest.series_id` optionally link new content to a series.
 - `ListArticlesRequest.series_id` and `ListPostsRequest.series_id` optionally scope list results to one series.
-- `UpdateArticleRequest` and `UpdatePostRequest.body.images` use append/remove operations:
+- `UpdateArticleRequest` and `UpdatePostRequest.images` use append/remove operations:
   - `add_image_ids`: append these image references
   - `remove_image_ids`: remove these image references
-- `CreatePostRequest.body.article.article_id` and `UpdatePostRequest.body.article.article_id` are used for article-based post bodies.
+- `CreatePostRequest.body.article.article_id` is used for article-based post creation.
+- `CreatePostRequest.body.note` is used for note (text-only) post creation.
+- `UpdatePostRequest.images` can be used only when the current post body is `images` (`ImageGallery`); otherwise server should return `FAILED_PRECONDITION`.
 
 Conflict resolution rules for `add_image_ids` / `remove_image_ids`:
 
@@ -92,7 +95,7 @@ Conflict resolution rules for `add_image_ids` / `remove_image_ids`:
 
 ## Post Lifecycle Flow
 
-1. `CreatePost` creates a post with its initial content (optionally linked to `series_id`) and body variant selected via `body` oneof.
-2. `UpdatePost` writes a new version (increments `version`, updates content fields, and supports body updates via `body` oneof).
+1. `CreatePost` creates a post with its initial content (optionally linked to `series_id`) and body variant selected via `body` oneof (`note`, `article`, or `images`).
+2. `UpdatePost` writes a new version (increments `version`, updates content/status, and allows image append/remove only for `images` posts).
 3. `GetPost` returns the current post state. Pass optional `version` to retrieve a specific historical version.
 4. `ListPosts` returns paginated `Post` items and can be filtered by optional `series_id`.

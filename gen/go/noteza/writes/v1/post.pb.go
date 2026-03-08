@@ -9,6 +9,7 @@ package writesv1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
@@ -87,6 +88,7 @@ type Post struct {
 	PublishedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=published_at,json=publishedAt,proto3,oneof" json:"published_at,omitempty"`
 	// Types that are valid to be assigned to Body:
 	//
+	//	*Post_Note
 	//	*Post_Article
 	//	*Post_Images
 	Body          isPost_Body `protobuf_oneof:"body"`
@@ -194,6 +196,15 @@ func (x *Post) GetBody() isPost_Body {
 	return nil
 }
 
+func (x *Post) GetNote() *emptypb.Empty {
+	if x != nil {
+		if x, ok := x.Body.(*Post_Note); ok {
+			return x.Note
+		}
+	}
+	return nil
+}
+
 func (x *Post) GetArticle() *ArticlePreview {
 	if x != nil {
 		if x, ok := x.Body.(*Post_Article); ok {
@@ -216,13 +227,19 @@ type isPost_Body interface {
 	isPost_Body()
 }
 
+type Post_Note struct {
+	Note *emptypb.Empty `protobuf:"bytes,10,opt,name=note,proto3,oneof"`
+}
+
 type Post_Article struct {
-	Article *ArticlePreview `protobuf:"bytes,10,opt,name=article,proto3,oneof"`
+	Article *ArticlePreview `protobuf:"bytes,11,opt,name=article,proto3,oneof"`
 }
 
 type Post_Images struct {
-	Images *ImageGallery `protobuf:"bytes,11,opt,name=images,proto3,oneof"`
+	Images *ImageGallery `protobuf:"bytes,12,opt,name=images,proto3,oneof"`
 }
+
+func (*Post_Note) isPost_Body() {}
 
 func (*Post_Article) isPost_Body() {}
 
@@ -232,7 +249,7 @@ var File_noteza_writes_v1_post_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_post_proto_rawDesc = "" +
 	"\n" +
-	"\x1bnoteza/writes/v1/post.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\x1a\x1enoteza/writes/v1/article.proto\"\x94\x04\n" +
+	"\x1bnoteza/writes/v1/post.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cnoteza/writes/v1/media.proto\x1a\x1enoteza/writes/v1/article.proto\"\xc2\x04\n" +
 	"\x04Post\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12 \n" +
@@ -244,10 +261,11 @@ const file_noteza_writes_v1_post_proto_rawDesc = "" +
 	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
 	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12B\n" +
-	"\fpublished_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampH\x02R\vpublishedAt\x88\x01\x01\x12<\n" +
-	"\aarticle\x18\n" +
-	" \x01(\v2 .noteza.writes.v1.ArticlePreviewH\x00R\aarticle\x128\n" +
-	"\x06images\x18\v \x01(\v2\x1e.noteza.writes.v1.ImageGalleryH\x00R\x06imagesB\x06\n" +
+	"\fpublished_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampH\x02R\vpublishedAt\x88\x01\x01\x12,\n" +
+	"\x04note\x18\n" +
+	" \x01(\v2\x16.google.protobuf.EmptyH\x00R\x04note\x12<\n" +
+	"\aarticle\x18\v \x01(\v2 .noteza.writes.v1.ArticlePreviewH\x00R\aarticle\x128\n" +
+	"\x06images\x18\f \x01(\v2\x1e.noteza.writes.v1.ImageGalleryH\x00R\x06imagesB\x06\n" +
 	"\x04bodyB\f\n" +
 	"\n" +
 	"_series_idB\x0f\n" +
@@ -277,21 +295,23 @@ var file_noteza_writes_v1_post_proto_goTypes = []any{
 	(PostStatus)(0),               // 0: noteza.writes.v1.PostStatus
 	(*Post)(nil),                  // 1: noteza.writes.v1.Post
 	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
-	(*ArticlePreview)(nil),        // 3: noteza.writes.v1.ArticlePreview
-	(*ImageGallery)(nil),          // 4: noteza.writes.v1.ImageGallery
+	(*emptypb.Empty)(nil),         // 3: google.protobuf.Empty
+	(*ArticlePreview)(nil),        // 4: noteza.writes.v1.ArticlePreview
+	(*ImageGallery)(nil),          // 5: noteza.writes.v1.ImageGallery
 }
 var file_noteza_writes_v1_post_proto_depIdxs = []int32{
 	0, // 0: noteza.writes.v1.Post.status:type_name -> noteza.writes.v1.PostStatus
 	2, // 1: noteza.writes.v1.Post.created_at:type_name -> google.protobuf.Timestamp
 	2, // 2: noteza.writes.v1.Post.updated_at:type_name -> google.protobuf.Timestamp
 	2, // 3: noteza.writes.v1.Post.published_at:type_name -> google.protobuf.Timestamp
-	3, // 4: noteza.writes.v1.Post.article:type_name -> noteza.writes.v1.ArticlePreview
-	4, // 5: noteza.writes.v1.Post.images:type_name -> noteza.writes.v1.ImageGallery
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	3, // 4: noteza.writes.v1.Post.note:type_name -> google.protobuf.Empty
+	4, // 5: noteza.writes.v1.Post.article:type_name -> noteza.writes.v1.ArticlePreview
+	5, // 6: noteza.writes.v1.Post.images:type_name -> noteza.writes.v1.ImageGallery
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_noteza_writes_v1_post_proto_init() }
@@ -302,6 +322,7 @@ func file_noteza_writes_v1_post_proto_init() {
 	file_noteza_writes_v1_media_proto_init()
 	file_noteza_writes_v1_article_proto_init()
 	file_noteza_writes_v1_post_proto_msgTypes[0].OneofWrappers = []any{
+		(*Post_Note)(nil),
 		(*Post_Article)(nil),
 		(*Post_Images)(nil),
 	}

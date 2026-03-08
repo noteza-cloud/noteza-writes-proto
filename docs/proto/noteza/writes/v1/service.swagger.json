@@ -799,13 +799,9 @@
                 "status": {
                   "$ref": "#/definitions/v1PostStatus"
                 },
-                "article": {
-                  "$ref": "#/definitions/v1UpdatePostArticleBody",
-                  "description": "Replaces post body with an article link."
-                },
                 "images": {
                   "$ref": "#/definitions/v1UpdatePostImageBody",
-                  "description": "Updates image-based post body using append/remove semantics."
+                  "description": "Image updates are allowed only when the current post body is ImageGallery.\nIf the post body is note or article, the server should return FAILED_PRECONDITION."
                 }
               }
             }
@@ -1251,6 +1247,10 @@
         "content": {
           "type": "string"
         },
+        "note": {
+          "type": "object",
+          "properties": {}
+        },
         "article": {
           "$ref": "#/definitions/v1CreatePostArticleBody",
           "description": "Use this variant to link post body to an existing article."
@@ -1559,6 +1559,10 @@
           "type": "string",
           "format": "date-time"
         },
+        "note": {
+          "type": "object",
+          "properties": {}
+        },
         "article": {
           "$ref": "#/definitions/v1ArticlePreview"
         },
@@ -1661,14 +1665,6 @@
       "properties": {
         "article": {
           "$ref": "#/definitions/v1Article"
-        }
-      }
-    },
-    "v1UpdatePostArticleBody": {
-      "type": "object",
-      "properties": {
-        "articleId": {
-          "type": "string"
         }
       }
     },

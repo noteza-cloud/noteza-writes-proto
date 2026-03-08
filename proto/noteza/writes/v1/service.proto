@@ -6,6 +6,7 @@ option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/w
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 import "noteza/writes/v1/application.proto";
 import "noteza/writes/v1/article.proto";
 import "noteza/writes/v1/media.proto";
@@ -441,10 +442,11 @@ message CreatePostRequest {
   optional string series_id = 1;
   string content = 2;
   oneof body {
+    google.protobuf.Empty note = 3;
     // Use this variant to link post body to an existing article.
-    CreatePostArticleBody article = 3;
+    CreatePostArticleBody article = 4;
     // Use this variant to create an image-based post body.
-    CreatePostImageBody images = 4;
+    CreatePostImageBody images = 5;
   }
 }
 
@@ -452,12 +454,9 @@ message UpdatePostRequest {
   string post_id = 1;
   optional string content = 2;
   optional PostStatus status = 4;
-  oneof body {
-    // Replaces post body with an article link.
-    UpdatePostArticleBody article = 5;
-    // Updates image-based post body using append/remove semantics.
-    UpdatePostImageBody images = 6;
-  }
+  // Image updates are allowed only when the current post body is ImageGallery.
+  // If the post body is note or article, the server should return FAILED_PRECONDITION.
+  optional UpdatePostImageBody images = 5;
 }
 
 message CreatePostArticleBody {
@@ -466,10 +465,6 @@ message CreatePostArticleBody {
 
 message CreatePostImageBody {
   repeated string image_ids = 1;
-}
-
-message UpdatePostArticleBody {
-  string article_id = 1;
 }
 
 message UpdatePostImageBody {

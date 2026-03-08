@@ -5,6 +5,7 @@ package noteza.writes.v1;
 option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 import "noteza/writes/v1/media.proto";
 import "noteza/writes/v1/article.proto";
 
@@ -26,7 +27,8 @@ message Post {
   google.protobuf.Timestamp updated_at = 8;
   optional google.protobuf.Timestamp published_at = 9;
   oneof body {
-    ArticlePreview article = 10;
-    ImageGallery images = 11;
+    google.protobuf.Empty note = 10;
+    ArticlePreview article = 11;
+    ImageGallery images = 12;
   }
 }
