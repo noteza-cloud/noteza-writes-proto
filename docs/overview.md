@@ -13,6 +13,7 @@ Included:
 - Service RPC contracts
 - Versioned package namespace (`noteza.writes.v1`)
 - HTTP/REST bindings via gRPC-Gateway annotations
+- Server-streaming event contract (`NotezaEventsService`)
 - Code generation and compatibility tooling (Buf)
 
 Excluded:

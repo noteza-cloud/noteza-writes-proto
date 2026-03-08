@@ -75,6 +75,90 @@ func (PostStatus) EnumDescriptor() ([]byte, []int) {
 	return file_noteza_writes_v1_post_proto_rawDescGZIP(), []int{0}
 }
 
+type PostPreview struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	SeriesId      *string                `protobuf:"bytes,2,opt,name=series_id,json=seriesId,proto3,oneof" json:"series_id,omitempty"`
+	Version       int32                  `protobuf:"varint,3,opt,name=version,proto3" json:"version,omitempty"`
+	Content       string                 `protobuf:"bytes,4,opt,name=content,proto3" json:"content,omitempty"`
+	Status        PostStatus             `protobuf:"varint,5,opt,name=status,proto3,enum=noteza.writes.v1.PostStatus" json:"status,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PostPreview) Reset() {
+	*x = PostPreview{}
+	mi := &file_noteza_writes_v1_post_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PostPreview) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PostPreview) ProtoMessage() {}
+
+func (x *PostPreview) ProtoReflect() protoreflect.Message {
+	mi := &file_noteza_writes_v1_post_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PostPreview.ProtoReflect.Descriptor instead.
+func (*PostPreview) Descriptor() ([]byte, []int) {
+	return file_noteza_writes_v1_post_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *PostPreview) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *PostPreview) GetSeriesId() string {
+	if x != nil && x.SeriesId != nil {
+		return *x.SeriesId
+	}
+	return ""
+}
+
+func (x *PostPreview) GetVersion() int32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *PostPreview) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *PostPreview) GetStatus() PostStatus {
+	if x != nil {
+		return x.Status
+	}
+	return PostStatus_POST_STATUS_UNSPECIFIED
+}
+
+func (x *PostPreview) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
 type Post struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
 	Id          string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -98,7 +182,7 @@ type Post struct {
 
 func (x *Post) Reset() {
 	*x = Post{}
-	mi := &file_noteza_writes_v1_post_proto_msgTypes[0]
+	mi := &file_noteza_writes_v1_post_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -110,7 +194,7 @@ func (x *Post) String() string {
 func (*Post) ProtoMessage() {}
 
 func (x *Post) ProtoReflect() protoreflect.Message {
-	mi := &file_noteza_writes_v1_post_proto_msgTypes[0]
+	mi := &file_noteza_writes_v1_post_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -123,7 +207,7 @@ func (x *Post) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Post.ProtoReflect.Descriptor instead.
 func (*Post) Descriptor() ([]byte, []int) {
-	return file_noteza_writes_v1_post_proto_rawDescGZIP(), []int{0}
+	return file_noteza_writes_v1_post_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Post) GetId() string {
@@ -249,7 +333,17 @@ var File_noteza_writes_v1_post_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_post_proto_rawDesc = "" +
 	"\n" +
-	"\x1bnoteza/writes/v1/post.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cnoteza/writes/v1/media.proto\x1a\x1enoteza/writes/v1/article.proto\"\xc2\x04\n" +
+	"\x1bnoteza/writes/v1/post.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cnoteza/writes/v1/media.proto\x1a\x1enoteza/writes/v1/article.proto\"\xf2\x01\n" +
+	"\vPostPreview\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12 \n" +
+	"\tseries_id\x18\x02 \x01(\tH\x00R\bseriesId\x88\x01\x01\x12\x18\n" +
+	"\aversion\x18\x03 \x01(\x05R\aversion\x12\x18\n" +
+	"\acontent\x18\x04 \x01(\tR\acontent\x124\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x1c.noteza.writes.v1.PostStatusR\x06status\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\f\n" +
+	"\n" +
+	"_series_id\"\xc2\x04\n" +
 	"\x04Post\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12 \n" +
@@ -290,28 +384,31 @@ func file_noteza_writes_v1_post_proto_rawDescGZIP() []byte {
 }
 
 var file_noteza_writes_v1_post_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_noteza_writes_v1_post_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_noteza_writes_v1_post_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_noteza_writes_v1_post_proto_goTypes = []any{
 	(PostStatus)(0),               // 0: noteza.writes.v1.PostStatus
-	(*Post)(nil),                  // 1: noteza.writes.v1.Post
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),         // 3: google.protobuf.Empty
-	(*ArticlePreview)(nil),        // 4: noteza.writes.v1.ArticlePreview
-	(*ImageGallery)(nil),          // 5: noteza.writes.v1.ImageGallery
+	(*PostPreview)(nil),           // 1: noteza.writes.v1.PostPreview
+	(*Post)(nil),                  // 2: noteza.writes.v1.Post
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),         // 4: google.protobuf.Empty
+	(*ArticlePreview)(nil),        // 5: noteza.writes.v1.ArticlePreview
+	(*ImageGallery)(nil),          // 6: noteza.writes.v1.ImageGallery
 }
 var file_noteza_writes_v1_post_proto_depIdxs = []int32{
-	0, // 0: noteza.writes.v1.Post.status:type_name -> noteza.writes.v1.PostStatus
-	2, // 1: noteza.writes.v1.Post.created_at:type_name -> google.protobuf.Timestamp
-	2, // 2: noteza.writes.v1.Post.updated_at:type_name -> google.protobuf.Timestamp
-	2, // 3: noteza.writes.v1.Post.published_at:type_name -> google.protobuf.Timestamp
-	3, // 4: noteza.writes.v1.Post.note:type_name -> google.protobuf.Empty
-	4, // 5: noteza.writes.v1.Post.article:type_name -> noteza.writes.v1.ArticlePreview
-	5, // 6: noteza.writes.v1.Post.images:type_name -> noteza.writes.v1.ImageGallery
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	0, // 0: noteza.writes.v1.PostPreview.status:type_name -> noteza.writes.v1.PostStatus
+	3, // 1: noteza.writes.v1.PostPreview.updated_at:type_name -> google.protobuf.Timestamp
+	0, // 2: noteza.writes.v1.Post.status:type_name -> noteza.writes.v1.PostStatus
+	3, // 3: noteza.writes.v1.Post.created_at:type_name -> google.protobuf.Timestamp
+	3, // 4: noteza.writes.v1.Post.updated_at:type_name -> google.protobuf.Timestamp
+	3, // 5: noteza.writes.v1.Post.published_at:type_name -> google.protobuf.Timestamp
+	4, // 6: noteza.writes.v1.Post.note:type_name -> google.protobuf.Empty
+	5, // 7: noteza.writes.v1.Post.article:type_name -> noteza.writes.v1.ArticlePreview
+	6, // 8: noteza.writes.v1.Post.images:type_name -> noteza.writes.v1.ImageGallery
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_noteza_writes_v1_post_proto_init() }
@@ -321,7 +418,8 @@ func file_noteza_writes_v1_post_proto_init() {
 	}
 	file_noteza_writes_v1_media_proto_init()
 	file_noteza_writes_v1_article_proto_init()
-	file_noteza_writes_v1_post_proto_msgTypes[0].OneofWrappers = []any{
+	file_noteza_writes_v1_post_proto_msgTypes[0].OneofWrappers = []any{}
+	file_noteza_writes_v1_post_proto_msgTypes[1].OneofWrappers = []any{
 		(*Post_Note)(nil),
 		(*Post_Article)(nil),
 		(*Post_Images)(nil),
@@ -332,7 +430,7 @@ func file_noteza_writes_v1_post_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_noteza_writes_v1_post_proto_rawDesc), len(file_noteza_writes_v1_post_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

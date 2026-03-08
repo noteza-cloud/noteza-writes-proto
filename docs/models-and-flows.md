@@ -9,6 +9,26 @@
 - `Article`: article with inline versioned content
 - `Post`: post with inline versioned content
 
+## Series Model
+
+`Series` stores all metadata inline:
+
+- `id`
+- `user_id` (owner)
+- `name`
+- `description`
+- `tone`
+- `target_audience`
+- `language`
+- `strategy_note`
+- `created_at`
+
+`SeriesPreview` is a lightweight projection used in event payloads:
+
+- `id`
+- `name`
+- `description` (optional)
+
 ## Article Model
 
 `Article` stores all content and metadata inline:
@@ -17,17 +37,18 @@
 - `user_id` (owner)
 - `series_id` (optional parent series link)
 - `version` (monotonically increasing version counter)
-- `cover_image` (`ImagePreview`)
+- `cover_image` (optional `ImagePreview`)
 - `images` (`repeated ImagePreview`)
 - `title`
 - `content_md`
 - `status` (`ArticleStatus`)
-- `created_at`, `updated_at`, `published_at`
+- `created_at`, `updated_at`, `published_at` (`published_at` is optional)
 
-`ArticlePreview` is a lightweight projection used inside `Post.body`:
+`ArticlePreview` is a lightweight projection used inside `Post.body` and `ListArticles` responses:
 
 - `id`
-- `cover_image` (`ImagePreview`)
+- `version`
+- `cover_image` (optional `ImagePreview`)
 - `title`
 - `content_preview`
 
@@ -41,11 +62,20 @@
 - `version` (monotonically increasing version counter)
 - `content`
 - `status` (`PostStatus`)
-- `created_at`, `updated_at`, `published_at`
+- `created_at`, `updated_at`, `published_at` (`published_at` is optional)
 - `body` oneof:
   - `note` (`google.protobuf.Empty`) — text-only post body
   - `article` (`ArticlePreview`) — post linked to an article
   - `images` (`ImageGallery`) — standalone image post
+
+`PostPreview` is a lightweight projection used in event payloads:
+
+- `id`
+- `series_id` (optional)
+- `version`
+- `content`
+- `status` (`PostStatus`)
+- `updated_at`
 
 ## Media Flow
 
@@ -58,13 +88,19 @@
 
 `ImageAsset` includes:
 
-- lifecycle state (`status`)
-- descriptive metadata (`alt_text`, `mime_type`, `size_bytes`, `width`, `height`)
+- `id`
+- `user_id` (owner)
+- `url`
+- `mime_type`, `size_bytes`, `width`, `height`
+- `status` (lifecycle state)
+- `alt_text` (optional)
 - `created_at`
 
 `ImagePreview` is a lightweight projection used in `Article` and `Post` body:
 
-- `id`, `url`, `alt_text`
+- `id`
+- `url`
+- `alt_text` (optional)
 
 Update semantics for images:
 
@@ -99,3 +135,16 @@ Conflict resolution rules for `add_image_ids` / `remove_image_ids`:
 2. `UpdatePost` writes a new version (increments `version`, updates content/status, and allows image append/remove only for `images` posts).
 3. `GetPost` returns the current post state. Pass optional `version` to retrieve a specific historical version.
 4. `ListPosts` returns paginated `Post` items and can be filtered by optional `series_id`.
+
+## Events Flow
+
+1. Client opens `StreamEvents`.
+2. Client provides optional filters (`event_types`, `series_id`, `article_id`, `post_id`).
+3. Server emits `StreamEventsResponse` records with `EventEnvelope`.
+
+Event payload shape:
+
+- `series`: `SeriesPreview`
+- `article`: `ArticlePreview`
+- `post`: `PostPreview`
+- `image`: `ImagePreview`

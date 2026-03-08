@@ -22,6 +22,66 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type SeriesPreview struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SeriesPreview) Reset() {
+	*x = SeriesPreview{}
+	mi := &file_noteza_writes_v1_series_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SeriesPreview) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SeriesPreview) ProtoMessage() {}
+
+func (x *SeriesPreview) ProtoReflect() protoreflect.Message {
+	mi := &file_noteza_writes_v1_series_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SeriesPreview.ProtoReflect.Descriptor instead.
+func (*SeriesPreview) Descriptor() ([]byte, []int) {
+	return file_noteza_writes_v1_series_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *SeriesPreview) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *SeriesPreview) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SeriesPreview) GetDescription() string {
+	if x != nil && x.Description != nil {
+		return *x.Description
+	}
+	return ""
+}
+
 type Series struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -39,7 +99,7 @@ type Series struct {
 
 func (x *Series) Reset() {
 	*x = Series{}
-	mi := &file_noteza_writes_v1_series_proto_msgTypes[0]
+	mi := &file_noteza_writes_v1_series_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -51,7 +111,7 @@ func (x *Series) String() string {
 func (*Series) ProtoMessage() {}
 
 func (x *Series) ProtoReflect() protoreflect.Message {
-	mi := &file_noteza_writes_v1_series_proto_msgTypes[0]
+	mi := &file_noteza_writes_v1_series_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -64,7 +124,7 @@ func (x *Series) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Series.ProtoReflect.Descriptor instead.
 func (*Series) Descriptor() ([]byte, []int) {
-	return file_noteza_writes_v1_series_proto_rawDescGZIP(), []int{0}
+	return file_noteza_writes_v1_series_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Series) GetId() string {
@@ -134,7 +194,12 @@ var File_noteza_writes_v1_series_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_series_proto_rawDesc = "" +
 	"\n" +
-	"\x1dnoteza/writes/v1/series.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa0\x02\n" +
+	"\x1dnoteza/writes/v1/series.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"j\n" +
+	"\rSeriesPreview\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12%\n" +
+	"\vdescription\x18\x03 \x01(\tH\x00R\vdescription\x88\x01\x01B\x0e\n" +
+	"\f_description\"\xa0\x02\n" +
 	"\x06Series\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x12\n" +
@@ -159,13 +224,14 @@ func file_noteza_writes_v1_series_proto_rawDescGZIP() []byte {
 	return file_noteza_writes_v1_series_proto_rawDescData
 }
 
-var file_noteza_writes_v1_series_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_noteza_writes_v1_series_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_noteza_writes_v1_series_proto_goTypes = []any{
-	(*Series)(nil),                // 0: noteza.writes.v1.Series
-	(*timestamppb.Timestamp)(nil), // 1: google.protobuf.Timestamp
+	(*SeriesPreview)(nil),         // 0: noteza.writes.v1.SeriesPreview
+	(*Series)(nil),                // 1: noteza.writes.v1.Series
+	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
 }
 var file_noteza_writes_v1_series_proto_depIdxs = []int32{
-	1, // 0: noteza.writes.v1.Series.created_at:type_name -> google.protobuf.Timestamp
+	2, // 0: noteza.writes.v1.Series.created_at:type_name -> google.protobuf.Timestamp
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -178,13 +244,14 @@ func file_noteza_writes_v1_series_proto_init() {
 	if File_noteza_writes_v1_series_proto != nil {
 		return
 	}
+	file_noteza_writes_v1_series_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_noteza_writes_v1_series_proto_rawDesc), len(file_noteza_writes_v1_series_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

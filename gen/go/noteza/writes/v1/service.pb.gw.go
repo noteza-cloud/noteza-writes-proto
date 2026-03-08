@@ -913,6 +913,29 @@ func local_request_NotezaWritesService_ListPosts_0(ctx context.Context, marshale
 	return msg, metadata, err
 }
 
+func request_NotezaEventsService_StreamEvents_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaEventsServiceClient, req *http.Request, pathParams map[string]string) (NotezaEventsService_StreamEventsClient, runtime.ServerMetadata, error) {
+	var (
+		protoReq StreamEventsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	stream, err := client.StreamEvents(ctx, &protoReq)
+	if err != nil {
+		return nil, metadata, err
+	}
+	header, err := stream.Header()
+	if err != nil {
+		return nil, metadata, err
+	}
+	metadata.HeaderMD = header
+	return stream, metadata, nil
+}
+
 // RegisterNotezaAuthServiceHandlerServer registers the http handlers for service NotezaAuthService to "mux".
 // UnaryRPC     :call NotezaAuthServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -1428,6 +1451,22 @@ func RegisterNotezaWritesServiceHandlerServer(ctx context.Context, mux *runtime.
 			return
 		}
 		forward_NotezaWritesService_ListPosts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+
+	return nil
+}
+
+// RegisterNotezaEventsServiceHandlerServer registers the http handlers for service NotezaEventsService to "mux".
+// UnaryRPC     :call NotezaEventsServiceServer directly.
+// StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterNotezaEventsServiceHandlerFromEndpoint instead.
+// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
+func RegisterNotezaEventsServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server NotezaEventsServiceServer) error {
+	mux.Handle(http.MethodPost, pattern_NotezaEventsService_StreamEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
+		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+		return
 	})
 
 	return nil
@@ -2067,4 +2106,68 @@ var (
 	forward_NotezaWritesService_UpdatePost_0    = runtime.ForwardResponseMessage
 	forward_NotezaWritesService_GetPost_0       = runtime.ForwardResponseMessage
 	forward_NotezaWritesService_ListPosts_0     = runtime.ForwardResponseMessage
+)
+
+// RegisterNotezaEventsServiceHandlerFromEndpoint is same as RegisterNotezaEventsServiceHandler but
+// automatically dials to "endpoint" and closes the connection when "ctx" gets done.
+func RegisterNotezaEventsServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+	conn, err := grpc.NewClient(endpoint, opts...)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			if cerr := conn.Close(); cerr != nil {
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
+			}
+			return
+		}
+		go func() {
+			<-ctx.Done()
+			if cerr := conn.Close(); cerr != nil {
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
+			}
+		}()
+	}()
+	return RegisterNotezaEventsServiceHandler(ctx, mux, conn)
+}
+
+// RegisterNotezaEventsServiceHandler registers the http handlers for service NotezaEventsService to "mux".
+// The handlers forward requests to the grpc endpoint over "conn".
+func RegisterNotezaEventsServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterNotezaEventsServiceHandlerClient(ctx, mux, NewNotezaEventsServiceClient(conn))
+}
+
+// RegisterNotezaEventsServiceHandlerClient registers the http handlers for service NotezaEventsService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "NotezaEventsServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "NotezaEventsServiceClient"
+// doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
+// "NotezaEventsServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+func RegisterNotezaEventsServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client NotezaEventsServiceClient) error {
+	mux.Handle(http.MethodPost, pattern_NotezaEventsService_StreamEvents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaEventsService/StreamEvents", runtime.WithHTTPPathPattern("/noteza.writes.v1.NotezaEventsService/StreamEvents"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_NotezaEventsService_StreamEvents_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_NotezaEventsService_StreamEvents_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+	})
+	return nil
+}
+
+var (
+	pattern_NotezaEventsService_StreamEvents_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"noteza.writes.v1.NotezaEventsService", "StreamEvents"}, ""))
+)
+
+var (
+	forward_NotezaEventsService_StreamEvents_0 = runtime.ForwardResponseStream
 )

@@ -16,9 +16,10 @@ enum ArticleStatus {
 
 message ArticlePreview {
   string id = 1;
-  optional ImagePreview cover_image = 2;
-  string title = 3;
-  string content_preview = 4;
+  int32 version = 2;
+  optional ImagePreview cover_image = 3;
+  string title = 4;
+  string content_preview = 5;
 }
 
 message Article {

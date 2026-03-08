@@ -109,3 +109,19 @@ Notes:
 - Image updates are valid only for posts whose current `Post.body` is `images` (`ImageGallery`); otherwise server should return `FAILED_PRECONDITION`.
 - `ListPostsRequest` includes optional `series_id` to scope list results to a specific series.
 - `GetPostRequest.version` is optional. When provided, the server returns the post at that specific version.
+
+## NotezaEventsService
+
+Purpose: real-time event stream for writing-domain changes.
+
+RPCs:
+
+| RPC | gRPC | HTTP |
+|-----|------|------|
+| StreamEvents | `StreamEvents(StreamEventsRequest) returns (stream StreamEventsResponse)` | no canonical REST mapping |
+
+Notes:
+
+- `StreamEvents` is server-streaming RPC and emits `EventEnvelope` messages.
+- Event payload is typed via `oneof` preview objects (`SeriesPreview`, `ArticlePreview`, `PostPreview`, `ImagePreview`).
+- WebSocket/SSE exposure is implementation-specific in gateway/BFF; Buf generation does not create WS reverse-proxy automatically.

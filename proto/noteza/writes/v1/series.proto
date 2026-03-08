@@ -6,6 +6,12 @@ option go_package = "github.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/w
 
 import "google/protobuf/timestamp.proto";
 
+message SeriesPreview {
+  string id = 1;
+  string name = 2;
+  optional string description = 3;
+}
+
 message Series {
   string id = 1;
   string user_id = 2;

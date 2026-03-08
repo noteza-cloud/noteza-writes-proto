@@ -77,9 +77,10 @@ func (ArticleStatus) EnumDescriptor() ([]byte, []int) {
 type ArticlePreview struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	CoverImage     *ImagePreview          `protobuf:"bytes,2,opt,name=cover_image,json=coverImage,proto3,oneof" json:"cover_image,omitempty"`
-	Title          string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
-	ContentPreview string                 `protobuf:"bytes,4,opt,name=content_preview,json=contentPreview,proto3" json:"content_preview,omitempty"`
+	Version        int32                  `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	CoverImage     *ImagePreview          `protobuf:"bytes,3,opt,name=cover_image,json=coverImage,proto3,oneof" json:"cover_image,omitempty"`
+	Title          string                 `protobuf:"bytes,4,opt,name=title,proto3" json:"title,omitempty"`
+	ContentPreview string                 `protobuf:"bytes,5,opt,name=content_preview,json=contentPreview,proto3" json:"content_preview,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -119,6 +120,13 @@ func (x *ArticlePreview) GetId() string {
 		return x.Id
 	}
 	return ""
+}
+
+func (x *ArticlePreview) GetVersion() int32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
 }
 
 func (x *ArticlePreview) GetCoverImage() *ImagePreview {
@@ -278,13 +286,14 @@ var File_noteza_writes_v1_article_proto protoreflect.FileDescriptor
 
 const file_noteza_writes_v1_article_proto_rawDesc = "" +
 	"\n" +
-	"\x1enoteza/writes/v1/article.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\xb5\x01\n" +
+	"\x1enoteza/writes/v1/article.proto\x12\x10noteza.writes.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cnoteza/writes/v1/media.proto\"\xcf\x01\n" +
 	"\x0eArticlePreview\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12D\n" +
-	"\vcover_image\x18\x02 \x01(\v2\x1e.noteza.writes.v1.ImagePreviewH\x00R\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\x05R\aversion\x12D\n" +
+	"\vcover_image\x18\x03 \x01(\v2\x1e.noteza.writes.v1.ImagePreviewH\x00R\n" +
 	"coverImage\x88\x01\x01\x12\x14\n" +
-	"\x05title\x18\x03 \x01(\tR\x05title\x12'\n" +
-	"\x0fcontent_preview\x18\x04 \x01(\tR\x0econtentPreviewB\x0e\n" +
+	"\x05title\x18\x04 \x01(\tR\x05title\x12'\n" +
+	"\x0fcontent_preview\x18\x05 \x01(\tR\x0econtentPreviewB\x0e\n" +
 	"\f_cover_image\"\xc3\x04\n" +
 	"\aArticle\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
