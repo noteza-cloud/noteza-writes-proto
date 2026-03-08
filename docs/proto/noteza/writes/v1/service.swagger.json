@@ -503,13 +503,13 @@
         ]
       },
       "post": {
-        "summary": "CreateImageUpload creates an image asset and returns a pre-signed upload URL.",
-        "operationId": "NotezaMediaService_CreateImageUpload",
+        "summary": "ImageUpload uploads image bytes and returns a ready image asset.",
+        "operationId": "NotezaMediaService_ImageUpload",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateImageUploadResponse"
+              "$ref": "#/definitions/v1ImageUploadResponse"
             }
           },
           "default": {
@@ -525,7 +525,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateImageUploadRequest"
+              "$ref": "#/definitions/v1ImageUploadRequest"
             }
           }
         ],
@@ -587,62 +587,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "tags": [
-          "NotezaMediaService"
-        ]
-      }
-    },
-    "/v1/images/{imageId}/finalize": {
-      "post": {
-        "summary": "FinalizeImageUpload confirms upload completion and returns finalized metadata.",
-        "operationId": "NotezaMediaService_FinalizeImageUpload",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1FinalizeImageUploadResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "imageId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "uploadedSizeBytes": {
-                  "type": "string",
-                  "format": "int64"
-                },
-                "checksumSha256": {
-                  "type": "string"
-                },
-                "width": {
-                  "type": "integer",
-                  "format": "int32"
-                },
-                "height": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
           }
         ],
         "tags": [
@@ -1177,39 +1121,6 @@
         }
       }
     },
-    "v1CreateImageUploadRequest": {
-      "type": "object",
-      "properties": {
-        "fileName": {
-          "type": "string"
-        },
-        "mimeType": {
-          "type": "string"
-        },
-        "sizeBytes": {
-          "type": "string",
-          "format": "int64"
-        },
-        "altText": {
-          "type": "string"
-        }
-      }
-    },
-    "v1CreateImageUploadResponse": {
-      "type": "object",
-      "properties": {
-        "image": {
-          "$ref": "#/definitions/v1ImageAsset"
-        },
-        "uploadUrl": {
-          "type": "string"
-        },
-        "uploadUrlExpiresAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
     "v1CreatePostArticleBody": {
       "type": "object",
       "properties": {
@@ -1354,14 +1265,6 @@
       ],
       "default": "EVENT_TYPE_UNSPECIFIED"
     },
-    "v1FinalizeImageUploadResponse": {
-      "type": "object",
-      "properties": {
-        "image": {
-          "$ref": "#/definitions/v1ImageAsset"
-        }
-      }
-    },
     "v1GetArticleResponse": {
       "type": "object",
       "properties": {
@@ -1407,7 +1310,7 @@
           "type": "string"
         },
         "mimeType": {
-          "type": "string"
+          "$ref": "#/definitions/v1ImageMimeType"
         },
         "sizeBytes": {
           "type": "string",
@@ -1445,6 +1348,17 @@
         }
       }
     },
+    "v1ImageMimeType": {
+      "type": "string",
+      "enum": [
+        "IMAGE_MIME_TYPE_UNSPECIFIED",
+        "IMAGE_MIME_TYPE_JPEG",
+        "IMAGE_MIME_TYPE_PNG",
+        "IMAGE_MIME_TYPE_WEBP",
+        "IMAGE_MIME_TYPE_GIF"
+      ],
+      "default": "IMAGE_MIME_TYPE_UNSPECIFIED"
+    },
     "v1ImagePreview": {
       "type": "object",
       "properties": {
@@ -1469,6 +1383,32 @@
         "IMAGE_STATUS_DELETED"
       ],
       "default": "IMAGE_STATUS_UNSPECIFIED"
+    },
+    "v1ImageUploadRequest": {
+      "type": "object",
+      "properties": {
+        "imageBytes": {
+          "type": "string",
+          "format": "byte"
+        },
+        "mimeType": {
+          "$ref": "#/definitions/v1ImageMimeType"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "altText": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ImageUploadResponse": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "$ref": "#/definitions/v1ImageAsset"
+        }
+      }
     },
     "v1ListApplicationsResponse": {
       "type": "object",

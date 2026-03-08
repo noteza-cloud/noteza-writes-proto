@@ -26,14 +26,14 @@ Breaking changes require a new API version package (for example `noteza.writes.v
 - Keep entities in domain files and transport request/response in `service.proto`.
 - For repeated images in update requests, use append/remove semantics (`add_*`, `remove_*`) instead of full replacement (for posts, inside `UpdatePostRequest.body.images`).
 - For authenticated ownership checks, derive user identity from auth context, not request `user_id` fields.
-- For media uploads, keep binary transport outside protobuf payloads (pre-signed upload flow only).
+- For media uploads, use a single RPC with binary payload (`bytes`) and keep request metadata explicit.
 
 ## HTTP Annotation Rules
 
 - Every RPC must have a `(google.api.http)` annotation in `service.proto`.
 - Use standard HTTP verbs: `GET` for reads, `POST` for creates, `PATCH` for partial updates, `DELETE` for deletes.
 - Use `PATCH` (not `PUT`) for update RPCs because all update fields are optional.
-- Use a sub-path for non-CRUD operations: `POST /{resource}/{action}` (for example, `/token`, `/finalize`).
+- Use a sub-path for non-CRUD operations: `POST /{resource}/{action}` (for example, `/token`, `/refresh`).
 - For `POST`/`PATCH` RPCs, set `body: "*"` so non-path fields are read from the request body.
 - For `GET`/`DELETE` RPCs, omit `body`; non-path fields become query parameters automatically.
 - Use nested child-resource paths only when the parent is strictly required.

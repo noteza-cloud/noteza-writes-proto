@@ -27,7 +27,7 @@ This repository contains versioned API definitions only. It has no business logi
 
 - `NotezaAuthService`: registration and login
 - `NotezaApplicationService`: app credentials for machine clients (MCP, integrations)
-- `NotezaMediaService`: image upload lifecycle via pre-signed URLs
+- `NotezaMediaService`: image upload and asset lifecycle
 - `NotezaWritesService`: series, articles, and posts
 - `NotezaEventsService`: server-streaming domain events
 

@@ -438,11 +438,10 @@ var NotezaApplicationService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	NotezaMediaService_CreateImageUpload_FullMethodName   = "/noteza.writes.v1.NotezaMediaService/CreateImageUpload"
-	NotezaMediaService_GetImage_FullMethodName            = "/noteza.writes.v1.NotezaMediaService/GetImage"
-	NotezaMediaService_ListImages_FullMethodName          = "/noteza.writes.v1.NotezaMediaService/ListImages"
-	NotezaMediaService_FinalizeImageUpload_FullMethodName = "/noteza.writes.v1.NotezaMediaService/FinalizeImageUpload"
-	NotezaMediaService_DeleteImage_FullMethodName         = "/noteza.writes.v1.NotezaMediaService/DeleteImage"
+	NotezaMediaService_ImageUpload_FullMethodName = "/noteza.writes.v1.NotezaMediaService/ImageUpload"
+	NotezaMediaService_GetImage_FullMethodName    = "/noteza.writes.v1.NotezaMediaService/GetImage"
+	NotezaMediaService_ListImages_FullMethodName  = "/noteza.writes.v1.NotezaMediaService/ListImages"
+	NotezaMediaService_DeleteImage_FullMethodName = "/noteza.writes.v1.NotezaMediaService/DeleteImage"
 )
 
 // NotezaMediaServiceClient is the client API for NotezaMediaService service.
@@ -451,14 +450,12 @@ const (
 //
 // NotezaMediaService defines image upload and asset lifecycle operations.
 type NotezaMediaServiceClient interface {
-	// CreateImageUpload creates an image asset and returns a pre-signed upload URL.
-	CreateImageUpload(ctx context.Context, in *CreateImageUploadRequest, opts ...grpc.CallOption) (*CreateImageUploadResponse, error)
+	// ImageUpload uploads image bytes and returns a ready image asset.
+	ImageUpload(ctx context.Context, in *ImageUploadRequest, opts ...grpc.CallOption) (*ImageUploadResponse, error)
 	// GetImage returns a single image asset by its identifier.
 	GetImage(ctx context.Context, in *GetImageRequest, opts ...grpc.CallOption) (*GetImageResponse, error)
 	// ListImages returns paginated images visible to the authenticated user.
 	ListImages(ctx context.Context, in *ListImagesRequest, opts ...grpc.CallOption) (*ListImagesResponse, error)
-	// FinalizeImageUpload confirms upload completion and returns finalized metadata.
-	FinalizeImageUpload(ctx context.Context, in *FinalizeImageUploadRequest, opts ...grpc.CallOption) (*FinalizeImageUploadResponse, error)
 	// DeleteImage deletes an image asset and invalidates future usage.
 	DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*DeleteImageResponse, error)
 }
@@ -471,10 +468,10 @@ func NewNotezaMediaServiceClient(cc grpc.ClientConnInterface) NotezaMediaService
 	return &notezaMediaServiceClient{cc}
 }
 
-func (c *notezaMediaServiceClient) CreateImageUpload(ctx context.Context, in *CreateImageUploadRequest, opts ...grpc.CallOption) (*CreateImageUploadResponse, error) {
+func (c *notezaMediaServiceClient) ImageUpload(ctx context.Context, in *ImageUploadRequest, opts ...grpc.CallOption) (*ImageUploadResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateImageUploadResponse)
-	err := c.cc.Invoke(ctx, NotezaMediaService_CreateImageUpload_FullMethodName, in, out, cOpts...)
+	out := new(ImageUploadResponse)
+	err := c.cc.Invoke(ctx, NotezaMediaService_ImageUpload_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -501,16 +498,6 @@ func (c *notezaMediaServiceClient) ListImages(ctx context.Context, in *ListImage
 	return out, nil
 }
 
-func (c *notezaMediaServiceClient) FinalizeImageUpload(ctx context.Context, in *FinalizeImageUploadRequest, opts ...grpc.CallOption) (*FinalizeImageUploadResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FinalizeImageUploadResponse)
-	err := c.cc.Invoke(ctx, NotezaMediaService_FinalizeImageUpload_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *notezaMediaServiceClient) DeleteImage(ctx context.Context, in *DeleteImageRequest, opts ...grpc.CallOption) (*DeleteImageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteImageResponse)
@@ -527,14 +514,12 @@ func (c *notezaMediaServiceClient) DeleteImage(ctx context.Context, in *DeleteIm
 //
 // NotezaMediaService defines image upload and asset lifecycle operations.
 type NotezaMediaServiceServer interface {
-	// CreateImageUpload creates an image asset and returns a pre-signed upload URL.
-	CreateImageUpload(context.Context, *CreateImageUploadRequest) (*CreateImageUploadResponse, error)
+	// ImageUpload uploads image bytes and returns a ready image asset.
+	ImageUpload(context.Context, *ImageUploadRequest) (*ImageUploadResponse, error)
 	// GetImage returns a single image asset by its identifier.
 	GetImage(context.Context, *GetImageRequest) (*GetImageResponse, error)
 	// ListImages returns paginated images visible to the authenticated user.
 	ListImages(context.Context, *ListImagesRequest) (*ListImagesResponse, error)
-	// FinalizeImageUpload confirms upload completion and returns finalized metadata.
-	FinalizeImageUpload(context.Context, *FinalizeImageUploadRequest) (*FinalizeImageUploadResponse, error)
 	// DeleteImage deletes an image asset and invalidates future usage.
 	DeleteImage(context.Context, *DeleteImageRequest) (*DeleteImageResponse, error)
 	mustEmbedUnimplementedNotezaMediaServiceServer()
@@ -547,17 +532,14 @@ type NotezaMediaServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedNotezaMediaServiceServer struct{}
 
-func (UnimplementedNotezaMediaServiceServer) CreateImageUpload(context.Context, *CreateImageUploadRequest) (*CreateImageUploadResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateImageUpload not implemented")
+func (UnimplementedNotezaMediaServiceServer) ImageUpload(context.Context, *ImageUploadRequest) (*ImageUploadResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ImageUpload not implemented")
 }
 func (UnimplementedNotezaMediaServiceServer) GetImage(context.Context, *GetImageRequest) (*GetImageResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetImage not implemented")
 }
 func (UnimplementedNotezaMediaServiceServer) ListImages(context.Context, *ListImagesRequest) (*ListImagesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListImages not implemented")
-}
-func (UnimplementedNotezaMediaServiceServer) FinalizeImageUpload(context.Context, *FinalizeImageUploadRequest) (*FinalizeImageUploadResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method FinalizeImageUpload not implemented")
 }
 func (UnimplementedNotezaMediaServiceServer) DeleteImage(context.Context, *DeleteImageRequest) (*DeleteImageResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteImage not implemented")
@@ -583,20 +565,20 @@ func RegisterNotezaMediaServiceServer(s grpc.ServiceRegistrar, srv NotezaMediaSe
 	s.RegisterService(&NotezaMediaService_ServiceDesc, srv)
 }
 
-func _NotezaMediaService_CreateImageUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateImageUploadRequest)
+func _NotezaMediaService_ImageUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ImageUploadRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotezaMediaServiceServer).CreateImageUpload(ctx, in)
+		return srv.(NotezaMediaServiceServer).ImageUpload(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotezaMediaService_CreateImageUpload_FullMethodName,
+		FullMethod: NotezaMediaService_ImageUpload_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotezaMediaServiceServer).CreateImageUpload(ctx, req.(*CreateImageUploadRequest))
+		return srv.(NotezaMediaServiceServer).ImageUpload(ctx, req.(*ImageUploadRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -637,24 +619,6 @@ func _NotezaMediaService_ListImages_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotezaMediaService_FinalizeImageUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FinalizeImageUploadRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NotezaMediaServiceServer).FinalizeImageUpload(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: NotezaMediaService_FinalizeImageUpload_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotezaMediaServiceServer).FinalizeImageUpload(ctx, req.(*FinalizeImageUploadRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _NotezaMediaService_DeleteImage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteImageRequest)
 	if err := dec(in); err != nil {
@@ -681,8 +645,8 @@ var NotezaMediaService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*NotezaMediaServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateImageUpload",
-			Handler:    _NotezaMediaService_CreateImageUpload_Handler,
+			MethodName: "ImageUpload",
+			Handler:    _NotezaMediaService_ImageUpload_Handler,
 		},
 		{
 			MethodName: "GetImage",
@@ -691,10 +655,6 @@ var NotezaMediaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListImages",
 			Handler:    _NotezaMediaService_ListImages_Handler,
-		},
-		{
-			MethodName: "FinalizeImageUpload",
-			Handler:    _NotezaMediaService_FinalizeImageUpload_Handler,
 		},
 		{
 			MethodName: "DeleteImage",

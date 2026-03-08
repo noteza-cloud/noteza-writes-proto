@@ -38,22 +38,21 @@ Notes:
 
 ## NotezaMediaService
 
-Purpose: image upload lifecycle.
+Purpose: image upload and asset lifecycle.
 
 RPCs:
 
 | RPC | gRPC | HTTP |
 |-----|------|------|
-| CreateImageUpload | `CreateImageUpload(CreateImageUploadRequest) returns (CreateImageUploadResponse)` | `POST /v1/images` |
+| ImageUpload | `ImageUpload(ImageUploadRequest) returns (ImageUploadResponse)` | `POST /v1/images` |
 | GetImage | `GetImage(GetImageRequest) returns (GetImageResponse)` | `GET /v1/images/{image_id}` |
 | ListImages | `ListImages(ListImagesRequest) returns (ListImagesResponse)` | `GET /v1/images` |
-| FinalizeImageUpload | `FinalizeImageUpload(FinalizeImageUploadRequest) returns (FinalizeImageUploadResponse)` | `POST /v1/images/{image_id}/finalize` |
 | DeleteImage | `DeleteImage(DeleteImageRequest) returns (DeleteImageResponse)` | `DELETE /v1/images/{image_id}` |
 
 Notes:
 
-- Upload flow is designed for pre-signed URL usage.
-- Binary image bytes are uploaded directly to object storage, not embedded in API messages.
+- `ImageUploadRequest.image_bytes` carries binary image payload in one-step upload flow.
+- `ImageUploadRequest.mime_type` is required and `ImageAsset.mime_type` uses the same `ImageMimeType` enum values.
 - `ListImages` returns lightweight `ImagePreview` items; use `GetImage` for full `ImageAsset` metadata.
 - `ImageAsset` supports lifecycle states (`PENDING`, `READY`, `FAILED`, `DELETED`).
 

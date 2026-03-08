@@ -72,8 +72,8 @@ service NotezaApplicationService {
 
 // NotezaMediaService defines image upload and asset lifecycle operations.
 service NotezaMediaService {
-  // CreateImageUpload creates an image asset and returns a pre-signed upload URL.
-  rpc CreateImageUpload(CreateImageUploadRequest) returns (CreateImageUploadResponse) {
+  // ImageUpload uploads image bytes and returns a ready image asset.
+  rpc ImageUpload(ImageUploadRequest) returns (ImageUploadResponse) {
     option (google.api.http) = {
       post: "/v1/images"
       body: "*"
@@ -89,13 +89,6 @@ service NotezaMediaService {
   rpc ListImages(ListImagesRequest) returns (ListImagesResponse) {
     option (google.api.http) = {
       get: "/v1/images"
-    };
-  }
-  // FinalizeImageUpload confirms upload completion and returns finalized metadata.
-  rpc FinalizeImageUpload(FinalizeImageUploadRequest) returns (FinalizeImageUploadResponse) {
-    option (google.api.http) = {
-      post: "/v1/images/{image_id}/finalize"
-      body: "*"
     };
   }
   // DeleteImage deletes an image asset and invalidates future usage.
@@ -275,17 +268,15 @@ message DeleteApplicationResponse {
   bool deleted = 1;
 }
 
-message CreateImageUploadRequest {
-  string file_name = 1;
-  string mime_type = 2;
-  int64 size_bytes = 3;
+message ImageUploadRequest {
+  bytes image_bytes = 1;
+  ImageMimeType mime_type = 2;
+  optional string file_name = 3;
   optional string alt_text = 4;
 }
 
-message CreateImageUploadResponse {
+message ImageUploadResponse {
   ImageAsset image = 1;
-  string upload_url = 2;
-  optional google.protobuf.Timestamp upload_url_expires_at = 3;
 }
 
 message GetImageRequest {
@@ -309,18 +300,6 @@ message ListImagesResponse {
   repeated ImagePreview images = 1;
   // Opaque cursor for the next page; empty when there are no more results.
   string next_page_token = 2;
-}
-
-message FinalizeImageUploadRequest {
-  string image_id = 1;
-  optional int64 uploaded_size_bytes = 2;
-  optional string checksum_sha256 = 3;
-  optional int32 width = 4;
-  optional int32 height = 5;
-}
-
-message FinalizeImageUploadResponse {
-  ImageAsset image = 1;
 }
 
 message DeleteImageRequest {

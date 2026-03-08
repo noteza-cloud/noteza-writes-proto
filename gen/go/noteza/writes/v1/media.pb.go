@@ -77,6 +77,61 @@ func (ImageStatus) EnumDescriptor() ([]byte, []int) {
 	return file_noteza_writes_v1_media_proto_rawDescGZIP(), []int{0}
 }
 
+type ImageMimeType int32
+
+const (
+	ImageMimeType_IMAGE_MIME_TYPE_UNSPECIFIED ImageMimeType = 0
+	ImageMimeType_IMAGE_MIME_TYPE_JPEG        ImageMimeType = 1
+	ImageMimeType_IMAGE_MIME_TYPE_PNG         ImageMimeType = 2
+	ImageMimeType_IMAGE_MIME_TYPE_WEBP        ImageMimeType = 3
+	ImageMimeType_IMAGE_MIME_TYPE_GIF         ImageMimeType = 4
+)
+
+// Enum value maps for ImageMimeType.
+var (
+	ImageMimeType_name = map[int32]string{
+		0: "IMAGE_MIME_TYPE_UNSPECIFIED",
+		1: "IMAGE_MIME_TYPE_JPEG",
+		2: "IMAGE_MIME_TYPE_PNG",
+		3: "IMAGE_MIME_TYPE_WEBP",
+		4: "IMAGE_MIME_TYPE_GIF",
+	}
+	ImageMimeType_value = map[string]int32{
+		"IMAGE_MIME_TYPE_UNSPECIFIED": 0,
+		"IMAGE_MIME_TYPE_JPEG":        1,
+		"IMAGE_MIME_TYPE_PNG":         2,
+		"IMAGE_MIME_TYPE_WEBP":        3,
+		"IMAGE_MIME_TYPE_GIF":         4,
+	}
+)
+
+func (x ImageMimeType) Enum() *ImageMimeType {
+	p := new(ImageMimeType)
+	*p = x
+	return p
+}
+
+func (x ImageMimeType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ImageMimeType) Descriptor() protoreflect.EnumDescriptor {
+	return file_noteza_writes_v1_media_proto_enumTypes[1].Descriptor()
+}
+
+func (ImageMimeType) Type() protoreflect.EnumType {
+	return &file_noteza_writes_v1_media_proto_enumTypes[1]
+}
+
+func (x ImageMimeType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ImageMimeType.Descriptor instead.
+func (ImageMimeType) EnumDescriptor() ([]byte, []int) {
+	return file_noteza_writes_v1_media_proto_rawDescGZIP(), []int{1}
+}
+
 type ImageGallery struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Images        []*ImagePreview        `protobuf:"bytes,1,rep,name=images,proto3" json:"images,omitempty"`
@@ -186,7 +241,7 @@ type ImageAsset struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Url           string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
-	MimeType      string                 `protobuf:"bytes,4,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
+	MimeType      ImageMimeType          `protobuf:"varint,4,opt,name=mime_type,json=mimeType,proto3,enum=noteza.writes.v1.ImageMimeType" json:"mime_type,omitempty"`
 	SizeBytes     int64                  `protobuf:"varint,5,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
 	Width         int32                  `protobuf:"varint,6,opt,name=width,proto3" json:"width,omitempty"`
 	Height        int32                  `protobuf:"varint,7,opt,name=height,proto3" json:"height,omitempty"`
@@ -248,11 +303,11 @@ func (x *ImageAsset) GetUrl() string {
 	return ""
 }
 
-func (x *ImageAsset) GetMimeType() string {
+func (x *ImageAsset) GetMimeType() ImageMimeType {
 	if x != nil {
 		return x.MimeType
 	}
-	return ""
+	return ImageMimeType_IMAGE_MIME_TYPE_UNSPECIFIED
 }
 
 func (x *ImageAsset) GetSizeBytes() int64 {
@@ -308,13 +363,13 @@ const file_noteza_writes_v1_media_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +
 	"\x03url\x18\x02 \x01(\tR\x03url\x12\x1e\n" +
 	"\balt_text\x18\x03 \x01(\tH\x00R\aaltText\x88\x01\x01B\v\n" +
-	"\t_alt_text\"\xd0\x02\n" +
+	"\t_alt_text\"\xf1\x02\n" +
 	"\n" +
 	"ImageAsset\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x10\n" +
-	"\x03url\x18\x03 \x01(\tR\x03url\x12\x1b\n" +
-	"\tmime_type\x18\x04 \x01(\tR\bmimeType\x12\x1d\n" +
+	"\x03url\x18\x03 \x01(\tR\x03url\x12<\n" +
+	"\tmime_type\x18\x04 \x01(\x0e2\x1f.noteza.writes.v1.ImageMimeTypeR\bmimeType\x12\x1d\n" +
 	"\n" +
 	"size_bytes\x18\x05 \x01(\x03R\tsizeBytes\x12\x14\n" +
 	"\x05width\x18\x06 \x01(\x05R\x05width\x12\x16\n" +
@@ -330,7 +385,13 @@ const file_noteza_writes_v1_media_proto_rawDesc = "" +
 	"\x14IMAGE_STATUS_PENDING\x10\x01\x12\x16\n" +
 	"\x12IMAGE_STATUS_READY\x10\x02\x12\x17\n" +
 	"\x13IMAGE_STATUS_FAILED\x10\x03\x12\x18\n" +
-	"\x14IMAGE_STATUS_DELETED\x10\x04BNZLgithub.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1b\x06proto3"
+	"\x14IMAGE_STATUS_DELETED\x10\x04*\x96\x01\n" +
+	"\rImageMimeType\x12\x1f\n" +
+	"\x1bIMAGE_MIME_TYPE_UNSPECIFIED\x10\x00\x12\x18\n" +
+	"\x14IMAGE_MIME_TYPE_JPEG\x10\x01\x12\x17\n" +
+	"\x13IMAGE_MIME_TYPE_PNG\x10\x02\x12\x18\n" +
+	"\x14IMAGE_MIME_TYPE_WEBP\x10\x03\x12\x17\n" +
+	"\x13IMAGE_MIME_TYPE_GIF\x10\x04BNZLgithub.com/noteza-cloud/noteza-writes-proto/gen/go/noteza/writes/v1;writesv1b\x06proto3"
 
 var (
 	file_noteza_writes_v1_media_proto_rawDescOnce sync.Once
@@ -344,24 +405,26 @@ func file_noteza_writes_v1_media_proto_rawDescGZIP() []byte {
 	return file_noteza_writes_v1_media_proto_rawDescData
 }
 
-var file_noteza_writes_v1_media_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_noteza_writes_v1_media_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_noteza_writes_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_noteza_writes_v1_media_proto_goTypes = []any{
 	(ImageStatus)(0),              // 0: noteza.writes.v1.ImageStatus
-	(*ImageGallery)(nil),          // 1: noteza.writes.v1.ImageGallery
-	(*ImagePreview)(nil),          // 2: noteza.writes.v1.ImagePreview
-	(*ImageAsset)(nil),            // 3: noteza.writes.v1.ImageAsset
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(ImageMimeType)(0),            // 1: noteza.writes.v1.ImageMimeType
+	(*ImageGallery)(nil),          // 2: noteza.writes.v1.ImageGallery
+	(*ImagePreview)(nil),          // 3: noteza.writes.v1.ImagePreview
+	(*ImageAsset)(nil),            // 4: noteza.writes.v1.ImageAsset
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_noteza_writes_v1_media_proto_depIdxs = []int32{
-	2, // 0: noteza.writes.v1.ImageGallery.images:type_name -> noteza.writes.v1.ImagePreview
-	0, // 1: noteza.writes.v1.ImageAsset.status:type_name -> noteza.writes.v1.ImageStatus
-	4, // 2: noteza.writes.v1.ImageAsset.created_at:type_name -> google.protobuf.Timestamp
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	3, // 0: noteza.writes.v1.ImageGallery.images:type_name -> noteza.writes.v1.ImagePreview
+	1, // 1: noteza.writes.v1.ImageAsset.mime_type:type_name -> noteza.writes.v1.ImageMimeType
+	0, // 2: noteza.writes.v1.ImageAsset.status:type_name -> noteza.writes.v1.ImageStatus
+	5, // 3: noteza.writes.v1.ImageAsset.created_at:type_name -> google.protobuf.Timestamp
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_noteza_writes_v1_media_proto_init() }
@@ -376,7 +439,7 @@ func file_noteza_writes_v1_media_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_noteza_writes_v1_media_proto_rawDesc), len(file_noteza_writes_v1_media_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,

@@ -262,9 +262,9 @@ func local_request_NotezaApplicationService_DeleteApplication_0(ctx context.Cont
 	return msg, metadata, err
 }
 
-func request_NotezaMediaService_CreateImageUpload_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaMediaServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_NotezaMediaService_ImageUpload_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaMediaServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq CreateImageUploadRequest
+		protoReq ImageUploadRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
@@ -273,19 +273,19 @@ func request_NotezaMediaService_CreateImageUpload_0(ctx context.Context, marshal
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
 	}
-	msg, err := client.CreateImageUpload(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ImageUpload(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_NotezaMediaService_CreateImageUpload_0(ctx context.Context, marshaler runtime.Marshaler, server NotezaMediaServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_NotezaMediaService_ImageUpload_0(ctx context.Context, marshaler runtime.Marshaler, server NotezaMediaServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq CreateImageUploadRequest
+		protoReq ImageUploadRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.CreateImageUpload(ctx, &protoReq)
+	msg, err := server.ImageUpload(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -360,51 +360,6 @@ func local_request_NotezaMediaService_ListImages_0(ctx context.Context, marshale
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.ListImages(ctx, &protoReq)
-	return msg, metadata, err
-}
-
-func request_NotezaMediaService_FinalizeImageUpload_0(ctx context.Context, marshaler runtime.Marshaler, client NotezaMediaServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq FinalizeImageUploadRequest
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if req.Body != nil {
-		_, _ = io.Copy(io.Discard, req.Body)
-	}
-	val, ok := pathParams["image_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "image_id")
-	}
-	protoReq.ImageId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "image_id", err)
-	}
-	msg, err := client.FinalizeImageUpload(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-}
-
-func local_request_NotezaMediaService_FinalizeImageUpload_0(ctx context.Context, marshaler runtime.Marshaler, server NotezaMediaServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var (
-		protoReq FinalizeImageUploadRequest
-		metadata runtime.ServerMetadata
-		err      error
-	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	val, ok := pathParams["image_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "image_id")
-	}
-	protoReq.ImageId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "image_id", err)
-	}
-	msg, err := server.FinalizeImageUpload(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -1102,25 +1057,25 @@ func RegisterNotezaApplicationServiceHandlerServer(ctx context.Context, mux *run
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterNotezaMediaServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterNotezaMediaServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server NotezaMediaServiceServer) error {
-	mux.Handle(http.MethodPost, pattern_NotezaMediaService_CreateImageUpload_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_NotezaMediaService_ImageUpload_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaMediaService/CreateImageUpload", runtime.WithHTTPPathPattern("/v1/images"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaMediaService/ImageUpload", runtime.WithHTTPPathPattern("/v1/images"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_NotezaMediaService_CreateImageUpload_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_NotezaMediaService_ImageUpload_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_NotezaMediaService_CreateImageUpload_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_NotezaMediaService_ImageUpload_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodGet, pattern_NotezaMediaService_GetImage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -1161,26 +1116,6 @@ func RegisterNotezaMediaServiceHandlerServer(ctx context.Context, mux *runtime.S
 			return
 		}
 		forward_NotezaMediaService_ListImages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
-	mux.Handle(http.MethodPost, pattern_NotezaMediaService_FinalizeImageUpload_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/noteza.writes.v1.NotezaMediaService/FinalizeImageUpload", runtime.WithHTTPPathPattern("/v1/images/{image_id}/finalize"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_NotezaMediaService_FinalizeImageUpload_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_NotezaMediaService_FinalizeImageUpload_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodDelete, pattern_NotezaMediaService_DeleteImage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -1731,22 +1666,22 @@ func RegisterNotezaMediaServiceHandler(ctx context.Context, mux *runtime.ServeMu
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "NotezaMediaServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterNotezaMediaServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client NotezaMediaServiceClient) error {
-	mux.Handle(http.MethodPost, pattern_NotezaMediaService_CreateImageUpload_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_NotezaMediaService_ImageUpload_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaMediaService/CreateImageUpload", runtime.WithHTTPPathPattern("/v1/images"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaMediaService/ImageUpload", runtime.WithHTTPPathPattern("/v1/images"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_NotezaMediaService_CreateImageUpload_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_NotezaMediaService_ImageUpload_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_NotezaMediaService_CreateImageUpload_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_NotezaMediaService_ImageUpload_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodGet, pattern_NotezaMediaService_GetImage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -1782,23 +1717,6 @@ func RegisterNotezaMediaServiceHandlerClient(ctx context.Context, mux *runtime.S
 		}
 		forward_NotezaMediaService_ListImages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_NotezaMediaService_FinalizeImageUpload_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/noteza.writes.v1.NotezaMediaService/FinalizeImageUpload", runtime.WithHTTPPathPattern("/v1/images/{image_id}/finalize"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_NotezaMediaService_FinalizeImageUpload_0(annotatedContext, inboundMarshaler, client, req, pathParams)
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		forward_NotezaMediaService_FinalizeImageUpload_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-	})
 	mux.Handle(http.MethodDelete, pattern_NotezaMediaService_DeleteImage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -1820,19 +1738,17 @@ func RegisterNotezaMediaServiceHandlerClient(ctx context.Context, mux *runtime.S
 }
 
 var (
-	pattern_NotezaMediaService_CreateImageUpload_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "images"}, ""))
-	pattern_NotezaMediaService_GetImage_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "images", "image_id"}, ""))
-	pattern_NotezaMediaService_ListImages_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "images"}, ""))
-	pattern_NotezaMediaService_FinalizeImageUpload_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"v1", "images", "image_id", "finalize"}, ""))
-	pattern_NotezaMediaService_DeleteImage_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "images", "image_id"}, ""))
+	pattern_NotezaMediaService_ImageUpload_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "images"}, ""))
+	pattern_NotezaMediaService_GetImage_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "images", "image_id"}, ""))
+	pattern_NotezaMediaService_ListImages_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "images"}, ""))
+	pattern_NotezaMediaService_DeleteImage_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "images", "image_id"}, ""))
 )
 
 var (
-	forward_NotezaMediaService_CreateImageUpload_0   = runtime.ForwardResponseMessage
-	forward_NotezaMediaService_GetImage_0            = runtime.ForwardResponseMessage
-	forward_NotezaMediaService_ListImages_0          = runtime.ForwardResponseMessage
-	forward_NotezaMediaService_FinalizeImageUpload_0 = runtime.ForwardResponseMessage
-	forward_NotezaMediaService_DeleteImage_0         = runtime.ForwardResponseMessage
+	forward_NotezaMediaService_ImageUpload_0 = runtime.ForwardResponseMessage
+	forward_NotezaMediaService_GetImage_0    = runtime.ForwardResponseMessage
+	forward_NotezaMediaService_ListImages_0  = runtime.ForwardResponseMessage
+	forward_NotezaMediaService_DeleteImage_0 = runtime.ForwardResponseMessage
 )
 
 // RegisterNotezaWritesServiceHandlerFromEndpoint is same as RegisterNotezaWritesServiceHandler but

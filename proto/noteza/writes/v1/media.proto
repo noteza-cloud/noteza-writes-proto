@@ -14,6 +14,14 @@ enum ImageStatus {
   IMAGE_STATUS_DELETED = 4;
 }
 
+enum ImageMimeType {
+  IMAGE_MIME_TYPE_UNSPECIFIED = 0;
+  IMAGE_MIME_TYPE_JPEG = 1;
+  IMAGE_MIME_TYPE_PNG = 2;
+  IMAGE_MIME_TYPE_WEBP = 3;
+  IMAGE_MIME_TYPE_GIF = 4;
+}
+
 message ImageGallery {
   repeated ImagePreview images = 1;
 }
@@ -28,7 +36,7 @@ message ImageAsset {
   string id = 1;
   string user_id = 2;
   string url = 3;
-  string mime_type = 4;
+  ImageMimeType mime_type = 4;
   int64 size_bytes = 5;
   int32 width = 6;
   int32 height = 7;

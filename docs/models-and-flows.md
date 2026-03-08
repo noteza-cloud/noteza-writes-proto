@@ -79,19 +79,16 @@
 
 ## Media Flow
 
-1. Client calls `CreateImageUpload` with expected metadata.
-2. API creates an asset in `PENDING` state and returns `image` + `upload_url` (pre-signed).
-3. Client uploads binary directly to storage URL.
-4. Client calls `FinalizeImageUpload` with optional verification metadata (`uploaded_size_bytes`, `checksum_sha256`, `width`, `height`).
-5. API marks asset as `READY` (or `FAILED` on validation failure).
-6. Client references `image_id` in `Create/UpdateArticleRequest` or in `CreatePostRequest.body.images` / `UpdatePostRequest.images`.
+1. Client calls `ImageUpload` with binary payload in `image_bytes`, required `mime_type`, and optional metadata (`file_name`, `alt_text`).
+2. API validates/stores the image and returns `ImageAsset`.
+3. Client references `image_id` in `Create/UpdateArticleRequest` or in `CreatePostRequest.body.images` / `UpdatePostRequest.images`.
 
 `ImageAsset` includes:
 
 - `id`
 - `user_id` (owner)
 - `url`
-- `mime_type`, `size_bytes`, `width`, `height`
+- `mime_type` (`ImageMimeType`), `size_bytes`, `width`, `height`
 - `status` (lifecycle state)
 - `alt_text` (optional)
 - `created_at`
